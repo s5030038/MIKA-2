@@ -420,7 +420,7 @@ body {
 
 /* Hero */
 
-.hero {
+.bphero {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -429,7 +429,7 @@ body {
   position: relative;
 }
 
-.hero__text h1 {
+.bphero__text h1 {
   margin: 0;
   font-family: "Playfair Display", serif;
   font-weight: 700;
@@ -438,11 +438,11 @@ body {
   letter-spacing: 0.01em;
 }
 
-.hero__art {
+.bphero__art {
   transform: translateY(0.35rem);
 }
 
-.hero__art img {
+.bphero__art img {
   display: block;
   width: 150px;
   height: auto;
