@@ -451,3 +451,293 @@ body {
   display: block;
 }
 
+
+/* * ============================
+   MIKA² Home Page
+   Palette:
+   #8f0027 - first block 
+           - line
+   #540015 - second block 
+           - popular heading 
+   #D45060 - third block 
+   ============================ */ 
+
+/* HERO SECTION */
+
+.hero {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    overflow: hidden;
+}
+
+.hero > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 20%;
+    display: block;
+}
+
+
+/* Hero text and button */
+
+.hero-content {
+    position: absolute;
+    top: 140px;
+    right: 28%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* Main hero heading */
+
+.hero-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: "Playfair Display";
+    font-size: 65px;
+    font-weight: ExtraBold;
+    line-height: 1.05;
+    color: white;
+}
+
+.hero-title span {
+    display: block;
+    background-color: #8f0027;
+    padding: 3px 18px 6px 18px;
+
+    /* Rounded corners */
+    border-radius: 12px;
+
+    /* Align all blocks */
+    margin-left: 0;
+}
+
+/* First block */
+.hero-title span:nth-child(1) {
+    background-color: #540015;
+}
+
+/* Second block */
+.hero-title .dark {
+    background-color: #800020;
+}
+
+/* Third block */
+.hero-title .light {
+    background-color: #D45060;
+}
+
+
+/* explore events button */
+
+.explore-btn {
+    margin-top: 14px;
+    background-color: #fff8f2;
+    color: #8f0027;
+    text-decoration: none;
+    font-family: "Playfair";
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 17px;
+    border-radius: 25px;
+    transition: 0.2s ease;
+}
+
+.explore-btn:hover {
+    background-color: #800020;
+    color: white;
+}
+
+
+/* POPULAR EVENTS SECTION */
+
+.popular-section {
+    background-color: white;
+    padding: 60px 8% 70px;
+}
+
+
+/* heading */
+
+.popular-heading {
+    height: 80px;
+    background-color: #800020;
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 16px 0 18px;
+}
+
+.popular-heading h2 {
+    margin: 0;
+    color: white;
+    font-family: "PlayfairDisplay";
+    font-size: 36px;
+    font-weight: bold;
+}
+
+
+/* carousel arrows */
+
+.carousel-arrows {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.arrow {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+    border: 3px solid white;
+
+    background: transparent;
+    color: white;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.arrow-left {
+    opacity: 0.55;
+}
+
+.arrow:hover {
+    background-color: white;
+    color: #8f0027;
+    opacity: 1;
+}
+
+
+/* line under heading */
+
+.heading-line {
+    width: 100%;
+    height: 3px;
+    background-color: #540015;
+    margin-top: 14px;
+    margin-bottom: 46px;
+}
+
+
+/* event cards */
+
+.event-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 35px;
+}
+
+.event-card {
+    width: 100%;
+    height: 230px;
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: #eee;
+}
+
+.event-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover img {
+    transform: scale(1.05);
+}
+
+
+/* responsiveness */
+
+@media (max-width: 1000px) {
+
+    .hero-content {
+        right: 12%;
+    }
+    .event-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .hero {
+        height: 400px;
+    }
+    .hero-content {
+        right: 8%;
+        top: 60px;
+    }
+    .hero-title {
+        font-size: 40px;
+    }
+    .popular-section {
+        padding: 40px 5%;
+    }
+    .popular-heading h2 {
+        font-size: 27px;
+    }
+    .event-cards {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    .event-card {
+        height: 220px;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .hero {
+        height: 350px;
+    }
+    .hero-content {
+        right: 5%;
+        top: 50px;
+    }
+    .hero-title {
+        font-size: 32px;
+    }
+    .hero-title span:nth-child(2),
+    .hero-title .pink {
+        margin-left: 25px;
+    }
+    .popular-heading {
+        height: auto;
+        min-height: 60px;
+        padding: 10px 12px;
+    }
+    .popular-heading h2 {
+        font-size: 22px;
+    }
+    .carousel-arrows {
+        gap: 6px;
+    }
+    .arrow {
+        width: 29px;
+        height: 29px;
+        font-size: 16px;
+    }
+
+}
