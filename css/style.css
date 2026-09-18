@@ -3,3 +3,212 @@
 	padding: 1em;
 	margin-top: 1em;
 }
+/* * ============================
+   MIKA² Login / Signup screens
+   Palette:
+   #800020 primary / heading
+   #F9EDE6 card fill
+   #FFFAF5 background fallback
+   #D45060 accent / hover
+   #7C4040 secondary text
+   #3A2E2E body text
+   ============================ */ 
+
+*{
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Work Sans", sans-serif;
+  color: #3A2E2E;
+}
+
+.screen {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("../images/login_background.png");
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.9);
+  z-index: 0;
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  background-color: #FFFAF5;
+  border-radius: 20px;
+  padding: 48px 44px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+
+.logo img {
+  height: 40px;
+  width:auto;
+  margin-bottom: 20px;
+  display: block;
+  margin-left: 0%;
+  margin-right: auto;
+}
+
+.welcome {
+  color: #800020;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin: 0 0 4px;
+  text-transform: uppercase;
+}
+
+.question {
+  color: #800020;
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 28px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form input {
+  padding: 14px 16px;
+  border-radius: 8px;
+  border: 1px solid #E3CFC7;
+  background-color: #FFFFFF;
+  font-size: 14px;
+  margin-bottom: 16px;
+  outline: none;
+  width: 100%;
+}
+
+.form input:focus {
+  border-color: #D45060;
+}
+
+.password-field {
+  position: relative;
+  display: flex;
+}
+
+.password-field input {
+  flex: 1;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: -8px;
+  background: none;
+  border: none;
+  color: #7C4040;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.btn {
+  background-color: #800020;
+  color: #FFFAF5;
+  border: none;
+  border-radius: 8px;
+  padding: 15px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #D45060;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #7C4040;
+  font-size: 13px;
+  margin: 26px 0 18px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #E3CFC7;
+}
+
+.divider span {
+  padding: 0 12px;
+}
+
+.terms {
+  font-size: 12px;
+  color: #7C4040;
+  line-height: 1.5;
+  margin: 0 0 22px;
+}
+
+.social-row {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+}
+
+.social-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  transition: transform 0.15s ease;
+}
+
+.social-btn:hover {
+  transform: scale(1.1);
+}
+
+.social-btn img {
+  height: 28px;
+  width: 28px;
+}
+
+.switch {
+  font-size: 13px;
+  margin-top: 22px;
+  color: #3A2E2E;
+}
+
+.switch a {
+  color: #800020;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.switch a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 36px 26px;
+    max-width: 90%;
+  }
+}

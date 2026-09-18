@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,5 +12,65 @@
 	<section id="records"></section>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="../js/script.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIKA² — Log In</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <main class="screen">
+    <div class="bg"></div>
+
+    <div class="card">
+      <div class="logo">
+        <img src="../images/logo.png" alt="MIKA² logo">
+      </div>
+
+      <h1 class="welcome">WELCOME!</h1>
+      <h2 class="question">What's your email?</h2>
+
+      <form class="form" id="emailForm">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Email"
+          required
+        >
+
+        <button type="submit" class="btn">Continue</button>
+      </form>
+
+      <div class="divider">
+        <span>Or sign with</span>
+      </div>
+
+      <p class="terms">
+        By clicking Continue or the Apple, Google or Facebook icons,
+        you agree to MIKA²
+      </p>
+
+      <div class="social-row">
+        <button class="social-btn" id="appleLogin" aria-label="Continue with Apple">
+          <img src="../images/apple icon.png" alt="Apple">
+        </button>
+        <button class="social-btn" id="googleLogin" aria-label="Continue with Google">
+          <img src="../images/google icon.png" alt="Google">
+        </button>
+        <button class="social-btn" id="facebookLogin" aria-label="Continue with Facebook">
+          <img src="../images/facebook icon.png" alt="Facebook">
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/script.js"></script>
 </body>
 </html>
