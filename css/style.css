@@ -3,6 +3,27 @@
 	padding: 1em;
 	margin-top: 1em;
 }
+@font-face {
+  font-family: "Playfair Display";
+  src: url("../fonts/PlayfairDisplay-Bold.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  src: url("../fonts/PlayfairDisplay-Regular.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  src: url("../fonts/PlayfairDisplay-SemiBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
 /* * ============================
    MIKA² Login / Signup screens
    Palette:
@@ -70,27 +91,33 @@ body {
 
 .logo img {
   height: 40px;
-  width:auto;
+  width: auto;
   margin-bottom: 20px;
   display: block;
-  margin-left: 0%;
+  margin-left: 0;
   margin-right: auto;
 }
 
 .welcome {
   color: #800020;
-  font-size: 22px;
+  font-family: "Playfair Display", serif;
+  font-size: 30px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  margin: 0 0 4px;
+  margin: 0 0 2px;
   text-transform: uppercase;
+  text-align: left;
 }
 
 .question {
   color: #800020;
-  font-size: 26px;
+  font-family: "Playfair Display", serif;
+  font-size: 24px;
   font-weight: 700;
-  margin: 0 0 28px;
+  letter-spacing: 0.3px;
+  margin: 0 0 24px;
+  line-height: 1.2;
+  text-align: left;
 }
 
 .form {
