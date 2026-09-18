@@ -24,6 +24,171 @@
   font-style: normal;
 }
 
+body {
+  margin: 0;
+  background: #fffaf5;
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* * ============================
+   MIKA² HEADER
+   Palette:
+   #800020 primary / nav 
+   #FFF1E7 header background
+   #FFFFFF search bar
+   ============================ */ 
+
+/* header */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0.85rem 1.5rem;
+  background: #FFF1E7;
+  border-bottom: 1.5px solid color-mix(in srgb, #800020 18%, transparent);
+}
+
+.header-start {
+  display: flex;
+  align-items: center;
+  gap: 2.75rem;
+  min-width: 0;
+}
+
+.logo {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+
+.logo img {
+  display: block;
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  transform: translateY(8.5px);
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex: 0 1 auto;
+  min-width: none;
+}
+
+.search__icon {
+  flex-shrink: 0;
+  color: #800020;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.search input {
+  width: 18rem;
+  max-width: 100%;
+  border: none;
+  border-radius: 999px;
+  background: #FFFFFF;
+  color: #800020;
+  padding: 0.65rem 1rem;
+  outline: none;
+  box-shadow: 0 0 0 1.5px color-mix(in srgb, #800020 18%, transparent);
+}
+
+.search input::placeholder {
+  color: color-mix(in srgb, #800020 45%, white);
+  font-family: "Work Sans", system-ui, sans-serif;
+  font-size: 0.92rem;
+}
+
+.search input:focus {
+  box-shadow: 0 0 0 2px #800020;
+}
+
+.header-end {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+  margin-left: auto;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  margin: 0;
+}
+
+.nav__link {
+  font-family: "Playfair Display";
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #800020;
+  padding: 0.4rem 0.7rem;
+  border-radius: 40% 60% 45% 55% / 55% 40% 60% 45%; 
+  transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav__link:hover {
+  background: color-mix(in srgb, #800020 12%, transparent);
+}
+
+.nav__link.is-active {
+  background: #800020;
+  color: #FFF1E7;
+  padding: 0.4rem 0.95rem;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.icon-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #800020;
+  padding: 0.35rem;
+  cursor: pointer;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.icon-btn:hover {
+  background: color-mix(in srgb, #800020 10%, transparent);
+}
+
+.profile-icon {
+  width: 25.5px;
+  height: 25.5px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.profile-icon path {
+  stroke-linecap: round;
+}
+
 /* * ============================
    MIKA² Login / Signup screens
    Palette:
@@ -35,20 +200,9 @@
    #3A2E2E body text
    ============================ */ 
 
+
 *{
   box-sizing: border-box;
-}
-
-.profile-icon {
-  width: 22px;
-  height: 22px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-}
-
-.profile-icon path {
-  stroke-linecap: round;
 }
 
 body {
@@ -251,6 +405,20 @@ body {
     max-width: 90%;
   }
 }
+
+/* * ============================
+   MIKA² Browsing Page
+   Palette:
+   #800020 primary / heading / card border
+   #F9EDE6 card fill
+   #FFFAF5 event card background
+   #D45060 accent / hover
+   #7C4040 secondary text
+   #3A2E2E body text
+   ============================ */ 
+
+
+/* Hero */
 
 /* Event Grid Layout */
 .events {
