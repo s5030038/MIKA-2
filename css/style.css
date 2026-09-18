@@ -420,8 +420,36 @@ body {
 
 /* Hero */
 
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 3.5rem 1.5rem 1.25rem;
+  position: relative;
+}
+
+.hero__text h1 {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  color: #800020;
+  letter-spacing: 0.01em;
+}
+
+.hero__art {
+  transform: translateY(0.35rem);
+}
+
+.hero__art img {
+  display: block;
+  width: 150px;
+  height: auto;
+}
+
 /* Event Grid Layout */
-.events {
+.browseevents {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 2rem 1.75rem;
@@ -430,11 +458,11 @@ body {
   margin: 0;
 }
 
-.event-card {
+.browseevent-card {
   min-width: 0;
 }
 
-.event-card__frame {
+.browseevent-card__frame {
   aspect-ratio: 4 / 3;
   background: #FFFAF5;
   border: 3px solid #800020;
@@ -444,7 +472,7 @@ body {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.event-card__frame img {
+.browseevent-card__frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
