@@ -831,30 +831,770 @@ body {
 }
 
 
-/*profile page*/
+/*******profile page*****/
+
+
+/* ==========================================================
+   PROFILE HEADER
+   ========================================================== */
+
+.profile-header {
+    width: min(93%, 1400px);
+    margin: 0 auto;
+
+    min-height: 165px;
+    padding: 2rem 0 1.2rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* Left profile area */
+
+.profile-info {
+    display: grid;
+
+    grid-template-columns: 125px auto;
+    grid-template-rows: auto auto;
+
+    column-gap: 2rem;
+
+    align-items: center;
+}
+
+
+/* Profile image */
 
 .avatar {
-    width: 135px;
-    height: 135px;
+    grid-column: 1;
+    grid-row: 1 / 3;
+
+    width: 125px;
+    height: 125px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    background: #F9EDE6;
+}
+
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+}
+
+
+/* Hi, John */
+
+.profile-name {
+    grid-column: 2;
+    grid-row: 1;
+
+    align-self: end;
+
+    margin: 0 0 0.3rem;
+
+    font-family: "Playfair Display", serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+
+    color: #800020;
+}
+
+
+/* Profile description */
+
+.profile-bio {
+    grid-column: 2;
+    grid-row: 2;
+
+    align-self: start;
+
+    margin: 0;
+
+    font-family: "Work Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+
+    color: #7C4040;
+}
+
+
+/* Edit Profile */
+
+.edit-profile {
+    appearance: none;
+    -webkit-appearance: none;
+
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+
+    padding: 0.7rem 1.35rem;
+
+    border: none;
+    border-radius: 999px;
+
+    background: #F9EDE6;
+
+    color: #800020;
+
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.edit-profile:hover {
+    background: #800020;
+    color: #FFFAF5;
+}
+
+/* ==========================================================
+   PROFILE NAVIGATION
+
+   My Events     Favourites     Account Settings
+   ========================================================== */
+
+.profile-navigation {
+    width: min(93%, 1400px);
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+
+    gap: 4rem;
+
+    border-bottom: 1px solid #E8D8D2;
+}
+
+
+.profile-nav-item {
+    position: relative;
+
+    min-width: 200px;
+
+    padding: 1rem 1rem 1.15rem;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 50%;
+    gap: 0.8rem;
 
-    background: var(--cream);
+    font-family: "Work Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
 
-    color: #79615c;
+    color: #7C4040;
 
-    font-size: 65px;
+    transition: color 0.2s ease;
 }
 
-.avatar-img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+
+.profile-nav-item i {
+    font-size: 1.3rem;
+}
+
+
+.profile-nav-item:hover {
+    color: #D45060;
+}
+
+
+/* Selected section */
+
+.profile-nav-item.active {
+    color: #800020;
+    font-weight: 600;
+}
+
+
+/* underline like reference */
+
+.profile-nav-item.active::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: -1px;
+
+    height: 2px;
+
+    background: #800020;
+
+    border-radius: 999px;
+}
+
+/* ==========================================================
+   EVENTS SECTION
+   ========================================================== */
+
+.events-section {
+    width: min(93%, 1400px);
+
+    margin: 0 auto;
+
+    padding: 1.8rem 0 4rem;
+}
+
+
+/* ==========================================================
+   MY EVENTS HEADER
+   ========================================================== */
+
+.events-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 2rem;
+}
+
+
+/* My Events */
+
+.events-header h2 {
+    margin: 0 0 0.3rem;
+
+    font-family: "Playfair Display", serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+
+    color: #800020;
+}
+
+
+/* Subtitle */
+
+.events-header p {
+    margin: 0;
+
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+
+    color: #7C4040;
+}
+
+
+/* ==========================================================
+   SEARCH + SORT
+   ========================================================== */
+
+.events-tools {
+    display: flex;
+    align-items: center;
+
+    gap: 1.7rem;
+}
+
+
+.event-search {
+    width: 260px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 0.7rem;
+
+    padding: 0.75rem 1.1rem;
+
+    border: 1px solid #E8D8D2;
+    border-radius: 999px;
+
+    background: #FFFFFF;
+}
+
+
+.event-search i {
+    color: #800020;
+}
+
+
+.event-search input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.88rem;
+
+    color: #3A2E2E;
+}
+
+
+.event-search input::placeholder {
+    color: #8A7A72;
+}
+
+
+/* Sort */
+
+.sort-container {
+    display: flex;
+    align-items: center;
+
+    gap: 0.7rem;
+
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.9rem;
+
+    color: #7C4040;
+}
+
+
+.sort-container select {
+    padding: 0.7rem 2.2rem 0.7rem 1rem;
+
+    border: 1px solid #E8D8D2;
+    border-radius: 999px;
+
+    background: #FFFFFF;
+
+    color: #3A2E2E;
+
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.88rem;
+
+    cursor: pointer;
+}
+
+
+/* ==========================================================
+   FILTERS
+   ========================================================== */
+
+.event-filters {
+    margin: 1.3rem 0 1.6rem;
+
+    display: flex;
+    align-items: center;
+
+    gap: 0.8rem;
+}
+
+
+.filter {
+    appearance: none;
+
+    min-width: 130px;
+
+    padding: 0.65rem 1.25rem;
+
+    border: none;
+    border-radius: 999px;
+
+    background: #F9EDE6;
+
+    color: #7C4040;
+
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.filter span {
+    margin-left: 0.2rem;
+}
+
+
+.filter:hover {
+    color: #800020;
+
+    background:
+        color-mix(in srgb, #D45060 12%, #F9EDE6);
+}
+
+
+.filter.active {
+    background: #800020;
+    color: #FFFAF5;
+
+    font-weight: 600;
+}
+
+
+/* ==========================================================
+   FOUR EVENT COLUMNS
+   ========================================================== */
+
+.events-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 2rem;
+}
+
+
+/*
+   IMPORTANT
+
+   Override your homepage .event-card styles.
+
+   Profile event cards should NOT be rectangular boxes.
+*/
+
+.events-grid .event-card {
+    width: 100%;
+    height: auto;
+
+    min-width: 0;
+
+    overflow: visible;
+
+    border-radius: 0;
+
+    background: transparent;
+}
+
+
+/* ==========================================================
+   ORGANIC IMAGE
+   ========================================================== */
+
+.event-image {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 1.55 / 1;
+
+    overflow: hidden;
+
+    border: 2px solid #800020;
+
+    background: #F9EDE6;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.event-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
     object-fit: cover;
+
+    transition: transform 0.3s ease;
+}
+
+
+/*
+   Each card is slightly different,
+   but all still feel related.
+*/
+
+.organic-one {
+    border-radius:
+        80px 18px 65px 18px /
+        18px 70px 18px 75px;
+}
+
+
+.organic-two {
+    border-radius:
+        20px 85px 20px 70px /
+        75px 18px 70px 20px;
+}
+
+
+.organic-three {
+    border-radius:
+        75px 20px 80px 16px /
+        20px 75px 18px 70px;
+}
+
+
+/* subtle interaction */
+
+.event-card:hover .event-image {
+    transform: translateY(-3px) rotate(-0.3deg);
+
+    box-shadow:
+        4px 5px 0
+        color-mix(in srgb, #800020 14%, transparent);
+}
+
+
+.event-card:hover .event-image img {
+    transform: scale(1.025);
+}
+
+
+/* ==========================================================
+   DATE BADGE
+   ========================================================== */
+
+.date-badge {
+    position: absolute;
+
+    top: 0.9rem;
+    left: 0.9rem;
+
+    width: 58px;
+    height: 64px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background: #FFFAF5;
+
+    color: #800020;
+
+    box-shadow: 0 2px 8px rgba(58, 46, 46, 0.08);
+}
+
+
+.date-badge strong {
+    font-family: "Playfair Display", serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+
+    line-height: 1;
+}
+
+
+.date-badge span {
+    margin-top: 0.2rem;
+
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+
+/* ==========================================================
+   HEART
+   ========================================================== */
+
+.heart-button {
+    appearance: none;
+
+    position: absolute;
+
+    top: 1rem;
+    right: 1rem;
+
+    border: none;
+
+    padding: 0;
+
+    background: transparent;
+
+    color: #FFFAF5;
+
+    font-size: 1.5rem;
+
+    cursor: pointer;
+
+    filter:
+        drop-shadow(0 1px 2px rgba(58, 46, 46, 0.45));
+}
+
+
+.heart-button:hover {
+    color: #D45060;
+}
+
+
+/* ==========================================================
+   CONTENT UNDER IMAGE
+   ========================================================== */
+
+.event-content {
+    padding: 0.65rem 1rem 0;
+}
+
+
+/* Category */
+
+.category {
+    display: inline-block;
+
+    margin-bottom: 0.4rem;
+
+    padding: 0.25rem 0.65rem;
+
+    border-radius: 999px;
+
+    background: #F9EDE6;
+
+    color: #D45060;
+
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.76rem;
+    font-weight: 500;
+}
+
+
+/* Event title */
+
+.event-content h3 {
+    margin: 0 0 0.75rem;
+
+    font-family: "Work Sans", sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+
+    color: #800020;
+
+    line-height: 1.25;
+}
+
+
+/* ==========================================================
+   EVENT DETAILS
+   ========================================================== */
+
+.event-detail {
+    margin: 0.42rem 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 0.65rem;
+
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+
+    color: #D45060;
+}
+
+
+.event-detail i {
+    width: 16px;
+
+    flex-shrink: 0;
+
+    color: #800020;
+
+    text-align: center;
+}
+
+
+/* ==========================================================
+   STATUS PILL
+   ========================================================== */
+
+.event-status {
+    margin-top: 0.7rem;
+
+    min-width: 145px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.5rem;
+
+    padding: 0.55rem 1rem;
+
+    border-radius: 999px;
+
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+
+.event-status.attending {
+    background: #F9EDE6;
+    color: #800020;
+}
+
+
+.event-status.today {
+    background: #D45060;
+    color: #FFFAF5;
+}
+
+
+.event-status.upcoming {
+    background: #F9EDE6;
+    color: #7C4040;
+}
+
+
+/* ==========================================================
+   VIEW MORE
+
+   This goes UNDER the entire event grid.
+   ========================================================== */
+
+.view-more {
+    margin-top: 3rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 1.5rem;
+}
+
+
+.view-more > span {
+    width: 130px;
+    height: 1px;
+
+    background: #D45060;
+
+    opacity: 0.4;
+}
+
+
+.view-more a {
+    display: flex;
+    align-items: center;
+
+    gap: 0.6rem;
+
+    color: #800020;
+
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+
+.view-more a:hover {
+    color: #D45060;
 }
 
 
