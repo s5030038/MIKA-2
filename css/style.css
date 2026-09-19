@@ -479,6 +479,11 @@ body {
   display: block;
 }
 
+.browseevent-card:hover .browseevent-card__frame {
+  transform: translateY(-3px) rotate(-0.4deg);
+  box-shadow: 4px 6px 0 color-mix(in srgb, #800020 18%, transparent);
+}
+
 /* page body & sidebar (filter and sort)*/
 
 .page-body {
