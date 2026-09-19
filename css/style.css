@@ -24,6 +24,10 @@
   font-style: normal;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   background: #fffaf5;
@@ -412,7 +416,7 @@ body {
    #800020 primary / heading / card border
    #F9EDE6 card fill
    #FFFAF5 event card background
-   #D45060 accent / hover
+   #D45060 accent / hover / event card detail
    #7C4040 secondary text
    #3A2E2E body text
    ============================ */ 
@@ -420,8 +424,36 @@ body {
 
 /* Hero */
 
+.bphero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 3.5rem 1.5rem 1.25rem;
+  position: relative;
+}
+
+.bphero__text h1 {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  color: #800020;
+  letter-spacing: 0.01em;
+}
+
+.bphero__art {
+  transform: translateY(0.35rem);
+}
+
+.bphero__art img {
+  display: block;
+  width: 150px;
+  height: auto;
+}
+
 /* Event Grid Layout */
-.events {
+.browseevents {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 2rem 1.75rem;
@@ -430,11 +462,11 @@ body {
   margin: 0;
 }
 
-.event-card {
+.browseevent-card {
   min-width: 0;
 }
 
-.event-card__frame {
+.browseevent-card__frame {
   aspect-ratio: 4 / 3;
   background: #FFFAF5;
   border: 3px solid #800020;
@@ -444,11 +476,144 @@ body {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.event-card__frame img {
+.browseevent-card__frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.browseevent-card:hover .browseevent-card__frame {
+  transform: translateY(-3px) rotate(-0.4deg);
+  box-shadow: 4px 6px 0 color-mix(in srgb, #800020 18%, transparent);
+}
+
+.browseevent-card__title {
+  margin: 0 0 0.2rem;
+  font-family:"Work Sans", serif;
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: #800020;
+}
+
+.browseevent-card__meta,
+.browseevent-card__venue {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #D45060;
+  line-height: 1.35;
+}
+
+/* page body & sidebar (filter and sort)*/
+
+.page-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0.5rem 1.5rem 3.5rem;
+}
+
+.page-main {
+  min-width: 0;
+}
+
+.filter-open {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #800020;
+  font-weight: 500;
+  font-family: "Work Sans", system-ui, sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  margin: 0 0 1.25rem;
+}
+
+.filter-open:hover {
+  color: #D45060;
+}
+
+@media (max-width: 980px) {
+  .page-body {
+    grid-template-columns: 190px minmax(0, 1fr);
+  }
+
+  .events {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page-body:has(.filters[hidden]) .events {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .site-header {
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .header-start {
+    flex: 1 1 100%;
+  }
+
+  .search {
+    flex: 1 1 auto;
+  }
+
+  .search input {
+    width: 100%;
+    flex: 1;
+  }
+
+  .header-end {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .nav {
+    gap: 1.25rem;
+  }
+
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 2.5rem;
+  }
+
+  .page-body {
+    grid-template-columns: 1fr;
+    padding-inline: 1.25rem;
+  }
+
+  .page-body:has(.filters[hidden]) {
+    grid-template-columns: 1fr;
+  }
+
+  .events,
+  .page-body:has(.filters[hidden]) .events {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 1.25rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .nav__link {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.95rem;
+  }
+
+  .events,
+  .page-body:has(.filters[hidden]) .events {
+    grid-template-columns: 1fr;
+  }
 }
 
 

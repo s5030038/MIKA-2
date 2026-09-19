@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discover Events</title>
+    <title>MIKA² - Discover Events</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
   <header class="site-header">
     <!-- logo & search bar -->
     <div class="header-start"> 
-        <a href="index.html" class="logo" aria-label="Home">
+        <a href="homePage.html" class="logo" aria-label="Home">
             <img src="../images/logo.png" alt="Site logo" />
         </a>
         <!-- search bar -->
@@ -28,25 +28,25 @@
         </nav>
 
         <div class="header-actions">
-            <button type="button" class="icon-btn" aria-label="saved-events">
+            <a href="profilePage.html" class="icon-btn" aria-label="Profile">
                 <span aria-hidden="true">♡</span>
-            </button>
-            <button type="button" class="icon-btn" aria-label="Profile">
+            </a>
+            <a href="profilePage.html" class="icon-btn" aria-label="Profile">
                 <svg class="profile-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
                     <circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="2" />
                     <path d="M5.5 19.5c1.6-3 4-4.5 6.5-4.5s4.9 1.5 6.5 4.5" />
                 </svg>
-            </button>
+            </a>
         </div>
     </div>
   </header>  
 
   <main>
-    <section class="hero">
-        <div class="hero__text">
+    <section class="bphero">
+        <div class="bphero__text">
             <h1>Discover Events</h1>
         </div>
-        <div class="hero__art">
+        <div class="bphero__art">
             <img src="../images/recordplayerart.png" alt="Record Player" width="180" height="120"/>
         </div>
     </section>
@@ -60,63 +60,79 @@
                 + Filter &amp; Sort
             </button>
 
-            <section class="events" id="events" aria-label="Upcoming events">
-                <article class="event-card" data-name="Hellenz" data-venue="Felons Barrel Hall" data-date="2026-09-27" data-category="music" data-subcategory="indie" data-popularity="8" data-price="20">
-                    <div class="event-card__frame">
-                        <img src="../images/eventcard1.png" alt="Hellenz concert" />
+            <section class="browseevents" id="browseevents" aria-label="Upcoming events">
+                <article class="browseevent-card" data-name="Hellenz" data-venue="Felons Barrel Hall" data-date="2026-09-27" data-category="music" data-subcategory="indie" data-popularity="8" data-price="20">
+                    <a href="bookingsPage.html?event=hellenz" class="browseevent-card__link">
+                        <div class="browseevent-card__frame">
+                            <img src="../images/eventcard1.png" alt="Hellenz concert" />
+                        </div>
+                        <h3 class="browseevent-card__title">Hellenz</h3>
+                        <p class="browseevent-card__meta">Sun, 27 Sep, 8PM</p>
+                        <p class="browseevent-card__venue">Felons Barrel Hall</p>
+                    </a>
+                </article>
+
+                <article class="browseevent-card" data-name="Angelik" data-venue="Felons Barrel Hall" data-date="2026-09-28" data-category="music" data-subcategory="jazz" data-popularity="9" data-price="18">
+                    <div class="browseevent-card__frame">
+                        <img src="../images/eventcard2.png" alt="community concert" />
                     </div>
-                    <h3 class="event-card__title">Hellenz</h3>
-                    <p class="event-card__meta">Sun, 27 Sep, 8PM</p>
-                    <p class="event-card__venue">Felons Barrel Hall</p>
+                    <h3 class="browseevent-card__title">Angelik</h3>
+                    <p class="browseevent-card__meta">Mon, 28 Sep, 6PM</p>
+                    <p class="browseevent-card__venue">Felons Barrel Hall</p>
                 </article>
 
-                <article class="event-card" data-name="Angelik" data-venue="Felons Barrel Hall" data-date="2026-09-28" data-category="music" data-subcategory="jazz" data-popularity="9" data-price="18">
-                    <div class="event-card__frame"></div>
-                    <h3 class="event-card__title">Angelik</h3>
-                    <p class="event-card__meta">Mon, 28 Sep, 6PM</p>
-                    <p class="event-card__venue">Felons Barrel Hall</p>
-                </article>
-
-                <article class="event-card" data-name="ALICE" data-venue="ShellRock Cafe" data-date="2026-09-30" data-category="musical" data-subcategory="indie" data-popularity="5" data-price="5">
-                    <div class="event-card__frame"></div>
-                    <h3 class="event-card__title">ALICE</h3>
-                    <p class="event-card__meta">Tue, 30 Sep, 5PM</p>
-                    <p class="event-card__venue">ShellRock Cafe</p>
+                <article class="browseevent-card" data-name="Paper Theatre" data-venue="ShellRock Cafe" data-date="2026-09-30" data-category="musical" data-subcategory="indie" data-popularity="5" data-price="5">
+                    <div class="browseevent-card__frame">
+                        <img src="../images/eventcard3.png" alt="People playing with paper theatre" />
+                    </div>
+                    <h3 class="browseevent-card__title">Paper Theatre</h3>
+                    <p class="browseevent-card__meta">Tue, 30 Sep, 5PM</p>
+                    <p class="browseevent-card__venue">ShellRock Cafe</p>
                 </article>
                 
-                <article class="event-card" data-name="Dream Art" data-venue="Palace Social" data-date="2026-09-30" data-category="arts" data-subcategory="exhibition" data-popularity="5" data-price="15">
-                    <div class="event-card__frame"></div>
-                    <h3 class="event-card__title">Dream Art</h3>
-                    <p class="event-card__meta">Tue, 30 Sep, 3PM</p>
-                    <p class="event-card__venue">Palace Social</p>
+                <article class="browseevent-card" data-name="Dream Art" data-venue="Palace Social" data-date="2026-09-30" data-category="arts" data-subcategory="exhibition" data-popularity="5" data-price="15">
+                    <div class="browseevent-card__frame">
+                        <img src="../images/eventcard4.png" alt="art exhibition" />
+                    </div>
+                    <h3 class="browseevent-card__title">Dream Art</h3>
+                    <p class="browseevent-card__meta">Tue, 30 Sep, 3PM</p>
+                    <p class="browseevent-card__venue">Palace Social</p>
                 </article>
 
-                <article class="event-card" data-name="Nova Pulse" data-venue="The Triffid" data-date="2026-10-02" data-category="music" data-subcategory="electronic" data-popularity="9" data-price="20">
-                    <div class="event-card__frame"></div>
-                    <h3 class="event-card__title">Nova Pulse</h3>
-                    <p class="event-card__meta">Fri, 2 Oct, 9PM</p>
-                    <p class="event-card__venue">The Triffid</p>
+                <article class="browseevent-card" data-name="Nova Pulse" data-venue="The Triffid" data-date="2026-10-02" data-category="music" data-subcategory="electronic" data-popularity="9" data-price="20">
+                    <div class="browseevent-card__frame">
+                        <img src="../images/eventcard1.png" alt="Hellenz concert" />
+                    </div>
+                    <h3 class="browseevent-card__title">Nova Pulse</h3>
+                    <p class="browseevent-card__meta">Fri, 2 Oct, 9PM</p>
+                    <p class="browseevent-card__venue">The Triffid</p>
                 </article>
 
-                <article class="event-card" data-name="Cedar &amp; Stone" data-venue="Fortitude Music Hall" data-date="2026-10-03" data-category="arts" data-subcategory="sculpture" data-popularity="5" data-price="25">
-                    <div class="event-card__frame"></div>
-                    <h3 class="event-card__title">Cedar &amp; Stone</h3>
-                    <p class="event-card__meta">Sat, 3 Oct, 5PM</p>
-                    <p class="event-card__venue">The Warehouse</p>
+                <article class="browseevent-card" data-name="Cedar &amp; Stone" data-venue="Fortitude Music Hall" data-date="2026-10-03" data-category="arts" data-subcategory="sculpture" data-popularity="5" data-price="25">
+                    <div class="browseevent-card__frame">
+                        <img src="../images/eventcard2.png" alt="community concert" />
+                    </div>
+                    <h3 class="browseevent-card__title">Cedar &amp; Stone</h3>
+                    <p class="browseevent-card__meta">Sat, 3 Oct, 5PM</p>
+                    <p class="browseevent-card__venue">The Warehouse</p>
                 </article>
 
-                <article class="event-card" data-name="Midnight Atlas" data-venue="The Triffid" data-date="2026-10-04" data-category="plays" data-subcategory="drama" data-popularity="7" data-price="15">
-                    <div class="event-card__frame"></div>
-                    <h3 class="event-card__title">Midnight Atlas</h3>
-                    <p class="event-card__meta">Sun, 4 Oct, 7PM</p>
-                    <p class="event-card__venue">The Triffid</p>
+                <article class="browseevent-card" data-name="Midnight Atlas" data-venue="The Triffid" data-date="2026-10-04" data-category="plays" data-subcategory="drama" data-popularity="7" data-price="15">
+                    <div class="browseevent-card__frame">
+                        <img src="../images/eventcard3.png" alt="People playing with paper theatre" />
+                    </div>
+                    <h3 class="browseevent-card__title">Midnight Atlas</h3>
+                    <p class="browseevent-card__meta">Sun, 4 Oct, 7PM</p>
+                    <p class="browseevent-card__venue">The Triffid</p>
                 </article>
 
-                <article class="event-card" data-name="Soft Static" data-venue="Palace Social" data-date="2026-10-05" data-category="workshops" data-subcategory="photo-workshop" data-popularity="4" data-price="0">
-                    <div class="event-card__frame"></div>
-                    <h3 class="event-card__title">Soft Static</h3>
-                    <p class="event-card__meta">Mon, 5 Oct, 6PM</p>
-                    <p class="event-card__venue">Palace Social</p>
+                <article class="browseevent-card" data-name="Soft Static" data-venue="Palace Social" data-date="2026-10-05" data-category="workshops" data-subcategory="photo-workshop" data-popularity="4" data-price="0">
+                    <div class="browseevent-card__frame">
+                        <img src="../images/eventcard4.png" alt="art exhibition" />
+                    </div>
+                    <h3 class="browseevent-card__title">Soft Static</h3>
+                    <p class="browseevent-card__meta">Mon, 5 Oct, 6PM</p>
+                    <p class="browseevent-card__venue">Palace Social</p>
                 </article>
             </section>
         </div>
