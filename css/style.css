@@ -831,6 +831,33 @@ body {
 }
 
 
+/*profile page*/
+
+.avatar {
+    width: 135px;
+    height: 135px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--cream);
+
+    color: #79615c;
+
+    font-size: 65px;
+}
+
+.avatar-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
 /* responsiveness */
 
 @media (max-width: 1000px) {
