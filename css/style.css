@@ -979,17 +979,24 @@ body {
     font-size: 1rem;
     font-weight: 500;
 
-    color: #7C4040;
+    color: #8A7A72;
 
     transition: color 0.2s ease;
+
 }
+
 
 .profile-nav-item i {
     font-size: 1.3rem;
 }
 
 .profile-nav-item:hover {
-    color: #D45060;
+    color: #800020;
+    transition: color 0.2s ease;
+    font-weight: 600;
+    transition: transform 0.3s ease;
+    
+
 }
 
 /* Selected section */
@@ -999,17 +1006,17 @@ body {
 }
 
 
-/* underline like reference */
-
+/* underline of active tab */
 .profile-nav-item.active::after {
     content: "";
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -1px;
+    bottom: -2px;
     height: 2px;
     background: #800020;
     border-radius: 999px;
+    
 }
 
 /* EVENT SECTION */
