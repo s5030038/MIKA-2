@@ -488,6 +488,23 @@ body {
   box-shadow: 4px 6px 0 color-mix(in srgb, #800020 18%, transparent);
 }
 
+.browseevent-card__title {
+  margin: 0 0 0.2rem;
+  font-family:"Work Sans", serif;
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: #800020;
+}
+
+.browseevent-card__meta,
+.browseevent-card__venue {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #D45060;
+  line-height: 1.35;
+}
+
 /* page body & sidebar (filter and sort)*/
 
 .page-body {
