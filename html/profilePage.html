@@ -10,7 +10,7 @@
 <body>
 
 <!-- header -->
-    <header class="site-header">
+<header class="site-header">
     <!-- logo & search bar -->
     <div class="header-start"> 
         <a href="homePage.html" class="logo" aria-label="Home">
@@ -22,10 +22,10 @@
             <input id="search-input" type="search" name="q" placeholder="Search for Events..." autocomplete="off" />
         </form>
     </div>
-<!-- right side of header (nav links, saved, profile) -->
+    <!-- right side of header (nav links, saved, profile) -->
     <div class="header-end">
         <nav class="nav" aria-label="Primary">
-            <a href="homePage.html" class="nav__link is-active">Home</a>
+            <a href="homePage.html" class="nav__link">Home</a>
             <a href="browsingPage.html" class="nav__link">Events</a>
             <a href="homePage.html" class="nav__link">About Us</a>
         </nav>
@@ -34,7 +34,7 @@
             <button type="button" class="icon-btn" aria-label="saved-events">
                 <span aria-hidden="true">♡</span>
             </button>
-            <button type="button" class="icon-btn" aria-label="Profile">
+            <button type="button" class="icon-btn is-active" aria-label="Profile">
                 <svg class="profile-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
                     <circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="2" />
                     <path d="M5.5 19.5c1.6-3 4-4.5 6.5-4.5s4.9 1.5 6.5 4.5" />
@@ -43,22 +43,24 @@
         </div>
     </div>
 </header> 
+
     <!-- Profile Header -->
-    <section class="profile-header">
-        <div class="profile-info">
-            <div class = "avatar">
-            <img src="../images/profile_picture.jpg" alt="User Avatar" class="avatar-img" />
+    <main>
+        <section class="profile-header">
+            <div class="profile-info">
+                <div class = "avatar">
+                <img src="../images/profile_picture.jpg" alt="User Avatar" class="avatar-img" />
+                </div>
+                <h1 class="profile-name">Hi, John</h1>
+                <p class="profile-bio">john.doe@example.com</p>
             </div>
-            <h1 class="profile-name">Hi, John</h1>
-            <p class="profile-bio">Passionate event enthusiast and community builder.</p>
-        </div>
-        <button class="edit-profile">
-            <i class="fa-solid fa-pencil"></i>
-            Edit Profile
-        </button>
-    </section>
-    <!--  PROFILE NAVIGATION  -->
-      
+            <button class="edit-profile">
+                <i class="fa-solid fa-pencil"></i>
+                Edit Profile
+            </button>
+        </section>
+
+        <!--  PROFILE NAVIGATION - events, favourites, settings --> 
         <nav class="profile-navigation">
             <a href="#" class="profile-nav-item active">
                 <i class="fa-regular fa-calendar"></i>
@@ -69,74 +71,32 @@
                 <i class="fa-regular fa-heart"></i>
                 <span>Favourites</span>
             </a>
-
-
             <a href="#" class="profile-nav-item">
                 <i class="fa-solid fa-gear"></i>
                 <span>Account Settings</span>
             </a>
-
         </nav>
 
-          <!-- ================= EVENTS ================= -->
-
+            <!-- EVENTS section -->
         <section class="events-section">
-
-
             <!-- HEADER -->
-
-            <div class="events-header">
-
+            <div class="events-header-profile-page">
                 <div>
-
                     <h2>My Events</h2>
-
                     <p>
                         All your past, current and upcoming events in one place.
                     </p>
 
                 </div>
-
-
-                <div class="events-tools">
-
-                    <div class="event-search">
-
-                        <i class="fa-solid fa-magnifying-glass"></i>
-
-                        <input
-                            type="text"
-                            placeholder="Search my events..."
-                        >
-
-                    </div>
-
-
-                    <div class="sort-container">
-
-                        <label for="sort">Sort by</label>
-
-                        <select id="sort">
-
-                            <option>Date (Soonest)</option>
-                            <option>Date (Latest)</option>
-                            <option>Name (A-Z)</option>
-
-                        </select>
-
-                    </div>
-
-                </div>
-
             </div>
 
 
             <!-- FILTERS -->
-
+        <section class = "events-filters-section">
             <div class="event-filters">
 
                 <button class="filter active">
-                    All <span>12</span>
+                    All <span>12 (2)</span>
                 </button>
 
                 <button class="filter">
@@ -153,81 +113,73 @@
 
             </div>
 
+            <div class="events-tools">
 
-            <!-- ================= EVENT GRID ================= -->
+                <div class="event-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search my events..." />
+                </div>
 
-            <div class="events-grid">
 
+                <div class="sort-container">
 
+                    <label for="sort">Sort by</label>
+
+                    <select id="sort">
+
+                        <option>Date (Soonest)</option>
+                        <option>Date (Latest)</option>
+                        <option>Name (A-Z)</option>
+
+                    </select>
+                </div>
+
+            </div>
+        </section>
+            <!-- EVENT CARDS  -->
+            <div class="events-grid-profile-page">
                 <!-- EVENT 1 -->
+                <article class="browseevent-card">
+                    <div class="browseevent-card__frame">
+                        <img src="images/market.jpg" alt="Brisbane Twilight Markets">
 
-                <article class="event-card">
-
-                    <div class="event-image organic-one">
-
-                        <img
-                            src="images/market.jpg"
-                            alt="Brisbane Twilight Markets"
-                        >
-
-                        <div class="date-badge">
+                        <div class="event-card_date">
                             <strong>13</strong>
                             <span>SEP</span>
                         </div>
 
-                        <button class="heart-button">
+                        <button class="event_card-heart-button">
                             <i class="fa-regular fa-heart"></i>
                         </button>
 
                     </div>
 
-
                     <div class="event-content">
-
                         <span class="category market">
                             Market
                         </span>
-
                         <h3>
                             Brisbane Twilight Markets
                         </h3>
-
-
                         <div class="event-detail">
-
                             <i class="fa-regular fa-calendar"></i>
-
                             <span>Sat, 13 Sep 2026</span>
-
                         </div>
 
-
                         <div class="event-detail">
-
                             <i class="fa-regular fa-clock"></i>
-
                             <span>4:00 PM – 9:00 PM</span>
-
                         </div>
-
 
                         <div class="event-detail">
-
                             <i class="fa-solid fa-location-dot"></i>
-
                             <span>South Bank</span>
-
                         </div>
-
 
                         <span class="event-status attending">
-
                             <i class="fa-solid fa-check"></i>
-
                             Attending
-
                         </span>
-
                     </div>
 
                 </article>
@@ -235,21 +187,16 @@
 
                 <!-- EVENT 2 -->
 
-                <article class="event-card">
+                <article class="browseevent-card">
+                    <div class="browseevent-card__frame">
+                        <img src="images/pottery.jpg" alt="Pottery workshop" >
 
-                    <div class="event-image organic-two">
-
-                        <img
-                            src="images/pottery.jpg"
-                            alt="Pottery workshop"
-                        >
-
-                        <div class="date-badge">
+                        <div class="event-card_date">
                             <strong>20</strong>
                             <span>SEP</span>
                         </div>
 
-                        <button class="heart-button">
+                        <button class="event_card-heart-button">
                             <i class="fa-regular fa-heart"></i>
                         </button>
 
@@ -257,51 +204,35 @@
 
 
                     <div class="event-content">
-
                         <span class="category workshop">
                             Workshop
                         </span>
-
                         <h3>
                             Pottery for Beginners
                         </h3>
-
-
                         <div class="event-detail">
-
                             <i class="fa-regular fa-calendar"></i>
-
                             <span>Sun, 20 Sep 2026</span>
-
                         </div>
 
-
                         <div class="event-detail">
-
                             <i class="fa-regular fa-clock"></i>
-
                             <span>10:00 AM – 12:00 PM</span>
-
                         </div>
-
 
                         <div class="event-detail">
-
                             <i class="fa-solid fa-location-dot"></i>
-
                             <span>West End</span>
-
                         </div>
-
 
                         <span class="event-status today">
                             Today
                         </span>
-
                     </div>
 
                 </article>
 
+            </div>
             <!-- VIEW MORE -->
 
             <div class="view-more">
@@ -316,8 +247,7 @@
                 <span></span>
 
             </div>
-
-
         </section>
+    </main>
 </body>
 </html>
