@@ -479,6 +479,117 @@ body {
   display: block;
 }
 
+/* page body & sidebar (filter and sort)*/
+
+.page-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0.5rem 1.5rem 3.5rem;
+}
+
+.page-main {
+  min-width: 0;
+}
+
+.filter-open {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #800020;
+  font-weight: 500;
+  font-family: "Work Sans", system-ui, sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  margin: 0 0 1.25rem;
+}
+
+.filter-open:hover {
+  color: #D45060;
+}
+
+@media (max-width: 980px) {
+  .page-body {
+    grid-template-columns: 190px minmax(0, 1fr);
+  }
+
+  .events {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page-body:has(.filters[hidden]) .events {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .site-header {
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .header-start {
+    flex: 1 1 100%;
+  }
+
+  .search {
+    flex: 1 1 auto;
+  }
+
+  .search input {
+    width: 100%;
+    flex: 1;
+  }
+
+  .header-end {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .nav {
+    gap: 1.25rem;
+  }
+
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 2.5rem;
+  }
+
+  .page-body {
+    grid-template-columns: 1fr;
+    padding-inline: 1.25rem;
+  }
+
+  .page-body:has(.filters[hidden]) {
+    grid-template-columns: 1fr;
+  }
+
+  .events,
+  .page-body:has(.filters[hidden]) .events {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 1.25rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .nav__link {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.95rem;
+  }
+
+  .events,
+  .page-body:has(.filters[hidden]) .events {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 /* * ============================
    MIKA² Home Page
