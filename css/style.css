@@ -184,7 +184,7 @@ a {
 .icon-btn.is-active {
   background: #800020;
   color: #FFF1E7;
-  padding: 0.4rem 0.95rem;
+  padding: 0.4rem 0.4rem;
 }
 
 .profile-icon {
