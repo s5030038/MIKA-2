@@ -1,5 +1,3 @@
-/*Fetches events from Brisbane's open data API and appends them as extra event cards after the existing static ones.*/
-
 function slugify(name) {
   return name
     .toLowerCase()
@@ -13,7 +11,7 @@ function createEventCard(record) {
   var venue = record["location"];
   var date = record["formatteddatetime"] || record["start_datetime"];
 
-// skip incomplete records rather than showing a broken card
+// skip incomplete records instead of showing broken card
   if (!name || !venue || !date) return null;
 
   var slug = slugify(name);
