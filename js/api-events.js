@@ -1,3 +1,4 @@
+// change event name into URL safe identifier
 function slugify(name) {
   return name
     .toLowerCase()
