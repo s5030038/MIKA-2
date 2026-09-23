@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discover Events</title>
+    <title>MIKA² - Discover Events</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
   <header class="site-header">
@@ -14,32 +15,63 @@
         </a>
         <!-- search bar -->
         <form class="search" action="#" method="get">
-            <label class="sr-only" for="search-input">Search for events</label>
-            <span class="search-icon" aria-hidden="true">⌕</span>
+            <span class="search__icon" aria-hidden="true">⌕</span>
             <input id="search-input" type="search" name="q" placeholder="Search for Events..." autocomplete="off" />
         </form>
     </div>
-
+<!-- right side of header (nav links, saved, profile) -->
     <div class="header-end">
         <nav class="nav" aria-label="Primary">
-            <a href="homePage.html" class="nav__link">Home</a>
+            <a href="index.html" class="nav__link">Home</a>
             <a href="browsingPage.html" class="nav__link is-active">Events</a>
-            <a href="homePage.html" class="nav_link">About Us</a>
+            <a href="index.html" class="nav__link">About Us</a>
         </nav>
 
         <div class="header-actions">
-            <button type="button" class="icon-btn" aria-label="saved-events">
+            <a href="profilePage.html" class="icon-btn" aria-label="Profile">
                 <span aria-hidden="true">♡</span>
-            </button>
-            <button type="button" class="icon-btn" aria-label="Profile">
-                <svg class="profile-icon" viewbox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            </a>
+            <a href="profilePage.html" class="icon-btn" aria-label="Profile">
+                <svg class="profile-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
                     <circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="2" />
                     <path d="M5.5 19.5c1.6-3 4-4.5 6.5-4.5s4.9 1.5 6.5 4.5" />
                 </svg>
-            </button>
+            </a>
         </div>
     </div>
-
   </header>  
+
+  <main>
+    <section class="bphero">
+        <div class="bphero__text">
+            <h1>Discover Events</h1>
+        </div>
+        <div class="bphero__art">
+            <img src="../images/recordplayerart.png" alt="Record Player" width="180" height="120"/>
+        </div>
+    </section>
+
+    <div class="page-body">
+        <!-- filter & sort section -->
+
+        <!-- Event card section -->
+        <div class="page-main">
+            <button type="button" class="filter-open" id="filter-open">
+                + Filter &amp; Sort
+            </button>
+
+            <section class="browseevents" id="browseevents" aria-label="Upcoming events">
+                <!-- event card insert via api-events.js -->
+            </section>
+        </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" id="about">
+    
+  </footer>
+
+  <script src="../js/api-events.js"></script>
+  <script src="../js/script.js"></script>
 </body>
 </html>

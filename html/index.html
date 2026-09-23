@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body>
+
+<!-- header -->
+    <header class="site-header">
+    <!-- logo & search bar -->
+    <div class="header-start"> 
+        <a href="index.html" class="logo" aria-label="Home">
+            <img src="../images/logo.png" alt="Site logo" />
+        </a>
+        <!-- search bar -->
+        <form class="search" action="#" method="get">
+            <span class="search__icon" aria-hidden="true">⌕</span>
+            <input id="search-input" type="search" name="q" placeholder="Search for Events..." autocomplete="off" />
+        </form>
+    </div>
+<!-- right side of header (nav links, saved, profile) -->
+    <div class="header-end">
+        <nav class="nav" aria-label="Primary">
+            <a href="index.html" class="nav__link is-active">Home</a>
+            <a href="browsingPage.html" class="nav__link">Events</a>
+            <a href="index.html" class="nav__link">About Us</a>
+        </nav>
+
+        <div class="header-actions">
+            <button type="button" class="icon-btn" aria-label="saved-events">
+                <span aria-hidden="true">♡</span>
+            </button>
+            <a href="profilePage.html" class="icon-btn" aria-label="Profile">
+                <svg class="profile-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                    <circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="2" />
+                    <path d="M5.5 19.5c1.6-3 4-4.5 6.5-4.5s4.9 1.5 6.5 4.5" />
+                </svg>
+            </a>
+            </button>
+        </div>
+    </div>
+</header> 
+
+<!-- hero -->
+    <section class="hero">
+    <img src="../images/woman-singing.jpg" alt="Woman singing with mic">
+
+    <div class="hero-content">
+        <div class="hero-title">
+            <span>Connect,</span>
+            <span class ="dark">Collab,</span>
+            <span class="light">Create.</span>
+        </div>
+
+        <a href="browsingPage.html" class="explore-btn">
+            Explore Events
+        </a>
+    </div>
+</section>
+
+
+<!-- popular events -->
+    <section class="popular-section">
+
+        <div class="popular-heading">
+            <h2>Explore what's popular:</h2>
+
+            <div class="carousel-arrows">
+                <button class="arrow arrow-left" aria-label="Previous events">
+                &#8592;
+                </button>
+
+                <button class="arrow arrow-right" aria-label="Next events">
+                &#8594;
+                </button>
+            </div>
+        </div>
+
+        <div class="heading-line"></div>
+
+
+    <!-- event cards -->
+        <div class="event-cards">
+
+        <article class="event-card">
+            <img src="../images/eventcard1.png" alt="Live music performance">
+        </article>
+
+        <article class="event-card">
+            <img src="../images/eventcard2.png" alt="Community event">
+        </article>
+
+        <article class="event-card">
+            <img src="../images/eventcard3.png" alt="Creative workshop">
+        </article>
+
+        <article class="event-card">
+            <img src="../images/eventcard4.png" alt="Art exhibition">
+        </article>
+
+        </div>
+
+</section>
+
+</body>
+</html>
