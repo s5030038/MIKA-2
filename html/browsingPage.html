@@ -53,7 +53,64 @@
 
     <div class="page-body">
         <!-- filter & sort section -->
+        <aside class="filters" id="filters">
+            <button type="button" class="filter-clear" id="filter-clear">
+                Clear filter &amp; sort 
+            </button>
 
+            <div class="filter-group">
+                <h2 class="filter-group__title">SORT</h2>
+                <div class="filter-options" aria-label="Sort events">
+                    <label class="filter-option">
+                        <input type="radio" name="sort" value="newest" checked />
+                        <span class="filter-option__control" aria-hidden="true"></span>
+                        <span>Date (Soonest)</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="radio" name="sort" value="free-only" />
+                        <span class="filter-option__control" aria-hidden="true"></span>
+                        <span>Free events only</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h2 class="filter-group__title">CATEGORY</h2>
+                <div class="filter-options" id="category-filters">
+                    <label class="filter-option">
+                        <input type="checkbox" name="category" value="Music" />
+                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
+                        <span>Music</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="category" value="Festivals" />
+                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
+                        <span>Festivals</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="category" value="Creative" />
+                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
+                        <span>Creative</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="category" value="Tours" />
+                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
+                        <span>Tours</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="category" value="Exhibitions" />
+                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
+                        <span>Exhibitions</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="category" value="Workshops" />
+                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
+                        <span>Workshops</span>
+                    </label>
+                </div>
+            </div>
+        </aside>
+        
         <!-- Event card section -->
         <div class="page-main">
             <button type="button" class="filter-open" id="filter-open">
