@@ -27,7 +27,7 @@
         <nav class="nav" aria-label="Primary">
             <a href="index.html" class="nav__link is-active">Home</a>
             <a href="browsingPage.html" class="nav__link">Events</a>
-            <a href="index.html" class="nav__link">About Us</a>
+            <a href="#about" class="nav__link">About Us</a>
         </nav>
 
         <div class="header-actions">
@@ -84,7 +84,7 @@
 
 
     <!-- event cards -->
-        <div class="event-cards">
+        <div class="event-cards" id="popular-events">
 
         <article class="event-card">
             <img src="../images/eventcard1.png" alt="Live music performance">
@@ -106,5 +106,28 @@
 
 </section>
 
+<footer class="site-footer" id="about">
+    <div class="site-footer__intro">
+        <a href="index.html" class="site-footer__brand" aria-label="MIKA squared home">
+            <img src="../images/logo.png" alt="">
+            <span>MIKA²</span>
+        </a>
+        <p>Find your next creative moment and form social connections in your local community.</p>
+    </div>
+
+    <nav class="site-footer__links" aria-label="Footer">
+        <h2>Discover</h2>
+        <a href="index.html">Home</a>
+        <a href="browsingPage.html">Explore events</a>
+        <a href="profilePage.html">Your profile</a>
+    </nav>
+
+    <div class="site-footer__bottom">
+        <span>© 2026 MIKA²</span>
+        <span>Connect, Collab, Create.</span>
+    </div>
+</footer>
+
+<script src="../js/api-events.js"></script>
 </body>
 </html>
