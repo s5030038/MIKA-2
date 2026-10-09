@@ -7,6 +7,13 @@ function slugify(name) {
     .replace(/(^-|-$)/g, "");      // trim leading/trailing dashes
 }
 
+function parsePrice(cost) {
+  if (!cost) return "";
+  if (/^free/i.test(cost.trim())) return "0";
+  var match = cost.match(/\$\s*(\d+(?:\.\d+)?)/);
+  return match ? match[1] : "";
+}
+
 function createEventCard(record) {
   var name = record["subject"];
   var venue = record["location"];
@@ -17,11 +24,25 @@ function createEventCard(record) {
 
   var slug = slugify(name);
 
+  var cost = record["cost"] || "";
+  var category = Array.isArray(record["category"])
+    ? record["category"].join("|")
+    : (record["category"] || "");
+
   var article = document.createElement("article");
   article.className = "browseevent-card";
   article.dataset.name = name;
   article.dataset.venue = venue;
   article.dataset.date = date;
+  article.dataset.category = category;
+  article.dataset.cost = cost || "";
+  article.dataset.source = "api";
+  article.dataset.start = record["start_datetime"] || ""; 
+  article.dataset.price = parsePrice(cost);                
+  article.dataset.ages = (record["agerange"] || []).join("|"); 
+  article.dataset.bookings =
+    record["bookingsrequired"] === "Yes" ? "required" :
+    record["bookingsrequired"] === "No" ? "dropin" : "";
 
   article.innerHTML =
     '<a href="bookingsPage.html?event=' + encodeURIComponent(slug) + '" class="browseevent-card__link">' +
@@ -110,6 +131,13 @@ function loadApiEvents() {
           var card = createEventCard(record);
           if (card) browseContainer.appendChild(card);
         });
+
+        if (typeof buildVenueFilters === "function") {
+        buildVenueFilters(); // venue checkboxes come from the venues actually loaded
+      }
+      if (typeof applyFiltersAndSort === "function") {
+        applyFiltersAndSort();
+      }
       }
 
       if (popularContainer) {
