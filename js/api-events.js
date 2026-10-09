@@ -31,9 +31,6 @@ function createEventCard(record) {
 
   var article = document.createElement("article");
   article.className = "browseevent-card";
-
-  var article = document.createElement("article");
-  article.className = "browseevent-card";
   article.dataset.name = name;
   article.dataset.venue = venue;
   article.dataset.date = date;
