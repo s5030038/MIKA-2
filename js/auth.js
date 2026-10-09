@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const password = document.getElementById("password").value;
 
     if (checkPassword(currentEmail, password)) {
-      window.location.href = "profilePage.html";
+      window.location.href = "index.html";
     } else {
       alert("Incorrect password. Try: test1234");
     }
