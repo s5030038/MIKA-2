@@ -684,6 +684,21 @@ body {
   transform: translate(-50%, -55%) rotate(45deg);
 }
 
+/*- sidebar scrolling -*/
+.filter-option--scroll {
+  max-height: 14rem;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.filter-options--scroll .filter-option {
+  align-items: flex-start;
+}
+
+.filter-options--scroll .filter-option__control {
+  margin-top: 0.1rem;
+}
+
 @media (max-width: 980px) {
   .page-body {
     grid-template-columns: 190px minmax(0, 1fr);
