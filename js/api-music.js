@@ -24,12 +24,6 @@ function createMusicEventCard(record) {
   var venue = record["location"];
   var date = record["formatteddatetime"] || record["start_datetime"];
 
-  // extra fields that only exist in the music-events dataset
-  var cost = record["cost"];
-  var ageRange = record["agerange"];
-  var eventType = record["event_type"];
-  var activityType = record["activitytype"];
-  var bookingsRequired = record["bookingsrequired"];
 
   // skip incomplete records instead of showing broken card
   if (!name || !venue || !date) return null;
@@ -41,9 +35,6 @@ function createMusicEventCard(record) {
   article.dataset.name = name;
   article.dataset.venue = venue;
   article.dataset.date = date;
-  article.dataset.category = "Music";               // matches the "Music" filter checkbox
-  article.dataset.cost = cost || "";
-  article.dataset.free = /free/i.test(cost || "") ? "true" : "false";
 
   article.innerHTML =
     '<a href="bookingsPage.html?event=' + encodeURIComponent(slug) + '" class="browseevent-card__link">' +
@@ -51,7 +42,6 @@ function createMusicEventCard(record) {
       '<h3 class="browseevent-card__title"></h3>' +
       '<p class="browseevent-card__meta"></p>' +
       '<p class="browseevent-card__venue"></p>' +
-      '<div class="browseevent-card__tags"></div>' +
     '</a>';
 
   // textContent (not innerHTML) so data from the API can't inject HTML
@@ -60,13 +50,6 @@ function createMusicEventCard(record) {
   article.querySelector(".browseevent-card__venue").textContent = venue;
 
   var tags = article.querySelector(".browseevent-card__tags");
-  addTag(tags, cost);
-  addTag(tags, ageRange);
-  addTag(tags, eventType || activityType);
-  if (bookingsRequired && /yes|true|required/i.test(String(bookingsRequired))) {
-    addTag(tags, "Bookings required", "browseevent-card__tag--booking");
-  }
-
   return article;
 }
 
@@ -75,8 +58,6 @@ function loadMusicEvents() {
   const requestParams = { limit: 20 };
   // other things you can add to requestParams:
   // order_by: "start_datetime"                 -> soonest first
-  // where: 'cost:"Free"'                       -> only free events
-  // where: 'bookingsrequired:"No"'             -> drop-in events only
   const fullURL = baseURL + "?" + new URLSearchParams(requestParams).toString();
 
   // use a dedicated container if the page has one, otherwise share the browse grid
@@ -93,7 +74,7 @@ function loadMusicEvents() {
     .then(function (data) {
       var records = data.results || [];
 
-      // handy while developing: shows the real field names from the dataset
+      // displays the real field names from the dataset
       if (records.length) console.log("Music event fields:", Object.keys(records[0]));
 
       records.forEach(function (record) {
