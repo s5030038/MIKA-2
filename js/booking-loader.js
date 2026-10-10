@@ -45,6 +45,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         overviewVenue.textContent = event.venue;
     }
 
+    const cardVenue = document.getElementById("card-venue");
+    if (cardVenue) {
+        cardVenue.textContent = event.venue;
+    }
+
+    const cardDate = document.getElementById("card-date");
+    if (cardDate) {
+        cardDate.textContent = event.date;
+    }
+
     // Fixed price bug assignment using priceText
     const priceText = (event.price == 0 || event.price === "0") ? "Free Entry" : `From AU$${event.price}`;
     document.getElementById("event-price").textContent = priceText;
