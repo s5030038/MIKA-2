@@ -79,7 +79,7 @@ function iterateMapRecords(data) {
 
     var myMap = L.map("map").setView([-27, 153], 8);
     
-    L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibG9ybnNtYWMiLCJhIjoiY21mMjFxNDFyMDV6ODJtb290ZWQ5YzgxNyJ9.TtqqzkNfg6upLfJkVkPSjQ", {
+    L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiazI5NDgiLCJhIjoiY212MjBiOGdnMDBqaDJ4cHZ6cml1cnBhcCJ9.Op705rX5vE2Waabq3-AwqQ", {
       maxZoom: 18,
       id: 'mapbox/streets-v11',
       tileSize: 512,
