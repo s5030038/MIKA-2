@@ -48,7 +48,7 @@
     <!-- banner-carousel section -->
      <section id="banner-carousel">
         <div id="carousel-container">
-            <img src="../images/eventcard1.png" alt="main-cover">
+            <img id="event-image" src="" alt="main-cover">
             <button class="arrow-left"><img src="../images/left-arrow.png" alt="left-arrow"></button>
             <button class="arrow-right"><img src="../images/right-arrow.png" alt="right-arrow"></button>
         </div>
@@ -56,7 +56,7 @@
         <!-- event and host-->
         <div id="header-content">
             <div id="event-and-host">
-                <h1>Tiny Desk Concert</h1>
+                <h1 id="event-name">Event Title</h1>
                 <div class="buttons">
                     <button></button>   ****
                     <button></button> ****
@@ -64,11 +64,15 @@
             </div>
 
             <div id="host-info">
-                <div id="host-avatar"><img>****</div>
+                <div id="host-avatar">
+                    <img src=**** alt="Host Avatar">
+                </div>
                 <div id="host-details">
-                    <p class="host-name">Host: <strong>Australia Zoo</strong></p> <button>***</button>
-                    <img>***<p class="location">1 Kingston Rd, Woodridge, Brisbane, QLD</p>
-                    <img>***<p class="date">Sunday, November 21 | 12:30-3PM</p>
+                    <p class="host-name">Host: 
+                        <strong><span id=***></span></strong></p> 
+                        <button>***</button>
+                    <img>***<p class="location"><span id="event-venue">Venue Name</span></p>
+                    <img>***<p class="date"><span id="event-date">Event Date</span></p>
                 </div>
             </div>
         </div>
@@ -88,9 +92,9 @@
      <div class="content-sub-nav">
         <div class="left-side">
             <section id="overview">
-                <p class="description">Take deep dive into the Antarctic Ocean where you can meet all wondrous animals like penguins, polar bears and whales. Climb aboard the zoo and ship hybrid as you explore Brisbane’s finest attraction.</p>
+                <p class="description">****</p>
                 <h2>Location</h2>
-                <p class="location">1 Kingston Rd, Woodridge, Brisbane, QLD</p>
+                <p class="location"><span id="overview-venue">Event Venue</span></p>
                 <div class="map">
                     ***
                 </div>
@@ -114,7 +118,10 @@
 
         <aside class="right-side">
             <div class="booking-card">
-                <h3 class="price">From AU$20 <span class="per-person">pp</span></h3>
+                <h3 class="price">From 
+                    <span id="event-price">Event Price</span> 
+                    <span class="per-person">pp</span>
+                </h3>
                 
                 ***
             </div>
@@ -142,6 +149,9 @@
         <span>Connect, Collab, Create.</span>
     </div>
 </footer>
+
+<script src="../js/events-data.js"></script>
+<script src="../js/booking-loader.js"></script>
 
 </body>
 
