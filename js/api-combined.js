@@ -37,6 +37,29 @@ function getDateBadge(startIso) {
   };
 }
 
+var ICONS = {
+  calendar: "fa-regular fa-calendar",
+  clock: "fa-regular fa-clock",
+  pin: "fa-solid fa-location-dot"
+};
+
+// one icon + one line of text, using the shared .event-detail style
+function createInfoRow(iconClass, text) {
+  var row = document.createElement("div");
+  row.className = "event-detail";
+
+  var icon = document.createElement("i");
+  icon.className = iconClass;
+  icon.setAttribute("aria-hidden", "true");
+
+  var span = document.createElement("span");
+  span.textContent = text; // API text stays plain text
+
+  row.appendChild(icon);
+  row.appendChild(span);
+  return row;
+}
+
 function createEventCard(record) {
   var name = record["subject"];
   var venue = record["location"];
@@ -48,7 +71,7 @@ function createEventCard(record) {
   var slug = slugify(name);
 
   var cost = record["cost"] || "";
-  var category = record["primaryeventtype"] || "";
+  var category = record._category || record["primaryeventtype"] || "";
 
   var article = document.createElement("article");
   article.className = "browseevent-card";
@@ -70,8 +93,7 @@ function createEventCard(record) {
       '<div class="browseevent-card__frame"></div>' +
       '<span class="category"></span>' +
       '<h3 class="browseevent-card__title"></h3>' +
-      '<p class="browseevent-card__meta"></p>' +
-      '<p class="browseevent-card__venue"></p>' +
+      '<div class="browseevent-card__info"></div>' +
     '</a>';
   
   //category pill (from Isabel's figma design)
@@ -81,17 +103,14 @@ function createEventCard(record) {
   } else {
     pill.remove();
   }
+
   article.querySelector(".browseevent-card__title").textContent = name;
   
   var dt = splitDateTime(date);
-  var metaEl = article.querySelector(".browseevent-card__meta");
-  metaEl.textContent = dt.datePart;
-  if (dt.timePart) {
-    metaEl.appendChild(document.createElement("br"));
-    metaEl.appendChild(document.createTextNode(dt.timePart));
-}
-
-  article.querySelector(".browseevent-card__venue").textContent = venue;
+  var info = article.querySelector(".browseevent-card__info");
+  info.appendChild(createInfoRow(ICONS.calendar, dt.datePart));
+  if (dt.timePart) info.appendChild(createInfoRow(ICONS.clock, dt.timePart));
+  info.appendChild(createInfoRow(ICONS.pin, venue));
 
   // event photo from API
   var imageUrl = record["eventimage"];
@@ -106,6 +125,22 @@ function createEventCard(record) {
   };
   
   frame.appendChild(img);
+
+  var badgeInfo = getDateBadge(record["start_datetime"]);
+  if (badgeInfo) {
+    var badge = document.createElement("div");
+    badge.className = "event-card_date";
+
+    var day = document.createElement("strong");
+    day.textContent = badgeInfo.day;
+
+    var month = document.createElement("span");
+    month.textContent = badgeInfo.month;
+
+    badge.appendChild(day);
+    badge.appendChild(month);
+    frame.appendChild(badge);
+  }
 
   return article;
 }
@@ -152,24 +187,55 @@ function createPopularEventCard(record, index) {
   return link;
 }
 
-function loadApiEvents() {
-  const baseURL = "https://data.brisbane.qld.gov.au/api/explore/v2.1/catalog/datasets/creative-events/records";
-  const requestParams = { limit: 20 };
-  const fullURL = baseURL + "?" + new URLSearchParams(requestParams).toString();
+// to combine music & creative API for browsing page to show both
+var EVENT_SOURCES = [
+  {
+    url: "https://data.brisbane.qld.gov.au/api/explore/v2.1/catalog/datasets/creative-events/records",
+    forceCategory: ""        
+  },
+  {
+    url: "https://data.brisbane.qld.gov.au/api/explore/v2.1/catalog/datasets/music-events/records",
+    forceCategory: "Music"   
+  }
+];
 
-  const browseContainer = document.getElementById("browseevents");
-  const popularContainer = document.getElementById("popular-events");
-  if (!browseContainer && !popularContainer) return;
+function fetchRecords(source) {
+  var url = source.url + "?" + new URLSearchParams({ limit: 20 }).toString();
 
-  fetch(fullURL)
+  return fetch(url)
     .then(function (response) {
       if (!response.ok) throw new Error("API responded with " + response.status);
       return response.json();
     })
     .then(function (data) {
-      var records = (data.results || []).filter(function (record) {
-        return record["subject"] && record["location"] &&
-          (record["formatteddatetime"] || record["start_datetime"]);
+      return (data.results || []).map(function (record) {
+        record._category = source.forceCategory || record["primaryeventtype"] || "";
+        return record;
+      });
+    })
+    .catch(function (error) {
+      console.error("Error fetching " + source.url, error);
+      return [];
+    });
+}
+
+function loadApiEvents() {
+  const browseContainer = document.getElementById("browseevents");
+  const popularContainer = document.getElementById("popular-events");
+  if (!browseContainer && !popularContainer) return;
+
+  Promise.all(EVENT_SOURCES.map(fetchRecords))
+    .then(function (lists) {
+      var seen = {};
+      var records = [].concat.apply([], lists).filter(function (record) {
+        if (!(record["subject"] && record["location"] &&
+              (record["formatteddatetime"] || record["start_datetime"]))) return false;
+
+        // drop events that appear in both datasets (same name + start time)
+        var key = record["subject"] + "|" + record["start_datetime"];
+        if (seen[key]) return false;
+        seen[key] = true;
+        return true;
       });
 
       if (browseContainer) {
@@ -198,9 +264,7 @@ function loadApiEvents() {
           popularContainer.replaceChildren.apply(popularContainer, popularCards);
         }
       }
-    })
-    .catch(function (error) {
-      console.error("Error fetching events:", error);
+    
     });
 }
 
