@@ -88,8 +88,8 @@
                 </div>
             </div>
 
-            <div class="filter-group">
-                <h2 class="filter-group__title">PRICE</h2>
+            <details class="filter-group" open>
+                <summary class="filter-group__title">PRICE</summary>
                 <div class="filter-options">
                     <label class="filter-option">
                         <input type="checkbox" id="free-only" />
@@ -97,10 +97,10 @@
                         <span>Free events only</span>
                     </label>
                 </div>
-            </div>
+            </details>
 
-            <div class="filter-group">
-                <h2 class="filter-group__title">CATEGORY</h2>
+            <details class="filter-group" open>
+                <summary class="filter-group__title">CATEGORY</summary>
                 <div class="filter-options" id="category-filters">
                     <label class="filter-option">
                         <input type="checkbox" name="category" value="Music" />
@@ -133,10 +133,10 @@
                         <span>Workshops</span>
                     </label>
                 </div>
-            </div>
+            </details>
             
-            <div class="filter-group">
-                <h2 class="filter-group__title">AGE RANGE</h2>
+            <details class="filter-group" open>
+                <summary class="filter-group__title">AGE RANGE</summary>
                 <div class="filter-options">
                     <label class="filter-option">
                         <input type="checkbox" name="age" value="Infants and toddlers" />
@@ -174,10 +174,10 @@
                         <span>Seniors</span>
                     </label>
                 </div>
-            </div>
+            </details>
             
-            <div class="filter-group">
-                <h2 class="filter-group__title">BOOKINGS</h2>
+            <details class="filter-group" open>
+                <summary class="filter-group__title">BOOKINGS</summary>
                 <div class="filter-options">
                     <label class="filter-option">
                         <input type="checkbox" name="bookings" value="required" />
@@ -190,12 +190,12 @@
                         <span>Walk-in (no booking)</span>
                     </label>
                 </div>
-            </div>
+            </details>
 
-            <div class="filter-group">
-                <h2 class="filter-group__title">VENUE</h2>
+            <details class="filter-group" open>
+                <summary class="filter-group__title">VENUE</summary>
                 <div class="filter-options filter-options--scroll" id="venue-filters"></div> 
-            </div>
+            </details>
         </aside>
         
         <!-- Event card section -->
@@ -233,6 +233,7 @@
 
   <script src="../js/filters.js"></script>
   <script src="../js/api-combined.js"></script>
+  <script src="../js/back-to-top.js"></script>
   <script src="../js/script.js"></script>
 </body>
 </html>

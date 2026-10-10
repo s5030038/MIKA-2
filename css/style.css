@@ -630,6 +630,35 @@ body {
   color: #800020;
 }
 
+/* drop down for filter */
+summary.filter-group__title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+summary.filter-group__title::-webkit-details-marker {
+  display: none;
+}
+
+summary.filter-group__title::after {
+  content: "";
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 7px solid #800020;
+  transition: transform 0.2s ease;
+}
+
+.filter-group::not([open]) > summary.filter-group__title {
+  margin-bottom: 0;
+}
+
+.filter-group:not([open]) > summary.filter-group__title::after {
+  transform: rotate(180deg);
+}
+
 .filter-options {
   display: flex;
   flex-direction: column;
