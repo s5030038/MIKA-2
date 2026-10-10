@@ -1748,8 +1748,8 @@ body {
 }
 
 #map {
-	width: 30vw;
-	min-height: 42vh;
+	width: 40vw;
+	min-height: 50vh;
 	/* Uses viewport (vw & vh) units: https://css-tricks.com/fun-viewport-units */
   display: block;
 }

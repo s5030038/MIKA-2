@@ -1,5 +1,3 @@
-
-
 /**
 * JS FOR CONNECTING BRISBANE DATABASE TO THE FRONT END
 */
@@ -71,12 +69,6 @@ $(document).ready(function() {
 
 // For Map in Browsing Page Overview
 function iterateMapRecords(data) {
-    var records = data.result && data.result.records ? data.result.records : [];
-
-    if (records.length === 0) {
-        return;
-    }
-
     var myMap = L.map("map").setView([-27, 153], 8);
     
     L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiazI5NDgiLCJhIjoiY212MjBiOGdnMDBqaDJ4cHZ6cml1cnBhcCJ9.Op705rX5vE2Waabq3-AwqQ", {
@@ -86,6 +78,22 @@ function iterateMapRecords(data) {
       zoomOffset: -1,
     }).addTo(myMap);
 
+    var defaultCustomIcon = L.icon({
+        iconUrl: '../images/marker-icon.png',
+        iconRetinaUrl: '../images/marker-icon-2x.png',
+        shadowUrl: '../images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    var records = data.result && data.result.records ? data.result.records : [];
+
+    if (records.length === 0) {
+        return;
+    }
+
     Object.entries(records).forEach(([key, value]) => {
         var lat = value["Lat"] || (value["geolocation"] ? value["geolocation"]["lat"] : null);
         var long = value["Lon"] || (value["geolocation"] ? value["geolocation"]["lon"] : null);
@@ -94,8 +102,11 @@ function iterateMapRecords(data) {
         var recordLink = value["Link"] || value["web_link"];
         var recordDescription = value["Description"] || value["description"];
         
-        if (lat && long) {
-            var marker = L.marker([parseFloat(lat), parseFloat(long)]).addTo(myMap);
+        var parsedLat = parseFloat(lat);
+        var parsedLong = parseFloat(long);
+
+        if (!isNaN(parsedLat) && !isNaN(parsedLong)) {
+            var marker = L.marker([parsedLat, parsedLong], { icon: defaultCustomIcon }).addTo(myMap);
             var popupText = "<strong>" + recordTitle + "</strong><br /><a href='" + recordLink + "'>" + recordLink + "</a><br />" + recordDescription;
             var popUp = L.popup({
                 content: popupText, 
