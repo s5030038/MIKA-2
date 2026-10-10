@@ -14,13 +14,50 @@ function parsePrice(cost) {
   return match ? match[1] : "";
 }
 
-// "Tuesday, 22 September 2026, 10:15am - 4:45pm"
-//   -> date: "Tuesday, 22 September 2026", time: "10:15am - 4:45pm"
-// Dates with no time, like "Friday, 25 September 2026", stay whole.
 function splitDateTime(formatted) {
   var match = formatted.match(/^(.*?\d{4}),\s*(.+)$/);
   if (!match) return { datePart: formatted, timePart: "" };
   return { datePart: match[1].trim(), timePart: match[2].trim() };
+}
+/*- for icons -*/ 
+function getDateBadge(startIso) {
+  if (!startIso) return null;
+  var d = new Date(startIso);
+  if (isNaN(d)) return null;
+
+  var parts = new Intl.DateTimeFormat("en-AU", {
+    timeZone: "Australia/Brisbane",
+    day: "numeric",
+    month: "short"
+  }).formatToParts(d);
+
+  return {
+    day: parts.find(function (p) { return p.type === "day"; }).value,
+    month: parts.find(function (p) { return p.type === "month"; }).value.toUpperCase()
+  };
+}
+
+var ICONS = {
+  calendar: "fa-regular fa-calendar",
+  clock: "fa-regular fa-clock",
+  pin: "fa-solid fa-location-dot"
+};
+
+// one icon + one line of text, using the shared .event-detail style
+function createInfoRow(iconClass, text) {
+  var row = document.createElement("div");
+  row.className = "event-detail";
+
+  var icon = document.createElement("i");
+  icon.className = iconClass;
+  icon.setAttribute("aria-hidden", "true");
+
+  var span = document.createElement("span");
+  span.textContent = text; // API text stays plain text
+
+  row.appendChild(icon);
+  row.appendChild(span);
+  return row;
 }
 
 function createEventCard(record) {
@@ -54,22 +91,26 @@ function createEventCard(record) {
   article.innerHTML =
     '<a href="bookingsPage.html?event=' + encodeURIComponent(slug) + '" class="browseevent-card__link">' +
       '<div class="browseevent-card__frame"></div>' +
+      '<span class="category"></span>' +
       '<h3 class="browseevent-card__title"></h3>' +
-      '<p class="browseevent-card__meta"></p>' +
-      '<p class="browseevent-card__venue"></p>' +
+      '<div class="browseevent-card__info"></div>' +
     '</a>';
+  
+  //category pill (from Isabel's figma design)
+  var pill = article.querySelector(".category");
+  if (category) {
+    pill.textContent = category;
+  } else {
+    pill.remove();
+  }
 
   article.querySelector(".browseevent-card__title").textContent = name;
   
   var dt = splitDateTime(date);
-  var metaEl = article.querySelector(".browseevent-card__meta");
-  metaEl.textContent = dt.datePart;
-  if (dt.timePart) {
-    metaEl.appendChild(document.createElement("br"));
-    metaEl.appendChild(document.createTextNode(dt.timePart));
-}
-
-  article.querySelector(".browseevent-card__venue").textContent = venue;
+  var info = article.querySelector(".browseevent-card__info");
+  info.appendChild(createInfoRow(ICONS.calendar, dt.datePart));
+  if (dt.timePart) info.appendChild(createInfoRow(ICONS.clock, dt.timePart));
+  info.appendChild(createInfoRow(ICONS.pin, venue));
 
   // event photo from API
   var imageUrl = record["eventimage"];
@@ -84,6 +125,22 @@ function createEventCard(record) {
   };
   
   frame.appendChild(img);
+
+  var badgeInfo = getDateBadge(record["start_datetime"]);
+  if (badgeInfo) {
+    var badge = document.createElement("div");
+    badge.className = "event-card_date";
+
+    var day = document.createElement("strong");
+    day.textContent = badgeInfo.day;
+
+    var month = document.createElement("span");
+    month.textContent = badgeInfo.month;
+
+    badge.appendChild(day);
+    badge.appendChild(month);
+    frame.appendChild(badge);
+  }
 
   return article;
 }
