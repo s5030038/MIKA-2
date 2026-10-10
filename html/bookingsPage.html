@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>bookings page</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/leaflet.css">
+    <script src="../js/leaflet.js"></script>
 </head>
 <body>
 
@@ -96,13 +98,13 @@
                 <h2>Location</h2>
                 <p class="location"><span id="overview-venue">Event Venue</span></p>
                 <div class="map">
-                    ***
+                    <article id="map"></article>
                 </div>
             </section>
 
             <section id="itinerary">
                 <h2>Itinerary</h2>
-                ***
+                **
             </section>
 
             <section id="reviews">
@@ -157,6 +159,9 @@
     </div>
 </footer>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<script src="../script.js"></script>
 <script src="../js/events-data.js"></script>
 <script src="../js/booking-loader.js"></script>
 <script src="../js/api-creative.js"></script>

@@ -1738,6 +1738,31 @@ body {
     color: #D45060;
 }
 
+/*==========================================================
+   Booking Page
+   ========================================================== */
+
+/*map*/
+* {
+  box-sizing: border-box;
+}
+
+#map {
+	width: 30vw;
+	min-height: 42vh;
+	/* Uses viewport (vw & vh) units: https://css-tricks.com/fun-viewport-units */
+  display: block;
+}
+
+.mapUp strong{
+	color: #08f;
+	margin-bottom: 1em;
+}
+
+.mapUp{
+	border: 1px solid #08f;
+	border-radius: 10px;
+}
 
 /* responsiveness */
 
