@@ -14,6 +14,15 @@ function parsePrice(cost) {
   return match ? match[1] : "";
 }
 
+// "Tuesday, 22 September 2026, 10:15am - 4:45pm"
+//   -> date: "Tuesday, 22 September 2026", time: "10:15am - 4:45pm"
+// Dates with no time, like "Friday, 25 September 2026", stay whole.
+function splitDateTime(formatted) {
+  var match = formatted.match(/^(.*?\d{4}),\s*(.+)$/);
+  if (!match) return { datePart: formatted, timePart: "" };
+  return { datePart: match[1].trim(), timePart: match[2].trim() };
+}
+
 function createEventCard(record) {
   var name = record["subject"];
   var venue = record["location"];
@@ -25,9 +34,7 @@ function createEventCard(record) {
   var slug = slugify(name);
 
   var cost = record["cost"] || "";
-  var category = Array.isArray(record["category"])
-    ? record["category"].join("|")
-    : (record["category"] || "");
+  var category = record["primaryeventtype"] || "";
 
   var article = document.createElement("article");
   article.className = "browseevent-card";
@@ -42,7 +49,7 @@ function createEventCard(record) {
   article.dataset.ages = (record["agerange"] || []).join("|"); 
   article.dataset.bookings =
     record["bookingsrequired"] === "Yes" ? "required" :
-    record["bookingsrequired"] === "No" ? "dropin" : "";
+    record["bookingsrequired"] === "No" ? "walkin" : "";
 
   article.innerHTML =
     '<a href="bookingsPage.html?event=' + encodeURIComponent(slug) + '" class="browseevent-card__link">' +
@@ -53,8 +60,30 @@ function createEventCard(record) {
     '</a>';
 
   article.querySelector(".browseevent-card__title").textContent = name;
-  article.querySelector(".browseevent-card__meta").textContent = date;
+  
+  var dt = splitDateTime(date);
+  var metaEl = article.querySelector(".browseevent-card__meta");
+  metaEl.textContent = dt.datePart;
+  if (dt.timePart) {
+    metaEl.appendChild(document.createElement("br"));
+    metaEl.appendChild(document.createTextNode(dt.timePart));
+}
+
   article.querySelector(".browseevent-card__venue").textContent = venue;
+
+  // event photo from API
+  var imageUrl = record["eventimage"];
+  var frame = article.querySelector(".browseevent-card__frame");
+  var img = document.createElement("img");
+  img.alt = ""; 
+  img.loading = "lazy";
+  img.src = imageUrl || "../images/eventcard1.png";
+  img.onerror = function () {
+    img.onerror = null; 
+    img.src = "../images/eventcard1.png";
+  };
+  
+  frame.appendChild(img);
 
   return article;
 }

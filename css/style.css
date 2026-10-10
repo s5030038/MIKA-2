@@ -570,8 +570,14 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding: 0.15rem 0.25rem 1rem;
+  padding: 0.15rem 0.5rem 1rem 0.25rem;
   color: #800020;
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
 }
 
 .filters[hidden] {
@@ -685,7 +691,7 @@ body {
 }
 
 /*- sidebar scrolling -*/
-.filter-option--scroll {
+.filters-option--scroll {
   max-height: 14rem;
   overflow-y: auto;
   padding-right: 0.25rem;
@@ -759,6 +765,12 @@ body {
   .page-body:has(.filters[hidden]) .browseevents {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.5rem 1.25rem;
+  }
+
+  .filters {
+    position: static;
+    max-height: none;
+    overflow-y: visible;
   }
 }
 
