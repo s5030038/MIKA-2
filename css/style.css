@@ -717,6 +717,10 @@ body {
   .page-body:has(.filters[hidden]) .browseevents {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  .creativeevents {
+    grid-auto-columns: calc((100% - 1.75rem) / 2);
+  }
 }
 
 @media (max-width: 720px) {
@@ -1022,6 +1026,26 @@ body {
     font-weight: 500;
     color: #D45060;
     line-height: 1.35;
+}
+
+.creativeevents {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 3 * 1.75rem) / 4);
+  gap: 1.75rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 6px 4px 10px;
+  margin: 0;
+}
+
+.creativeevents::-webkit-scrollbar {
+  display: none;
+}
+
+.creativeevents > * {
+  scroll-snap-align: start;
 }
 
 .site-footer {
@@ -1804,5 +1828,9 @@ body {
     grid-column: auto;
     flex-direction: column;
     gap: 0.4rem;
+  }
+
+  .creativeevents {
+    grid-auto-columns: 85%;
   }
 }
