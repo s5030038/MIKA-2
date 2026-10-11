@@ -61,7 +61,7 @@
             <div class="event-info">
                 <h1 class="event-name">Event Title</h1>
                 <div class="buttons">
-                    <button>♡ Save</button>
+                    <button id="save-event-btn">♡ Save</button>
                     <button><img src="../images/review-icon.png" alt="Review">Review</button>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="host-details">
                     <div class="host-top-row">
-                        <p class="host-name">Host Name: <strong><span id="event-host"></span></strong></p> 
+                        <p class="host-name">Host Name</strong></p> 
                         <button>Follow</button>
                     </div>
                     
@@ -125,24 +125,177 @@
 
         <aside class="right-side">
             <div class="booking-card">
-                <h3 class="price">From 
+                <h3 class="price">
                     <span id="event-price">Event Price</span> 
                     <span class="per-person">pp</span>
                 </h3>
                 <ul class="booking-details">
-                    <p><img src="../images/location-icon.png" alt="Location"><span id="card-venue">Venue Location</span></p>
-                    <p><img src="../images/date-icon.png" alt="Date"><span id="card-date">Event Date</span></p>
-                    <p><img src="../images/age-group-icon.png" alt="Ages">Age Group</p>
-                    <p><img src="../images/parking-icon.png" alt="Parking">Parking Availability</p>
-                    <p><img src="../images/doors-icon.png" alt="Doors">When Doors open</p>
-                    <p><img src="../images/entry-icon.png" alt="Entry">Ways of entry (Ticket, Valid ID)</p>
+                    <li class="booking-item"><img src="../images/location-icon.png" alt="Location"><span id="card-venue">Venue Location</span></li>
+                    <li class="booking-item"><img src="../images/date-icon.png" alt="Date"><span id="card-date">Event Date</span></li>
+                    <li class="booking-item"><img src="../images/age-group-icon.png" alt="Ages"><span>Age Group</span></li>
+                    <li class="booking-item"><img src="../images/parking-icon.png" alt="Parking"><span>Parking Availability</span></li>
+                    <li class="booking-item"><img src="../images/doors-icon.png" alt="Doors"><span>When Doors open</span></li>
+                    <li class="booking-item"><img src="../images/entry-icon.png" alt="Entry"><span>Ways of entry (Ticket, Valid ID)</span></li>
                 </ul>      
-                <button class="get-tickets">Get Tickets</button>  
-                <li><img src="../images/cancel-icon.png" alt="Cancellation">Cancellation Policy</li>     
+                <div class="get-tickets-wrap">
+                    <button class="get-tickets">Get Tickets</button>
+                </div>
+                <div class="booking-item">
+                    <img src="../images/cancel-icon.png" alt="Cancellation"><span>Cancellation Policy</span>
+                </div>     
             </div>
         </aside>
      </div>
 </main>
+
+<!-- Ticket Popup Modal AI WILL CHANGE AFTER MON-->
+<div id="ticket-modal" class="modal-overlay" hidden>
+    <div class="modal-container">
+        <button type="button" class="modal-close" id="modal-close-btn">&times;</button>
+        
+        <div class="modal-content-grid">
+            <!-- Left Column: Switches between Selection View and Checkout View -->
+            <div class="modal-left">
+                
+                <!-- VIEW 1: Ticket Selection -->
+                <div id="ticket-selection-view">
+                    <div class="modal-header-row">
+                        <h2 class="modal-event-title" id="modal-event-title">Event Title</h2>
+                        <button class="fav-btn" id="modal-fav-btn" aria-label="Save event">♡</button>
+                    </div>
+                    <p class="modal-host">Host: <span id="modal-host-name">Host Name</span></p>
+                    
+                    <ul class="modal-details-list">
+                        <li><img src="../images/location-icon.png" alt="Location"><span id="modal-venue">Venue Location</span></li>
+                        <li><img src="../images/date-icon.png" alt="Date"><span id="modal-date">Event Date</span></li>
+                        <li><img src="../images/age-group-icon.png" alt="Ages"><span>Ages 18+, max 4 per group</span></li>
+                        <li><img src="../images/parking-icon.png" alt="Parking"><span>Free Parking</span></li>
+                        <li><img src="../images/doors-icon.png" alt="Doors"><span>Doors at 12:15PM</span></li>
+                        <li><img src="../images/entry-icon.png" alt="Entry"><span>Entry: Ticket + Valid ID</span></li>
+                    </ul>
+
+                    <hr class="modal-divider">
+
+                    <!-- Ticket Type Pills -->
+                    <div class="ticket-types">
+                        <button type="button" class="ticket-type-pill active" data-type="Accessible Seating" data-price="20">
+                            <i class="fa-solid fa-wheelchair"></i> Accessible <span class="pill-remove">×</span>
+                        </button>
+                        <button type="button" class="ticket-type-pill" data-type="VIP" data-price="30">$30 VIP</button>
+                        <button type="button" class="ticket-type-pill" data-type="General" data-price="20">$20 General</button>
+                    </div>
+
+                    <!-- Active Ticket Tier Counter Card -->
+                    <div class="ticket-selection-card">
+                        <div class="selection-card-header">
+                            <span id="selected-tier-name">Accessible Seating</span>
+                            <div class="quantity-controls">
+                                <button type="button" id="qty-minus">−</button>
+                                <span id="ticket-qty">1</span>
+                                <button type="button" id="qty-plus">+</button>
+                            </div>
+                        </div>
+                        <div class="selection-card-price" id="selected-tier-total">AU$20.00</div>
+                    </div>
+                </div>
+
+                <!-- VIEW 2: Checkout Form (Hidden by default) -->
+                <div id="checkout-view" hidden>
+                    <div class="checkout-header-row">
+                        <button type="button" class="back-arrow-btn" id="back-to-tickets-btn">
+                            <--
+                        </button>
+                        <h2 class="modal-event-title">Checkout</h2>
+                        <button class="fav-btn" aria-label="Save event">♡</button>
+                    </div>
+
+                    <div class="checkout-form-section">
+                        <div class="checkout-sub-header">
+                            <h3>Details</h3>
+                            <span class="required-note">* Required field</span>
+                        </div>
+
+                        <div class="checkout-row-inputs">
+                            <div class="checkout-field">
+                                <label>First Name <span>*</span></label>
+                                <input type="text" required>
+                            </div>
+                            <div class="checkout-field">
+                                <label>Last Name <span>*</span></label>
+                                <input type="text" required>
+                            </div>
+                        </div>
+
+                        <div class="checkout-row-inputs">
+                            <div class="checkout-field full-width">
+                                <label>Email Address <span>*</span></label>
+                                <input type="email" required>
+                            </div>
+                            <div class="checkout-field full-width">
+                                <label>Mobile Number</label>
+                                <input type="tel">
+                            </div>
+                        </div>
+
+                        <div class="billing-info-section">
+                            <h4>Billing Information</h4>
+                            <p class="terms-text">By proceeding, you agree to <a href="#">MIKA² Terms of Service</a></p>
+
+                            <!-- Payment Buttons -->
+                            <div class="payment-buttons-stack">
+                                <button type="button" class="pay-btn apple-pay"> Pay</button>
+                                <button type="button" class="pay-btn google-pay">Buy with <b>G Pay</b></button>
+                                <div class="pay-row-split">
+                                    <button type="button" class="pay-btn paypal">PayPal</button>
+                                    <button type="button" class="pay-btn payin4">Pay in 4</button>
+                                </div>
+                            </div>
+
+                            <div class="or-divider"><span>or</span></div>
+
+                            <div class="card-option-box">
+                                <div class="card-option-label">
+                                    <i class="fa-regular fa-credit-card"></i> Credit or debit card
+                                </div>
+                                <div class="accepted-cards-icons">
+                                    <i class="fa-brands fa-cc-visa"></i>
+                                    <i class="fa-brands fa-cc-amex"></i>
+                                    <i class="fa-brands fa-cc-mastercard"></i>
+                                </div>
+                            </div>
+
+                            <p class="secure-checkout-text">
+                                <i class="fa-solid fa-lock"></i> Secure and encrypted checkout
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Cart Summary -->
+            <div class="modal-right-cart">
+                <div class="cart-header">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <h3>Your Cart</h3>
+                </div>
+                <div class="cart-items-summary">
+                    <div class="cart-item-row">
+                        <span id="cart-item-desc">1x Accessible Seating</span>
+                        <span id="cart-item-price">AU$20.00</span>
+                    </div>
+                </div>
+                <hr class="modal-divider">
+                <div class="cart-total-row">
+                    <span>TOTAL</span>
+                    <span id="cart-total-price">AU$20.00</span>
+                </div>
+                <!-- Starts as Checkout -->
+                <button type="button" class="btn checkout-btn" id="proceed-checkout-btn">Checkout</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <footer class="site-footer" id="about">
     <div class="site-footer__intro">
@@ -166,7 +319,7 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-<script src="../script.js"></script>
+<script src="../js/script.js"></script>
 <script src="../js/events-data.js"></script>
 <script src="../js/booking-loader.js"></script>
 <script src="../js/api-creative.js"></script>

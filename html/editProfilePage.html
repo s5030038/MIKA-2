@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIKA² - Edit Profile</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/editProfile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="edit-profile-page">
+
+<main class="ep-page">
+
+    <a href="profilePage.html" class="ep-back" id="back-link">
+        <i class="fa-solid fa-chevron-left"></i> Back to profile
+    </a>
+
+    <h1 class="ep-title">Edit Profile</h1>
+    <p class="ep-subtitle">Manage and Update personal information and preferences</p>
+
+    <form id="edit-profile-form" class="ep-form" novalidate>
+
+        <!-- profile photo -->
+        <div class="ep-avatar">
+            <div class="ep-avatar__circle">
+                <svg id="avatar-default" viewBox="0 0 100 100" aria-hidden="true">
+                    <circle cx="50" cy="37" r="16" fill="#6B4A4A"/>
+                    <path d="M18 88c0-19 14-31 32-31s32 12 32 31z" fill="#6B4A4A"/>
+                </svg>
+                <img id="avatar-img" alt="Your profile photo" hidden>
+            </div>
+            <input type="file" id="avatar-input" accept="image/*" hidden>
+            <button type="button" class="ep-btn-outline" id="change-photo-btn">
+                <i class="fa-solid fa-camera"></i> Change Profile photo
+            </button>
+            <p class="field-error" id="avatar-error" role="alert"></p>
+        </div>
+
+        <!-- personal information -->
+        <section class="ep-section">
+            <h2 class="ep-section__title">Personal information details</h2>
+
+            <div class="ep-row">
+                <div class="ep-field">
+                    <label for="ep-name">Full name<span class="req" aria-hidden="true">*</span></label>
+                    <input type="text" id="ep-name" placeholder="Enter Full name ..." autocomplete="name" required>
+                    <p class="field-error" id="ep-name-error" role="alert"></p>
+                </div>
+                <div class="ep-field">
+                    <label for="ep-email">Email address<span class="req" aria-hidden="true">*</span></label>
+                    <input type="email" id="ep-email" placeholder="Enter Email address ..." autocomplete="email" required>
+                    <p class="field-error" id="ep-email-error" role="alert"></p>
+                </div>
+            </div>
+
+            <div class="ep-field ep-field--dob">
+                <label for="ep-dob">Date of birth</label>
+                <input type="date" id="ep-dob">
+                <p class="field-error" id="ep-dob-error" role="alert"></p>
+            </div>
+
+            <div class="ep-field">
+                <label for="ep-location">Location</label>
+                <div class="ep-select">
+                    <select id="ep-location"></select>
+                </div>
+            </div>
+        </section>
+
+        <!-- saved payment details -->
+        <section class="ep-section">
+            <h2 class="ep-section__title">Saved payment details</h2>
+
+            <div id="payment-list"></div>
+            <p class="ep-empty" id="payment-empty" hidden>No saved payment methods yet.</p>
+
+            <div class="ep-add" id="payment-form">
+                <h3 class="ep-add__title" id="payment-form-title">Add new payment method</h3>
+                <p class="ep-add__note" id="payment-form-note">
+                    For your security only the last digits are kept on this device. The CSV is never saved.
+                </p>
+
+                <div class="ep-row">
+                    <div class="ep-field">
+                        <label for="pay-bsb">BSB</label>
+                        <input type="text" id="pay-bsb" placeholder="XXX-XXX" inputmode="numeric" autocomplete="off">
+                        <p class="field-error" id="pay-bsb-error" role="alert"></p>
+                    </div>
+                    <div class="ep-field">
+                        <label for="pay-account">Account Number</label>
+                        <input type="text" id="pay-account" placeholder="XXXX-XXXX" inputmode="numeric" autocomplete="off">
+                        <p class="field-error" id="pay-account-error" role="alert"></p>
+                    </div>
+                </div>
+
+                <div class="ep-field ep-field--csv">
+                    <label for="pay-csv">CSV<span class="req" aria-hidden="true">*</span></label>
+                    <input type="password" id="pay-csv" placeholder="XXX" inputmode="numeric" maxlength="4" autocomplete="off">
+                    <p class="field-error" id="pay-csv-error" role="alert"></p>
+                </div>
+
+                <div class="ep-add__actions">
+                    <button type="button" class="ep-btn-outline" id="add-payment-btn">
+                        <i class="fa-solid fa-plus"></i> <span id="add-payment-label">Add payment method</span>
+                    </button>
+                    <button type="button" class="ep-link-btn" id="cancel-payment-edit" hidden>Cancel edit</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- actions -->
+        <div class="ep-actions">
+            <span class="ep-status" id="ep-status" role="status" aria-live="polite"></span>
+            <button type="submit" class="ep-btn-primary">
+                <i class="fa-regular fa-floppy-disk"></i> Save Changes
+            </button>
+            <span class="ep-or">or</span>
+            <button type="button" class="ep-btn-outline ep-btn-outline--wide" id="cancel-btn">Cancel</button>
+        </div>
+    </form>
+</main>
+
+<script src="../js/editProfile.js"></script>
+</body>
+</html>

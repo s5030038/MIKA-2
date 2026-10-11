@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -90,105 +91,31 @@
                 </div>
             </div>
 
-            <!-- FILTERS -->
+            <!-- FILTERS (counts, search, sort and cards are filled in by my-events.js) -->
             <section class="events-filters-section">
-                <div class="event-filters">
-                    <button class="filter active">All <span>12 (2)</span></button>
-                    <button class="filter">Upcoming <span>3</span></button>
-                    <button class="filter">Attended <span>6</span></button>
-                    <button class="filter">Saved <span>8</span></button>
+                <div class="event-filters" role="group" aria-label="Filter my events">
+                    <button type="button" class="filter active" data-filter="all" aria-pressed="true">All <span>0</span></button>
+                    <button type="button" class="filter" data-filter="upcoming" aria-pressed="false">Upcoming <span>0</span></button>
+                    <button type="button" class="filter" data-filter="attended" aria-pressed="false">Attended <span>0</span></button>
+                    <button type="button" class="filter" data-filter="saved" aria-pressed="false">Saved <span>0</span></button>
                 </div>
 
                 <div class="events-tools">
                     <div class="event-search">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" placeholder="Search my events..." />
+                        <input type="search" id="my-events-search" placeholder="Search my events..." aria-label="Search my events" autocomplete="off" />
                     </div>
 
                     <div class="sort-container">
-                        <label for="sort">Sort by</label>
-                        <select id="sort">
-                            <option>Date (Recent)</option>
-                            <option>Date (Latest)</option>
-                            <option>Name (A-Z)</option>
-                        </select>
+                        <label for="sort-dropdown-button">Sort by</label>
+                        <div class="dropdown" id="sort-dropdown"></div>
                     </div>
                 </div>
             </section>
 
             <!-- EVENT CARDS  -->
-            <div class="events-grid-profile-page">
-                <!-- EVENT 1 -->
-                <article class="browseevent-card">
-                    <div class="browseevent-card__frame">
-                        <img src="../images/market.jpg" alt="Brisbane Twilight Markets">
-
-                        <div class="event-card_date">
-                            <strong>13</strong>
-                            <span>SEP</span>
-                        </div>
-
-                        <button class="event_card-heart-button">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-
-                    <div class="event-content">
-                        <span class="category market">Market</span>
-                        <h3>Brisbane Twilight Markets</h3>
-                        <div class="event-detail">
-                            <i class="fa-regular fa-calendar"></i>
-                            <span>Sat, 13 Sep 2026</span>
-                        </div>
-                        <div class="event-detail">
-                            <i class="fa-regular fa-clock"></i>
-                            <span>4:00 PM – 9:00 PM</span>
-                        </div>
-                        <div class="event-detail">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <span>South Bank</span>
-                        </div>
-                        <span class="event-status attending">
-                            <i class="fa-solid fa-check"></i>
-                            Attending
-                        </span>
-                    </div>
-                </article>
-
-                <!-- EVENT 2 -->
-                <article class="browseevent-card">
-                    <div class="browseevent-card__frame">
-                        <img src="../images/pottery.jpg" alt="Pottery workshop">
-
-                        <div class="event-card_date">
-                            <strong>20</strong>
-                            <span>SEP</span>
-                        </div>
-
-                        <button class="event_card-heart-button">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-
-                    <div class="event-content">
-                        <span class="category workshop">Workshop</span>
-                        <h3>Pottery for Beginners</h3>
-                        <div class="event-detail">
-                            <i class="fa-regular fa-calendar"></i>
-                            <span>Sun, 20 Sep 2026</span>
-                        </div>
-                        <div class="event-detail">
-                            <i class="fa-regular fa-clock"></i>
-                            <span>10:00 AM – 12:00 PM</span>
-                        </div>
-                        <div class="event-detail">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <span>West End</span>
-                        </div>
-                        <span class="event-status today">Today</span>
-                    </div>
-                </article>
-            </div>
+            <div class="events-grid-profile-page" id="my-events-grid"></div>
+            <p class="my-events-empty" id="my-events-empty" hidden></p>
 
             <!-- VIEW MORE -->
             <div class="view-more">
@@ -224,13 +151,19 @@
             <div class="tab-heading">
                 <h2>Settings</h2>
             </div>
-            <p class="settings-sub">Manage profile and preferences in Edit Profile</p>
 
+            <div class="settings-intro">
+                <h3>Account settings</h3>
+                <p>Manage profile and preferences in Edit Profile</p>
+                <span id="settings-message" role="status" aria-live="polite"></span>
+            </div>
+
+            <!-- changes save automatically -->
             <form id="settings-form" novalidate>
                 <div class="settings-grid">
 
                     <!-- left column -->
-                    <div class="settings-col">
+                    <div class="settings-col settings-col--left">
                         <div class="settings-card">
                             <h3 class="settings-card__title"><i class="fa-solid fa-user"></i> Personal information</h3>
                             <div class="settings-card__body">
@@ -251,19 +184,51 @@
 
                         <div class="settings-card">
                             <h3 class="settings-card__title"><i class="fa-regular fa-circle-user"></i> Account Settings</h3>
-                            <div class="settings-card__body">
-                                <div class="settings-btn-row">
-                                    <button type="button" class="settings-btn" id="logout-btn">Log out</button>
-                                    <button type="button" class="settings-btn settings-btn--danger" id="delete-data-btn">Clear my saved data</button>
+
+                            <button type="button" class="settings-row" id="change-password-btn" aria-expanded="false" aria-controls="password-panel">
+                                <i class="fa-solid fa-key"></i>
+                                <span>Change password</span>
+                                <i class="fa-solid fa-chevron-right settings-row__chevron"></i>
+                            </button>
+
+                            <div id="password-panel" class="password-panel" hidden>
+                                <div class="settings-field">
+                                    <label for="pw-current">Current password</label>
+                                    <input type="password" id="pw-current" autocomplete="current-password">
                                 </div>
+                                <div class="settings-field">
+                                    <label for="pw-new">New password (8+ characters)</label>
+                                    <input type="password" id="pw-new" autocomplete="new-password">
+                                </div>
+                                <div class="settings-field">
+                                    <label for="pw-confirm">Confirm new password</label>
+                                    <input type="password" id="pw-confirm" autocomplete="new-password">
+                                </div>
+                                <button type="button" class="settings-btn" id="update-password-btn">Update password</button>
+                                <p id="password-message" role="status" aria-live="polite"></p>
                             </div>
+
+                            <button type="button" class="settings-row" id="logout-btn">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <span>Log out</span>
+                                <i class="fa-solid fa-chevron-right settings-row__chevron"></i>
+                            </button>
+
+                            <a href="index.html#about" class="settings-row" id="help-link">
+                                <i class="fa-regular fa-circle-question"></i>
+                                <span>Help centre</span>
+                                <i class="fa-solid fa-chevron-right settings-row__chevron"></i>
+                            </a>
                         </div>
                     </div>
 
                     <!-- right column -->
-                    <div class="settings-col">
+                    <div class="settings-col settings-col--right">
                         <div class="settings-card">
-                            <h3 class="settings-card__title"><i class="fa-regular fa-star"></i> Event preferences</h3>
+                            <h3 class="settings-card__title">
+                                <i class="fa-regular fa-star"></i> Event preferences
+                                <span class="settings-help" title="Tick the kinds of events you'd like to see more of">?</span>
+                            </h3>
                             <div class="settings-card__body">
                                 <label class="settings-check"><input type="checkbox" name="pref" value="Music"> Music</label>
                                 <label class="settings-check"><input type="checkbox" name="pref" value="Arts & Crafts"> Arts &amp; Crafts</label>
@@ -280,23 +245,21 @@
                         <div class="settings-card">
                             <h3 class="settings-card__title"><i class="fa-regular fa-bell"></i> Notifications</h3>
                             <div class="settings-card__body">
-                                <label class="settings-check"><input type="checkbox" name="notify" value="reminders"> Reminders for events I'm attending</label>
-                                <label class="settings-check"><input type="checkbox" name="notify" value="newEvents"> New events matching my preferences</label>
-                                <label class="settings-check"><input type="checkbox" name="notify" value="digest"> Weekly events digest</label>
+                                <label class="settings-toggle"><span>Event reminders</span><input type="checkbox" class="switch" name="notify" value="eventReminders"></label>
+                                <label class="settings-toggle"><span>Booked events reminder</span><input type="checkbox" class="switch" name="notify" value="bookedReminders"></label>
+                                <label class="settings-toggle"><span>Saved event updates</span><input type="checkbox" class="switch" name="notify" value="savedUpdates"></label>
+                                <label class="settings-toggle"><span>New events</span><input type="checkbox" class="switch" name="notify" value="newEvents"></label>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="settings-actions">
-                    <button type="submit" class="settings-save">Save changes</button>
-                    <span id="settings-message" role="status" aria-live="polite"></span>
                 </div>
             </form>
         </section>
     </main>
 
+    <!-- order matters: favourites.js -> profile.js -> my-events.js -->
     <script src="../js/favourites.js"></script>
     <script src="../js/profile.js"></script>
+    <script src="../js/my-events.js"></script>
 </body>
 </html>
