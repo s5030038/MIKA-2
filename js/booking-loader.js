@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let matchedEvent = null;
 
     if (requestedID) {
-        // 1. Check static EVENTS dictionary
+        // Check static EVENTS dictionary
         if (EVENTS[requestedID]) {
             matchedEvent = EVENTS[requestedID];
         } else {
@@ -25,12 +25,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    // 2. If still not found, check Brisbane City Council API datasets as a fallback
+    // If still not found, check Brisbane City Council API datasets as a fallback
     if (!matchedEvent && requestedID) {
         matchedEvent = await fetchEventFromApi(requestedID);
     }
 
-    // 3. Final fallback to first event if nothing matches anywhere
+    // Final fallback to first event if nothing matches anywhere
     const event = matchedEvent || EVENTS[eventKeys[0]];
     if (!event) return;
 
