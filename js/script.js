@@ -1,41 +1,94 @@
-//sub-nav tab switching//
+//subnav tabs and save to favourites button logic
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Sub-nav tab switching ---
     const tabLinks = document.querySelectorAll('.sub-nav .tab-link');
     const sections = document.querySelectorAll('.content-sub-nav .left-side section');
 
-    // Set default state on page load: Show 'overview', hide the rest
     sections.forEach(section => {
         if (section.id === 'overview') {
             section.classList.add('active');
         }
     });
-    // Highlight the overview tab by default
     tabLinks.forEach(link => {
         if (link.getAttribute('href') === '#overview') {
             link.classList.add('active');
         }
     });
 
-    //Handle click event on tabs
     tabLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault(); // Stop the page from jumping/scrolling
-
-            // Remove 'active' class from all links and sections
+            e.preventDefault();
             tabLinks.forEach(l => l.classList.remove('active'));
             sections.forEach(s => s.classList.remove('active'));
-
-            // Add 'active' class to the clicked tab
             link.classList.add('active');
-
-            // Find the target section and make it active (visible)
-            const targetId = link.getAttribute('href'); // e.g., '#itinerary'
+            const targetId = link.getAttribute('href');
             const targetSection = document.querySelector(targetId);
             if (targetSection) {
                 targetSection.classList.add('active');
             }
         });
     });
+
+    // --- Save to Favourites logic with reliable persistence ---
+    const saveBtn = document.getElementById("save-event-btn");
+    const eventNameEl = document.querySelector(".event-name");
+    
+    if (saveBtn) {
+        const getCurrentEventData = () => ({
+            title: eventNameEl?.textContent.trim() || "Event Title",
+            price: document.getElementById("event-price")?.textContent.trim() || "Free",
+            venue: document.getElementById("card-venue")?.textContent.trim() || document.getElementById("event-venue")?.textContent.trim() || "Venue Location",
+            date: document.getElementById("card-date")?.textContent.trim() || document.getElementById("event-date")?.textContent.trim() || "Event Date",
+            image: document.getElementById("event-image")?.src || "../images/market.jpg",
+            category: "General"
+        });
+
+        const updateButtonState = () => {
+            const eventData = getCurrentEventData();
+            // Ignore if it's still showing the default placeholder
+            if (eventData.title === "Event Title") return; 
+
+            let favourites = JSON.parse(localStorage.getItem("mika_favourites")) || [];
+            const isSaved = favourites.some(fav => fav.title === eventData.title);
+
+            if (isSaved) {
+                saveBtn.textContent = "♥ Saved";
+                saveBtn.style.backgroundColor = "#800020";
+            } else {
+                saveBtn.textContent = "♡ Save";
+                saveBtn.style.backgroundColor = "";
+            }
+        };
+
+        // Check immediately and also use a MutationObserver to catch when the loader updates the title text
+        updateButtonState();
+
+        if (eventNameEl) {
+            const observer = new MutationObserver(() => {
+                updateButtonState();
+            });
+            observer.observe(eventNameEl, { childList: true, characterData: true, subtree: true });
+        }
+
+        // Handle click to toggle save/unsave
+        saveBtn.addEventListener("click", () => {
+            const eventData = getCurrentEventData();
+            let favourites = JSON.parse(localStorage.getItem("mika_favourites")) || [];
+            const index = favourites.findIndex(fav => fav.title === eventData.title);
+
+            if (index === -1) {
+                favourites.push(eventData);
+                localStorage.setItem("mika_favourites", JSON.stringify(favourites));
+                saveBtn.textContent = "♥ Saved";
+                saveBtn.style.backgroundColor = "#800020";
+            } else {
+                favourites.splice(index, 1);
+                localStorage.setItem("mika_favourites", JSON.stringify(favourites));
+                saveBtn.textContent = "♡ Save";
+                saveBtn.style.backgroundColor = ""; 
+            }
+        });
+    }
 });
 
 //S FOR CONNECTING BRISBANE DATABASE TO THE FRONT END//
