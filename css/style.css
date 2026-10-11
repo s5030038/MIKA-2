@@ -1877,8 +1877,6 @@ summary.filter-group__title::after {
 
 
 /*---------------------------------------------------------------------------------------*/
-
-
 /* profile.css
    Extra styles for the Favourites + Settings tabs on profilePage.html.
    Link it AFTER style.css. Uses the same palette/fonts as style.css:
@@ -2282,8 +2280,303 @@ summary.filter-group__title::after {
   .profile-nav-item { min-width: 130px; }
 }
 
-/*---------------------------------------------------------------------------------------*/
 
+/* ======================================================
+   MY EVENTS tab: dropdown, hearts, placeholders
+   ====================================================== */
+
+/* custom "Sort by" dropdown (replaces the native <select>) */
+.dropdown { position: relative; display: inline-block; min-width: 210px; }
+
+.dropdown__button {
+  appearance: none;
+  -webkit-appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.7rem 1.3rem;
+  border: 1px solid #E8D8D2;
+  border-radius: 999px;
+  background: #FFFAF5;
+  font-family: "Work Sans", sans-serif;
+  font-size: 1rem;
+  color: #800020;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.dropdown__button:hover { border-color: #D45060; }
+.dropdown.is-open .dropdown__button,
+.dropdown__button:focus-visible {
+  border-color: #800020;
+  box-shadow: 0 0 0 3px rgba(212, 80, 96, 0.18);
+  outline: none;
+}
+.dropdown__chevron { font-size: 0.75rem; transition: transform 0.2s ease; }
+.dropdown.is-open .dropdown__chevron { transform: rotate(180deg); }
+
+.dropdown__menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  left: 0;
+  z-index: 30;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid #F0E2DA;
+  border-radius: 18px;
+  background: #FFFAF5;
+  box-shadow: 0 12px 30px rgba(128, 0, 32, 0.15);
+  animation: dropdown-in 0.15s ease;
+}
+.dropdown__menu[hidden] { display: none; }
+
+.dropdown__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  border-radius: 12px;
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.95rem;
+  color: #800020;
+  cursor: pointer;
+}
+.dropdown__option:hover,
+.dropdown__option:focus { background: #FFF0E8; outline: none; }
+.dropdown__option.is-selected { font-weight: 600; background: #F9EDE6; }
+.dropdown__option.is-selected::after { content: "\2713"; color: #800020; font-size: 0.9rem; }
+
+@keyframes dropdown-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* heart on My Events cards */
+.event_card-heart-button { cursor: pointer; transition: transform 0.15s ease; }
+.event_card-heart-button:hover { transform: scale(1.12); }
+.event_card-heart-button.is-active i { color: #800020; }
+
+/* cards whose image is missing get a soft placeholder instead of a broken-image icon */
+.browseevent-card__frame.no-image {
+  background: linear-gradient(135deg, #F9EDE6, #E3B4BF);
+}
+
+/* filter buttons feel clickable */
+.event-filters .filter { cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+
+.my-events-empty {
+  padding: 2rem 0;
+  font-family: "Work Sans", sans-serif;
+  color: #7C4040;
+}
+.my-events-empty[hidden] { display: none; }
+
+/*---------------------------------------------------------------------------------------*/
+/* editProfile.css*/
+
+[hidden] { display: none !important; }
+
+body.edit-profile-page { margin: 0; background: #FFFAF5; color: #800020; font-family: "Work Sans", sans-serif; }
+
+.ep-page { max-width: 900px; margin: 0 auto; padding: 1.2rem 1.5rem 3rem; }
+
+.ep-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.05rem;
+  color: #800020;
+  text-decoration: none;
+}
+.ep-back i { font-size: 0.8rem; }
+.ep-back:hover { text-decoration: underline; }
+
+.ep-title {
+  margin: 1.2rem 0 0.2rem;
+  font-family: "Playfair Display", serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #800020;
+}
+.ep-subtitle { margin: 0; font-size: 0.85rem; color: #B05A70; }
+
+.ep-form { max-width: 700px; margin: 0 auto; }
+
+/* ---------- avatar ---------- */
+.ep-avatar { display: flex; flex-direction: column; align-items: center; gap: 0.9rem; padding-bottom: 1.2rem; }
+.ep-avatar__circle {
+  display: grid;
+  place-content: center;
+  width: 114px;
+  height: 114px;
+  border-radius: 50%;
+  background: #FFF0E8;
+  overflow: hidden;
+}
+.ep-avatar__circle svg { width: 84px; height: 84px; }
+.ep-avatar__circle img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- sections ---------- */
+.ep-section { padding: 1.1rem 0 1.4rem; border-top: 1px solid #E8D8D2; }
+.ep-section__title {
+  margin: 0 0 1rem;
+  font-family: "Playfair Display", serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #B05A70;
+}
+
+.ep-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.2rem; }
+
+.ep-field { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 0.9rem; }
+.ep-field label { font-size: 0.9rem; color: #800020; }
+.req { margin-left: 2px; color: #D45060; }
+
+.ep-field input,
+.ep-select select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem 1.1rem;
+  border: 1px solid #E8D8D2;
+  border-radius: 999px;
+  background: #FFFAF5;
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.9rem;
+  color: #800020;
+}
+.ep-field input::placeholder { color: #DDAAB6; }
+.ep-field input:focus,
+.ep-select select:focus { outline: 2px solid #D45060; outline-offset: 1px; }
+.ep-field input[aria-invalid="true"] { border-color: #b3261e; }
+
+.ep-field--dob input { width: 220px; }
+.ep-field--csv input { width: 84px; text-align: center; }
+
+.ep-select { position: relative; }
+.ep-select select { appearance: none; -webkit-appearance: none; padding-right: 2.4rem; cursor: pointer; }
+.ep-select::after {
+  content: "\2304";
+  position: absolute;
+  right: 1.1rem;
+  top: 38%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.field-error { min-height: 0; margin: 0; font-size: 0.78rem; color: #b3261e; }
+.field-error:empty { display: none; }
+
+/* ---------- saved payment methods ---------- */
+#payment-list { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1rem; }
+
+.pay-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.7rem 1rem 0.7rem 0.7rem;
+  border: 1px solid #F0E2DA;
+  border-radius: 14px;
+  background: #FFFAF5;
+}
+.pay-item__icon {
+  display: grid;
+  place-content: center;
+  flex: none;
+  width: 76px;
+  height: 62px;
+  border: 1px solid #C9B5AF;
+  border-radius: 6px;
+  color: #B05A70;
+  font-size: 1.5rem;
+}
+.pay-item__info { display: flex; flex-direction: column; gap: 2px; font-size: 0.85rem; }
+.pay-item__title { color: #800020; }
+.pay-item__sub { color: #C98A9A; }
+.pay-item__badge {
+  align-self: flex-start;
+  margin-top: 3px;
+  padding: 1px 18px;
+  border-radius: 999px;
+  background: #E3B4BF;
+  font-size: 0.8rem;
+  color: #800020;
+}
+.pay-item__actions { display: flex; align-items: center; gap: 1.4rem; margin-left: auto; }
+
+.ep-link-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.85rem;
+  color: #800020;
+  cursor: pointer;
+}
+.ep-link-btn:hover { text-decoration: underline; }
+
+.ep-empty { margin: 0 0 1rem; font-size: 0.9rem; color: #B05A70; }
+
+/* add new payment method box */
+.ep-add {
+  padding: 1rem 1.1rem 1.1rem;
+  border: 1.5px dashed #E0C8C0;
+  border-radius: 14px;
+}
+.ep-add__title { margin: 0 0 0.3rem; font-size: 1.2rem; font-weight: 500; color: #800020; }
+.ep-add__note { margin: 0 0 1rem; font-size: 0.8rem; color: #B05A70; }
+.ep-add__actions { display: flex; align-items: center; gap: 1.2rem; }
+
+/* ---------- buttons ---------- */
+.ep-btn-primary,
+.ep-btn-outline {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.5rem;
+  border-radius: 999px;
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.ep-btn-primary { border: 1px solid #800020; background: #800020; color: #FFFAF5; font-size: 1rem; padding: 0.8rem 1.8rem; }
+.ep-btn-primary:hover { background: #540015; }
+.ep-btn-outline { border: 1px solid #800020; background: transparent; color: #800020; padding: 0.5rem 1.1rem; }
+.ep-btn-outline:hover { background: #800020; color: #FFFAF5; }
+.ep-btn-outline--wide { min-width: 106px; padding: 0.8rem 1.8rem; font-size: 1rem; }
+
+.ep-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.4rem;
+  margin-top: 1.5rem;
+}
+.ep-or { color: #800020; }
+.ep-status { margin-right: auto; font-size: 0.9rem; color: #2e7d4f; }
+.ep-status.is-error { color: #b3261e; }
+
+button:focus-visible,
+a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
+
+/* ---------- small screens ---------- */
+@media (max-width: 640px) {
+  .ep-row { grid-template-columns: 1fr; }
+  .ep-title { font-size: 2.2rem; }
+  .pay-item { flex-wrap: wrap; }
+  .pay-item__actions { margin-left: 0; width: 100%; justify-content: flex-end; }
+  .ep-actions { flex-wrap: wrap; }
+  .ep-status { width: 100%; }
+}
 
 /*==========================================================
    Booking Page

@@ -1,11 +1,7 @@
-// profile.js
-// profilePage.html: tab switching, Favourites list and Settings form.
-// Needs favourites.js loaded first.
-
-var SETTINGS_KEY = "mika_settings";
+var SETTINGS_KEY = "settings";
 var DEFAULT_SETTINGS = {
-  fullName: "John Doe",
-  email: "johnd@gmail.com",
+  fullName: "Enter name",
+  email: "Enter email",
   location: "Brisbane, Queensland (default)",
   preferences: [],
   notifications: { eventReminders: true, bookedReminders: true, savedUpdates: true, newEvents: true }
@@ -175,7 +171,9 @@ function loadSettings() {
         email: saved.email || DEFAULT_SETTINGS.email,
         location: saved.location || DEFAULT_SETTINGS.location,
         preferences: Array.isArray(saved.preferences) ? saved.preferences : [],
-        notifications: Object.assign({}, DEFAULT_SETTINGS.notifications, saved.notifications)
+        notifications: Object.assign({}, DEFAULT_SETTINGS.notifications, saved.notifications),
+        dob: saved.dob || "",
+        avatar: saved.avatar || ""
       };
     }
   } catch (e) { /* fall through to defaults */ }
@@ -189,6 +187,10 @@ function updateGreeting(settings) {
   var bio = document.getElementById("profile-email");
   if (greeting) greeting.textContent = "Hi, " + firstName;
   if (bio) bio.textContent = settings.email;
+
+  // photo chosen on the Edit Profile page
+  var avatarImg = document.querySelector(".avatar-img");
+  if (avatarImg && settings.avatar) avatarImg.src = settings.avatar;
 }
 
 function fillSettingsForm(settings) {
@@ -225,14 +227,13 @@ function saveSettingsFromForm() {
   if (!name) { setSettingsMessage("Please enter your full name.", true); return; }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setSettingsMessage("Please enter a valid email address.", true); return; }
 
-  var settings = {
-    fullName: name,
-    email: email,
-    location: location || DEFAULT_SETTINGS.location,
-    preferences: Array.prototype.map.call(
-      document.querySelectorAll('input[name="pref"]:checked'), function (b) { return b.value; }),
-    notifications: {}
-  };
+  var settings = loadSettings();   // keeps the photo + date of birth set on the Edit Profile page
+  settings.fullName = name;
+  settings.email = email;
+  settings.location = location || DEFAULT_SETTINGS.location;
+  settings.preferences = Array.prototype.map.call(
+    document.querySelectorAll('input[name="pref"]:checked'), function (b) { return b.value; });
+  settings.notifications = {};
   document.querySelectorAll('input[name="notify"]').forEach(function (box) {
     settings.notifications[box.value] = box.checked;
   });
@@ -318,12 +319,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // "Edit Profile" button jumps to Settings
+  // "Edit Profile" button opens the Edit Profile page
   var editBtn = document.querySelector(".edit-profile");
   if (editBtn) editBtn.addEventListener("click", function () {
-    showTab("settings");
-    var name = document.getElementById("setting-name");
-    if (name) name.focus();
+    window.location.href = "editProfilePage.html";
   });
 
   // Favourites filter + live updates when a favourite is removed
