@@ -26,6 +26,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 70px;
 }
 
 body {
@@ -2100,8 +2101,60 @@ summary.filter-group__title::after {
 /*==========================================================
    Booking Page
    ========================================================== */
+/* Make the container below the nav a side-by-side flex row */
+.content-sub-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+}
 
-/*map*/
+/* Left side takes up the remaining space */
+.content-sub-nav .left-side {
+    flex: 1;
+}
+
+/* Right side booking column stays sticky */
+.content-sub-nav .right-side {
+    flex: 0 0 30%; /* Fixed width for the card column */
+    position: sticky;
+    top: 20px;       /* Distance from the top of the screen when scrolling */
+    margin-right: 80px; /* Optional: add some spacing from the left side */
+}
+
+/* Card styling */
+.booking-card {
+    background-color: #FFF1E7;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.sub-nav {
+  position: sticky;
+  top: 0;
+  width: 50%;
+  z-index: 100; 
+  padding: 10px 0;
+  background-color: #FFF1E7;
+}
+
+/*sub-nav tabs onclick*/
+.content-sub-nav .left-side section {
+  display: none;
+}
+
+.content-sub-nav .left-side section.active {
+  display: block;
+}
+
+.sub-nav .tab-link.active {
+  font-weight: bold;
+  border-bottom: 2px solid #800020;
+}
+
+/*map in Overview tab*/
 * {
   box-sizing: border-box;
 }
