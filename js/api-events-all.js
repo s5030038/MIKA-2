@@ -1,9 +1,9 @@
 // api-events.js
-// Loads events from SEVERAL Brisbane City Council datasets, all built from the same template:
-//   creative-events, classes-and-workshops-events, films-events, fortitude-valley-malls-events
+// Loads events from SEVERAL Brisbane City Council datasets, all built from the same template.
 // Every record is tagged with the dataset it came from (record._dataset), so the card and
 // popular-card builders stay almost identical to the single-dataset template.
-// To add another dataset later (e.g. music-events), add one line to DATASETS below.
+// To add another dataset later, add one line to DATASETS below.
+//   forceCategory: (optional) overrides the category pill for EVERY event in that dataset.
 
 var API_BASE_URL = "https://data.brisbane.qld.gov.au/api/explore/v2.1/catalog/datasets/";
 var PER_DATASET_LIMIT = 20;
@@ -12,8 +12,8 @@ var DATASETS = [
   { id: "creative-events",               label: "Creative",               defaultCategory: "Creative" },
   { id: "classes-and-workshops-events",  label: "Classes & Workshops",    defaultCategory: "Workshops" },
   { id: "films-events",                  label: "Films",                  defaultCategory: "Films" },
-  { id: "fortitude-valley-malls-events", label: "Fortitude Valley Malls", defaultCategory: "Fortitude Valley" }
-  // , { id: "music-events", label: "Music", defaultCategory: "Music" }
+  { id: "fortitude-valley-malls-events", label: "Fortitude Valley Malls", defaultCategory: "Fortitude Valley" },
+  { id: "music-events",                  label: "Music",                  defaultCategory: "Music", forceCategory: "Music" }
 ];
 
 // fallback pictures when an event has no photo (one per dataset, so the grid has some variety)
@@ -59,15 +59,17 @@ function datasetIndex(dataset) {
   return index === -1 ? 0 : index;
 }
 
-// the category pill: the record's own type if it has one, otherwise the dataset's default
+// the category pill: the dataset's forced category (e.g. Music) if it has one,
+// otherwise the record's own type, otherwise the dataset's default
 function getCategory(record) {
   var dataset = record._dataset || DATASETS[0];
-  return record["primaryeventtype"] ||
+  return dataset.forceCategory ||
+         record["primaryeventtype"] ||
          toList(record["event_type"])[0] ||
          dataset.defaultCategory;
 }
 
-/*- for icons -*/ 
+/*- for icons -*/
 function getDateBadge(startIso) {
   if (!startIso) return null;
   var d = new Date(startIso);
@@ -114,7 +116,7 @@ function createEventCard(record) {
   var date = record["formatteddatetime"] || record["start_datetime"];
   var dataset = record._dataset || DATASETS[0];
 
-// skip incomplete records instead of showing broken card
+  // skip incomplete records instead of showing broken card
   if (!name || !venue || !date) return null;
 
   var slug = slugify(name);
@@ -132,9 +134,9 @@ function createEventCard(record) {
   article.dataset.cost = cost || "";
   article.dataset.source = "api";
   article.dataset.dataset = dataset.id;                       // which dataset it came from
-  article.dataset.start = record["start_datetime"] || ""; 
-  article.dataset.price = parsePrice(cost);                
-  article.dataset.ages = ages.join("|"); 
+  article.dataset.start = record["start_datetime"] || "";
+  article.dataset.price = parsePrice(cost);
+  article.dataset.ages = ages.join("|");
   article.dataset.bookings =
     record["bookingsrequired"] === "Yes" ? "required" :
     record["bookingsrequired"] === "No" ? "walkin" : "";
@@ -148,7 +150,7 @@ function createEventCard(record) {
       '<h3 class="browseevent-card__title"></h3>' +
       '<div class="browseevent-card__info"></div>' +
     '</a>';
-  
+
   //category pill (from Isabel's figma design)
   var pill = article.querySelector(".category");
   if (category) {
@@ -158,7 +160,7 @@ function createEventCard(record) {
   }
 
   article.querySelector(".browseevent-card__title").textContent = name;
-  
+
   var dt = splitDateTime(date);
   var info = article.querySelector(".browseevent-card__info");
   info.appendChild(createInfoRow(ICONS.calendar, dt.datePart));
@@ -170,14 +172,14 @@ function createEventCard(record) {
   var imageUrl = record["eventimage"];
   var frame = article.querySelector(".browseevent-card__frame");
   var img = document.createElement("img");
-  img.alt = ""; 
+  img.alt = "";
   img.loading = "lazy";
   img.src = imageUrl || fallback;
   img.onerror = function () {
-    img.onerror = null; 
+    img.onerror = null;
     img.src = fallback;
   };
-  
+
   frame.appendChild(img);
 
   var badgeInfo = getDateBadge(record["start_datetime"]);
@@ -292,9 +294,22 @@ function loadApiEvents() {
         (record["formatteddatetime"] || record["start_datetime"]);
     };
 
-    // usable records per dataset, soonest first
+    // drop events that appear in more than one dataset (same name + start time).
+    // Datasets are checked in DATASETS order, so the first one listed keeps the event.
+    var seen = {};
+    var isNew = function (record) {
+      var key = record["subject"] + "|" + record["start_datetime"];
+      if (seen[key]) return false;
+      seen[key] = true;
+      return true;
+    };
+
+    // usable, de-duplicated records per dataset, soonest first
     var byDataset = lists.map(function (list) {
-      return list.filter(isUsable).sort(function (a, b) { return startTime(a) - startTime(b); });
+      return list
+        .filter(isUsable)
+        .filter(isNew)
+        .sort(function (a, b) { return startTime(a) - startTime(b); });
     });
     // everything together, soonest first
     var records = [].concat.apply([], byDataset).sort(function (a, b) { return startTime(a) - startTime(b); });
