@@ -27,58 +27,59 @@
         <nav class="nav" aria-label="Primary">
             <a href="index.html" class="nav__link">Home</a>
             <a href="browsingPage.html" class="nav__link">Events</a>
-            <a href="index.html" class="nav__link">About Us</a>
+            <a href="index.html#about" class="nav__link">About Us</a>
         </nav>
 
         <div class="header-actions">
-            <button type="button" class="icon-btn" aria-label="saved-events">
+            <a href="profilePage.html#favourites" class="icon-btn" aria-label="saved-events">
                 <span aria-hidden="true">♡</span>
-            </button>
-            <button type="button" class="icon-btn is-active" aria-label="Profile">
+            </a>
+            <a href="profilePage.html" class="icon-btn is-active" aria-label="Profile">
                 <svg class="profile-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
                     <circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="2" />
                     <path d="M5.5 19.5c1.6-3 4-4.5 6.5-4.5s4.9 1.5 6.5 4.5" />
                 </svg>
-            </button>
+            </a>
         </div>
     </div>
 </header> 
 
-    <!-- Profile Header -->
     <main>
+        <!-- Profile Header -->
         <section class="profile-header">
             <div class="profile-info">
-                <div class = "avatar">
-                <img src="../images/profile_picture.jpg" alt="User Avatar" class="avatar-img" />
+                <div class="avatar">
+                    <img src="../images/profile_picture.jpg" alt="User Avatar" class="avatar-img" />
                 </div>
-                <h1 class="profile-name">Hi, John</h1>
-                <p class="profile-bio">john.doe@example.com</p>
+                <h1 class="profile-name" id="profile-greeting">Hi, John</h1>
+                <p class="profile-bio" id="profile-email">john.doe@example.com</p>
             </div>
-            <button class="edit-profile">
+            <button type="button" class="edit-profile">
                 <i class="fa-solid fa-pencil"></i>
                 Edit Profile
             </button>
         </section>
 
-        <!--  PROFILE NAVIGATION - events, favourites, settings --> 
-        <nav class="profile-navigation">
-            <a href="#" class="profile-nav-item active">
+        <!-- PROFILE NAVIGATION - events, favourites, settings -->
+        <nav class="profile-navigation" aria-label="Profile sections">
+            <a href="#events" class="profile-nav-item active" data-tab="events">
                 <i class="fa-regular fa-calendar"></i>
                 <span>My Events</span>
             </a>
 
-            <a href="#" class="profile-nav-item">
+            <a href="#favourites" class="profile-nav-item" data-tab="favourites">
                 <i class="fa-regular fa-heart"></i>
                 <span>Favourites</span>
             </a>
-            <a href="#" class="profile-nav-item">
+
+            <a href="#settings" class="profile-nav-item" data-tab="settings">
                 <i class="fa-solid fa-gear"></i>
-                <span>Account Settings</span>
+                <span>Settings</span>
             </a>
         </nav>
 
-            <!-- EVENTS section -->
-        <section class="events-section">
+        <!-- ============ TAB 1: MY EVENTS ============ -->
+        <section class="events-section" data-tab-panel="events">
             <!-- HEADER -->
             <div class="events-header-profile-page">
                 <div>
@@ -86,66 +87,41 @@
                     <p>
                         All your past, current and upcoming events in one place.
                     </p>
-
                 </div>
             </div>
-
 
             <!-- FILTERS -->
-        <section class = "events-filters-section">
-            <div class="event-filters">
-
-                <button class="filter active">
-                    All <span>12 (2)</span>
-                </button>
-
-                <button class="filter">
-                    Upcoming <span>3</span>
-                </button>
-
-                <button class="filter">
-                    Attended <span>6</span>
-                </button>
-
-                <button class="filter">
-                    Saved <span>8</span>
-                </button>
-
-            </div>
-
-            <div class="events-tools">
-
-                <div class="event-search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Search my events..." />
+            <section class="events-filters-section">
+                <div class="event-filters">
+                    <button class="filter active">All <span>12 (2)</span></button>
+                    <button class="filter">Upcoming <span>3</span></button>
+                    <button class="filter">Attended <span>6</span></button>
+                    <button class="filter">Saved <span>8</span></button>
                 </div>
 
+                <div class="events-tools">
+                    <div class="event-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search my events..." />
+                    </div>
 
-                <div class="sort-container">
-
-                    <label for="sort">Sort by</label>
-
-                    <select id="sort">
-
-                        <option>Date (Recent)</option>
-                        <option>Date (Latest)</option>
-                        <option>Name (A-Z)</option>
-
-                    </select>
+                    <div class="sort-container">
+                        <label for="sort">Sort by</label>
+                        <select id="sort">
+                            <option>Date (Recent)</option>
+                            <option>Date (Latest)</option>
+                            <option>Name (A-Z)</option>
+                        </select>
+                    </div>
                 </div>
+            </section>
 
-            </div>
-        </section>
-
-
-
-        
             <!-- EVENT CARDS  -->
             <div class="events-grid-profile-page">
                 <!-- EVENT 1 -->
                 <article class="browseevent-card">
                     <div class="browseevent-card__frame">
-                        <img src="images/market.jpg" alt="Brisbane Twilight Markets">
+                        <img src="../images/market.jpg" alt="Brisbane Twilight Markets">
 
                         <div class="event-card_date">
                             <strong>13</strong>
@@ -155,45 +131,34 @@
                         <button class="event_card-heart-button">
                             <i class="fa-regular fa-heart"></i>
                         </button>
-
                     </div>
 
                     <div class="event-content">
-                        <span class="category market">
-                            Market
-                        </span>
-                        <h3>
-                            Brisbane Twilight Markets
-                        </h3>
+                        <span class="category market">Market</span>
+                        <h3>Brisbane Twilight Markets</h3>
                         <div class="event-detail">
                             <i class="fa-regular fa-calendar"></i>
                             <span>Sat, 13 Sep 2026</span>
                         </div>
-
                         <div class="event-detail">
                             <i class="fa-regular fa-clock"></i>
                             <span>4:00 PM – 9:00 PM</span>
                         </div>
-
                         <div class="event-detail">
                             <i class="fa-solid fa-location-dot"></i>
                             <span>South Bank</span>
                         </div>
-
                         <span class="event-status attending">
                             <i class="fa-solid fa-check"></i>
                             Attending
                         </span>
                     </div>
-
                 </article>
 
-
                 <!-- EVENT 2 -->
-
                 <article class="browseevent-card">
                     <div class="browseevent-card__frame">
-                        <img src="images/pottery.jpg" alt="Pottery workshop" >
+                        <img src="../images/pottery.jpg" alt="Pottery workshop">
 
                         <div class="event-card_date">
                             <strong>20</strong>
@@ -203,75 +168,135 @@
                         <button class="event_card-heart-button">
                             <i class="fa-regular fa-heart"></i>
                         </button>
-
                     </div>
 
-
                     <div class="event-content">
-                        <span class="category workshop">
-                            Workshop
-                        </span>
-                        <h3>
-                            Pottery for Beginners
-                        </h3>
+                        <span class="category workshop">Workshop</span>
+                        <h3>Pottery for Beginners</h3>
                         <div class="event-detail">
                             <i class="fa-regular fa-calendar"></i>
                             <span>Sun, 20 Sep 2026</span>
                         </div>
-
                         <div class="event-detail">
                             <i class="fa-regular fa-clock"></i>
                             <span>10:00 AM – 12:00 PM</span>
                         </div>
-
                         <div class="event-detail">
                             <i class="fa-solid fa-location-dot"></i>
                             <span>West End</span>
                         </div>
-
-                        <span class="event-status today">
-                            Today
-                        </span>
+                        <span class="event-status today">Today</span>
                     </div>
-
                 </article>
-
             </div>
+
             <!-- VIEW MORE -->
-
             <div class="view-more">
-
                 <span></span>
-
-                <a href="#">
+                <a href="browsingPage.html">
                     View More Events
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
-
                 <span></span>
-
             </div>
+        </section>
+
+        <!-- ============ TAB 2: FAVOURITES ============ -->
+        <section class="events-section" data-tab-panel="favourites" hidden>
+            <div class="tab-heading">
+                <h2>My Favourites</h2>
+
+                <label class="fav-filter">
+                    <span class="visually-hidden" style="position:absolute;left:-9999px;">Filter favourites by category</span>
+                    <select id="favourites-filter">
+                        <option value="all">Filter</option>
+                    </select>
+                </label>
+            </div>
+
+            <!-- cards inserted by profile.js from the events you've hearted -->
+            <div id="favourites-list"></div>
+            <p id="favourites-empty" hidden></p>
+        </section>
+
+        <!-- ============ TAB 3: SETTINGS ============ -->
+        <section class="events-section" data-tab-panel="settings" hidden>
+            <div class="tab-heading">
+                <h2>Settings</h2>
+            </div>
+            <p class="settings-sub">Manage profile and preferences in Edit Profile</p>
+
+            <form id="settings-form" novalidate>
+                <div class="settings-grid">
+
+                    <!-- left column -->
+                    <div class="settings-col">
+                        <div class="settings-card">
+                            <h3 class="settings-card__title"><i class="fa-solid fa-user"></i> Personal information</h3>
+                            <div class="settings-card__body">
+                                <div class="settings-field">
+                                    <label for="setting-name">Full name</label>
+                                    <input type="text" id="setting-name" autocomplete="name">
+                                </div>
+                                <div class="settings-field">
+                                    <label for="setting-email">Email address</label>
+                                    <input type="email" id="setting-email" autocomplete="email">
+                                </div>
+                                <div class="settings-field">
+                                    <label for="setting-location">Location</label>
+                                    <input type="text" id="setting-location">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <h3 class="settings-card__title"><i class="fa-regular fa-circle-user"></i> Account Settings</h3>
+                            <div class="settings-card__body">
+                                <div class="settings-btn-row">
+                                    <button type="button" class="settings-btn" id="logout-btn">Log out</button>
+                                    <button type="button" class="settings-btn settings-btn--danger" id="delete-data-btn">Clear my saved data</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- right column -->
+                    <div class="settings-col">
+                        <div class="settings-card">
+                            <h3 class="settings-card__title"><i class="fa-regular fa-star"></i> Event preferences</h3>
+                            <div class="settings-card__body">
+                                <label class="settings-check"><input type="checkbox" name="pref" value="Music"> Music</label>
+                                <label class="settings-check"><input type="checkbox" name="pref" value="Arts & Crafts"> Arts &amp; Crafts</label>
+                                <label class="settings-check"><input type="checkbox" name="pref" value="Workshops"> Workshops</label>
+                                <label class="settings-check"><input type="checkbox" name="pref" value="Family-friendly"> Family-friendly</label>
+                                <label class="settings-check"><input type="checkbox" name="pref" value="Shows"> Shows</label>
+                                <label class="settings-check"><input type="checkbox" name="pref" value="Creative"> Creative</label>
+                                <div class="settings-card__footer">
+                                    <a href="#" class="settings-link" id="clear-prefs">Clear all filters</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <h3 class="settings-card__title"><i class="fa-regular fa-bell"></i> Notifications</h3>
+                            <div class="settings-card__body">
+                                <label class="settings-check"><input type="checkbox" name="notify" value="reminders"> Reminders for events I'm attending</label>
+                                <label class="settings-check"><input type="checkbox" name="notify" value="newEvents"> New events matching my preferences</label>
+                                <label class="settings-check"><input type="checkbox" name="notify" value="digest"> Weekly events digest</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-actions">
+                    <button type="submit" class="settings-save">Save changes</button>
+                    <span id="settings-message" role="status" aria-live="polite"></span>
+                </div>
+            </form>
         </section>
     </main>
 
-    <footer class="site-footer" id="about">
-        <div class="site-footer__intro">
-            <a href="index.html" class="site-footer__brand" aria-label="MIKA squared home">
-                <img src="../images/logo.png" alt="">
-                <span>MIKA²</span>
-            </a>
-            <p>Find your next creative moment and form social connections in your local community.</p>
-        </div>
-        <nav class="site-footer__links" aria-label="Footer">
-            <h2>Discover</h2>
-            <a href="index.html">Home</a>
-            <a href="browsingPage.html">Explore events</a>
-            <a href="profilePage.html">Your profile</a>
-        </nav>
-        <div class="site-footer__bottom">
-            <span>© 2026 MIKA²</span>
-            <span>Connect, Collab, Create.</span>
-        </div>
-    </footer>
+    <script src="../js/favourites.js"></script>
+    <script src="../js/profile.js"></script>
 </body>
 </html>
