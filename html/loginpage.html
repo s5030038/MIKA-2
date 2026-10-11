@@ -12,66 +12,110 @@
     <div class="bg"></div>
 
     <div class="card">
-      <div class="logo">
-        <img src="../images/logo.png" alt="MIKA² logo">
-      </div>
 
-      <div id="emailStep">
-      <h1 class="welcome">WELCOME!</h1>
-      <h2 class="question">What's your email?</h2>
+      <!-- VIEW 1: Log in (default view) -->
+      <section class="view" id="loginView" data-view>
+        <div class="logo">
+          <img src="../images/logo.png" alt="MIKA² logo">
+        </div>
 
-      <form class="form" id="emailForm">
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Email"
-          required
-        >
-
-        <button type="submit" class="btn">Continue</button>
-      </form>
-      </div>
-      <div id="passwordStep" style="display: none;">
         <h1 class="welcome">WELCOME BACK!</h1>
-        <h2 class="question" id="emailDisplay">Enter your password</h2>
+        <p class="subtitle">Log in to your MIKA² account</p>
 
-        <form class="form" id="passwordForm">
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Password"
-            required
-          >
-          <button type="submit" class="btn">Log In</button>
+        <form class="form" id="loginForm">
+          <label for="loginEmail">Enter email*</label>
+          <input type="email" id="loginEmail" name="email" placeholder="Email" required>
+
+          <label for="loginPassword">Enter password*</label>
+          <div class="password-field">
+            <input type="password" id="loginPassword" name="password" placeholder="Password" required>
+            <button type="button" class="toggle-password" aria-label="Show password">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+
+          <p class="form-message" id="loginMessage" role="alert" hidden></p>
+
+          <button type="submit" class="btn">Continue</button>
         </form>
 
         <p class="switch">
-          <a href="#" id="useDifferentEmail">Use a different email</a>
+          Join MIKA² now? <a href="#" data-goto="signupEmailView">SIGN UP</a>
         </p>
-      </div>
+      </section>
 
-      <div class="divider">
-        <span>Or sign with</span>
-      </div>
+      <!-- VIEW 2: Sign up, step 1 (email) -->
+      <section class="view" id="signupEmailView" data-view hidden>
+        <div class="logo">
+          <img src="../images/logo.png" alt="MIKA² logo">
+        </div>
 
-      <p class="terms">
-        By clicking Continue or the Apple, Google or Facebook icons,
-        you agree to MIKA²
-      </p>
+        <h1 class="welcome">JOIN MIKA²!</h1>
+        <h2 class="question">What's your email?</h2>
 
-      <div class="social-row">
-        <button class="social-btn" id="appleLogin" aria-label="Continue with Apple">
-          <img src="../images/apple icon.png" alt="Apple">
-        </button>
-        <button class="social-btn" id="googleLogin" aria-label="Continue with Google">
-          <img src="../images/google icon.png" alt="Google">
-        </button>
-        <button class="social-btn" id="facebookLogin" aria-label="Continue with Facebook">
-          <img src="../images/facebook icon.png" alt="Facebook">
-        </button>
-      </div>
+        <form class="form" id="signupEmailForm">
+          <input type="email" id="signupEmail" name="email" placeholder="Email" required>
+
+          <p class="form-message" id="signupEmailMessage" role="alert" hidden></p>
+
+          <button type="submit" class="btn">Continue</button>
+        </form>
+
+        <p class="switch">
+          Already have an account? <a href="#" data-goto="loginView">LOG IN</a>
+        </p>
+      </section>
+
+      <!-- VIEW 3: Sign up, step 2 (create password) -->
+      <section class="view" id="signupPasswordView" data-view hidden>
+        <div class="logo">
+          <img src="../images/logo.png" alt="MIKA² logo">
+        </div>
+
+        <h1 class="view-title">Create password</h1>
+
+        <form class="form" id="signupPasswordForm">
+          <label for="newPassword">Enter password</label>
+          <input type="password" id="newPassword" name="newPassword" placeholder="Password" required>
+
+          <label for="confirmPassword">Re-enter password to confirm</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Password" required>
+
+          <p class="form-message" id="signupPasswordMessage" role="alert" hidden></p>
+
+          <button type="submit" class="btn">Continue</button>
+        </form>
+
+        <p class="switch">
+          <a href="#" data-goto="signupEmailView">Change email</a>
+        </p>
+      </section>
+
+      <!-- VIEW 4: Login success -->
+      <section class="view view--center" id="loginSuccessView" data-view hidden>
+        <div class="logo">
+          <img src="../images/logo.png" alt="MIKA² logo">
+        </div>
+
+        <h1 class="view-title">Welcome back !</h1>
+
+        <a href="profilePage.html" class="btn btn--link">Go to my profile!</a>
+      </section>
+
+      <!-- VIEW 5: Signup success -->
+      <section class="view view--center" id="signupSuccessView" data-view hidden>
+        <div class="logo">
+          <img src="../images/logo.png" alt="MIKA² logo">
+        </div>
+
+        <h1 class="view-title">Thank you for creating an account with us!</h1>
+
+        <a href="profilePage.html" class="btn btn--link">Go to my profile!</a>
+      </section>
+
     </div>
   </main>
 

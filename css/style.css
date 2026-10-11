@@ -5,21 +5,21 @@
 }
 @font-face {
   font-family: "Playfair Display";
-  src: url("../fonts/PlayfairDisplay-Bold.ttf") format("truetype");
+  src: url("../fonts/PlayfairDisplay-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Playfair Display";
-  src: url("../fonts/PlayfairDisplay-Regular.ttf") format("truetype");
-  font-weight: 700;
+  src: url("../fonts/PlayfairDisplay-SemiBold.ttf") format("truetype");
+  font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Playfair Display";
-  src: url("../fonts/PlayfairDisplay-SemiBold.ttf") format("truetype");
+  src: url("../fonts/PlayfairDisplay-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
 }
@@ -204,15 +204,13 @@ a {
    MIKA² Login/Signup screens
    Palette:
    #800020 primary / heading
-   #F9EDE6 card fill
-   #FFFAF5 background fallback
+   #FFFAF5 card fill
    #D45060 accent / hover
    #7C4040 secondary text
    #3A2E2E body text
-   ============================ */ 
+   ============================ */
 
-
-*{
+* {
   box-sizing: border-box;
 }
 
@@ -222,6 +220,11 @@ body {
   color: #3A2E2E;
 }
 
+[hidden] {
+  display: none !important;
+}
+
+/* Layout: card over background */
 .screen {
   position: relative;
   width: 100%;
@@ -229,6 +232,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 24px;
   overflow: hidden;
 }
 
@@ -245,96 +249,167 @@ body {
 .card {
   position: relative;
   z-index: 1;
-  background-color: #FFFAF5;
-  border-radius: 20px;
-  padding: 48px 44px;
   width: 100%;
-  max-width: 420px;
-  text-align: center;
+  max-width: 574px;
+  padding: 44px 46px;
+  background-color: #FFFAF5;
+  border-radius: 36px;
+  text-align: left;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
 }
 
-.logo img {
-  height: 40px;
-  width: auto;
-  margin-bottom: 20px;
+/* Each screen inside the card fades in when shown */
+.view:not([hidden]) {
+  animation: viewFade 0.25s ease;
+}
+
+@keyframes viewFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Logo (scoped so the site-header logo rules don't affect it) */
+.card .logo {
   display: block;
-  margin-left: 0;
-  margin-right: auto;
+}
+
+.card .logo img {
+  width: auto;
+  height: 70px;
+  margin: 0 0 22px;
+  transform: none;
+  object-fit: contain;
+}
+
+/* Headings */
+.welcome,
+.question,
+.view-title {
+  margin: 0;
+  color: #800020;
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: left;
 }
 
 .welcome {
-  color: #800020;
-  font-family: "Playfair Display", serif;
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 40px;
   letter-spacing: 0.5px;
-  margin: 0 0 2px;
   text-transform: uppercase;
-  text-align: left;
 }
 
 .question {
-  color: #800020;
-  font-family: "Playfair Display", serif;
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  margin: 0 0 24px;
-  line-height: 1.2;
-  text-align: left;
+  margin-bottom: 24px;
+  font-size: 40px;
 }
 
+.view-title {
+  margin-bottom: 24px;
+  font-size: 40px;
+}
+
+.subtitle {
+  margin: 8px 0 30px;
+  color: #800020;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+/* Form */
 .form {
   display: flex;
   flex-direction: column;
 }
 
+.form label {
+  display: block;
+  margin: 0 0 10px;
+  color: #800020;
+  font-size: 18px;
+  font-weight: 500;
+}
+
 .form input {
-  padding: 14px 16px;
-  border-radius: 8px;
-  border: 1px solid #E3CFC7;
-  background-color: #FFFFFF;
-  font-size: 14px;
-  margin-bottom: 16px;
-  outline: none;
   width: 100%;
+  height: 60px;
+  margin-bottom: 24px;
+  padding: 0 20px;
+  border: 1px solid #3A2E2E;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  color: #800020;
+  font-family: inherit;
+  font-size: 18px;
+  outline: none;
+}
+
+.form input::placeholder {
+  color: #7a6a66;
 }
 
 .form input:focus {
-  border-color: #D45060;
+  border-color: #800020;
+  box-shadow: 0 0 0 3px rgba(128, 0, 32, 0.15);
 }
 
+/* Password input with eye icon */
 .password-field {
   position: relative;
-  display: flex;
+  margin-bottom: 24px;
 }
 
 .password-field input {
-  flex: 1;
+  margin-bottom: 0;
+  padding-right: 56px;
 }
 
 .toggle-password {
   position: absolute;
-  right: 10px;
   top: 50%;
+  right: 16px;
   transform: translateY(-50%);
-  margin-top: -8px;
+  display: grid;
+  place-items: center;
+  padding: 4px;
   background: none;
   border: none;
-  color: #7C4040;
-  font-size: 12px;
+  color: #800020;
   cursor: pointer;
 }
 
+.toggle-password:hover {
+  color: #D45060;
+}
+
+/* Error / success text under the fields */
+.form-message {
+  margin: 0 0 8px;
+  color: #B3261E;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.form-message--success {
+  color: #2E6B3A;
+}
+
+/* Buttons */
 .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 60px;
+  margin-top: 8px;
   background-color: #800020;
   color: #FFFAF5;
   border: none;
   border-radius: 8px;
-  padding: 15px;
-  font-size: 15px;
-  font-weight: 600;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
@@ -343,77 +418,80 @@ body {
   background-color: #D45060;
 }
 
-.divider {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: #7C4040;
-  font-size: 13px;
-  margin: 26px 0 18px;
+.btn--link {
+  margin-top: 0;
+  text-decoration: none;
 }
 
-.divider::before,
-.divider::after {
-  content: "";
-  flex: 1;
-  border-bottom: 1px solid #E3CFC7;
-}
-
-.divider span {
-  padding: 0 12px;
-}
-
-.terms {
-  font-size: 12px;
-  color: #7C4040;
-  line-height: 1.5;
-  margin: 0 0 22px;
-}
-
-.social-row {
-  display: flex;
-  justify-content: center;
-  gap: 28px;
-}
-
-.social-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 50%;
-  transition: transform 0.15s ease;
-}
-
-.social-btn:hover {
-  transform: scale(1.1);
-}
-
-.social-btn img {
-  height: 28px;
-  width: 28px;
-}
-
+/* Links under the button */
 .switch {
-  font-size: 13px;
-  margin-top: 22px;
-  color: #3A2E2E;
+  margin: 22px 0 0;
+  color: #800020;
+  font-size: 18px;
 }
 
 .switch a {
   color: #800020;
   font-weight: 600;
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .switch a:hover {
-  text-decoration: underline;
+  color: #D45060;
 }
 
-@media (max-width: 480px) {
+/* Confirmation screens (centred) */
+.view--center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 460px;
+  text-align: center;
+}
+
+.view--center .logo img {
+  margin: 0 auto 40px;
+  height: 70px;
+}
+
+.view--center .view-title {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.view--center .btn--link {
+  align-self: stretch;
+}
+
+/* Smaller screens */
+@media (max-width: 600px) {
   .card {
-    padding: 36px 26px;
-    max-width: 90%;
+    padding: 32px 22px;
+    border-radius: 28px;
+  }
+
+  .welcome,
+  .question,
+  .view-title {
+    font-size: 30px;
+  }
+
+  .subtitle,
+  .form label,
+  .switch {
+    font-size: 16px;
+  }
+
+  .form input,
+  .btn {
+    height: 54px;
+    font-size: 16px;
+  }
+
+  .view--center {
+    min-height: 380px;
   }
 }
 
@@ -2209,12 +2287,217 @@ summary.filter-group__title::after {
 /*==========================================================
    Booking Page
    ========================================================== */
-/* Make the container below the nav a side-by-side flex row */
+
+
+/* Banner Carousel Section */
+.banner-carousel {
+    margin-bottom: 2.5rem;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    max-height: 480px;
+    opacity: 80%;
+    overflow: hidden;
+    background: #FFFAF5;
+ }
+
+.carousel-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Carousel Arrow Buttons */
+.carousel-container .arrow-left,
+.carousel-container .arrow-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: background 0.2s ease;
+    z-index: 2;
+}
+
+.carousel-container .arrow-left { left: 20px; }
+.carousel-container .arrow-right { right: 20px; }
+
+.carousel-container .arrow-left img,
+.carousel-container .arrow-right img {
+    width: 42px;
+    height: 42px;
+}
+
+/* Event and Host Section Wrapper */
+.event-and-host {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    margin-left: 40px;
+}
+
+/* Top Row: Title on the left, Buttons across on the right */
+.event-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 2rem;
+}
+
+.event-info h1.event-name {
+    margin: 0;
+    font-family: "Playfair Display", serif;
+    font-size:40px;
+    font-weight: 700;
+    color: #800020;
+    flex: 1;
+}
+
+.event-info .buttons {
+    display: flex;
+    gap: 30px;
+    flex-shrink: 0;
+    margin-right: 60px;
+    
+}
+
+.event-info .buttons button {
+    appearance: none;
+    border: none;
+    border-radius: 999px;
+    padding: 0.65rem 1.4rem;
+    background: #D45060;
+    color: #FFFAF5;
+    font-family: "Work Sans", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.event-info .buttons button:hover {
+    background: #800020;
+}
+
+.event-info .buttons button img {
+    width: 30px;
+    height: 30px;
+    filter: brightness(0) invert(1);
+}
+
+/* Host Info Block */
+.host-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    align-self: flex-start;
+}
+
+.host-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #F9EDE6;
+    flex-shrink: 0;
+}
+
+.host-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.host-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+/* Top row: Host Name & Follow Button */
+.host-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 30px;
+}
+
+.host-name {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #5A1827;
+    font-weight: 700;
+}
+
+/* Larger Follow Button */
+.host-details button {
+    appearance: none;
+    border: none;
+    border-radius: 999px;
+    padding: 0.5rem 1.6rem; 
+    background: #5A1827; 
+    color: #FFFAF5;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* Location and Date Rows with smaller text */
+.host-info-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; 
+    font-size: 0.85rem;
+    color: #5A1827;
+}
+
+.host-info-row img {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+}
+
+.host-details .location,
+.host-details .date {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #5A1827;
+}
+
+
+.sub-nav {
+  margin-left: 40px;
+}
+
+.container-nav-tabs {
+  display: flex;
+  gap: 20px;
+}
+
+   /* Make the container below the nav a side-by-side flex row */
 .content-sub-nav {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     gap: 40px;
+    margin-left: 40px;
 }
 
 /* Left side takes up the remaining space */
@@ -2224,10 +2507,10 @@ summary.filter-group__title::after {
 
 /* Right side booking column stays sticky */
 .content-sub-nav .right-side {
-    flex: 0 0 30%; /* Fixed width for the card column */
+    flex: 0 0 30%;
     position: sticky;
-    top: 20px;       /* Distance from the top of the screen when scrolling */
-    margin-right: 80px; /* Optional: add some spacing from the left side */
+    top: 20px; 
+    margin-right: 80px; 
 }
 
 /* Card styling */
@@ -2245,7 +2528,6 @@ summary.filter-group__title::after {
   width: 50%;
   z-index: 100; 
   padding: 10px 0;
-  background-color: #FFF1E7;
 }
 
 /*sub-nav tabs onclick*/
@@ -2273,6 +2555,16 @@ summary.filter-group__title::after {
 	/* Uses viewport (vw & vh) units: https://css-tricks.com/fun-viewport-units */
   display: block;
 }
+
+#itinerary {
+  margin-bottom: 20px;
+}
+
+#itinerary img {
+  width: 50%;
+  height: 100%;
+}
+
 
 .mapUp strong{
 	color: #08f;
