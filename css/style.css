@@ -2603,7 +2603,7 @@ summary.filter-group__title::after {
 .get-tickets-wrap {
     display: flex;
     justify-content: center;
-    margin-bottom: 30px;
+    width: 100%;
 }
 .get-tickets {
     appearance: none;
@@ -2665,7 +2665,7 @@ summary.filter-group__title::after {
 }
 
 #itinerary img {
-  width: 50%;
+  width: 80%;
   height: 100%;
 }
 
