@@ -26,6 +26,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 70px;
 }
 
 body {
@@ -1808,6 +1809,28 @@ summary.filter-group__title::after {
 /*==========================================================
    Booking Page
    ========================================================== */
+.sub-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100; 
+    background-color: #fff;
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/*sub-nav tabs onclick*/
+.content-sub-nav .left-side section {
+  display: none;
+}
+
+.content-sub-nav .left-side section.active {
+  display: block;
+}
+
+.sub-nav .tab-link.active {
+  font-weight: bold;
+  border-bottom: 2px solid #800020;
+}
 
 /*map*/
 * {

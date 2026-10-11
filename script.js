@@ -1,10 +1,44 @@
-/**
-* JS FOR CONNECTING BRISBANE DATABASE TO THE FRONT END
-*/
+//sub-nav tab switching//
+document.addEventListener('DOMContentLoaded', () => {
+    const tabLinks = document.querySelectorAll('.sub-nav .tab-link');
+    const sections = document.querySelectorAll('.content-sub-nav .left-side section');
 
-/**
-* Function that iterates over the data returned by the Fetch request
-*/
+    // Set default state on page load: Show 'overview', hide the rest
+    sections.forEach(section => {
+        if (section.id === 'overview') {
+            section.classList.add('active');
+        }
+    });
+    // Highlight the overview tab by default
+    tabLinks.forEach(link => {
+        if (link.getAttribute('href') === '#overview') {
+            link.classList.add('active');
+        }
+    });
+
+    //Handle click event on tabs
+    tabLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault(); // Stop the page from jumping/scrolling
+
+            // Remove 'active' class from all links and sections
+            tabLinks.forEach(l => l.classList.remove('active'));
+            sections.forEach(s => s.classList.remove('active'));
+
+            // Add 'active' class to the clicked tab
+            link.classList.add('active');
+
+            // Find the target section and make it active (visible)
+            const targetId = link.getAttribute('href'); // e.g., '#itinerary'
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+        });
+    });
+});
+
+//S FOR CONNECTING BRISBANE DATABASE TO THE FRONT END//
 function iterateRecords(data) {
     // Log the data to the console so that we can see what is being passed to the function
     console.log("Data returned: "+JSON.stringify(data));
@@ -67,7 +101,7 @@ $(document).ready(function() {
         .catch(error => console.error("Error fetching data:", error));
 });
 
-// For Map in Browsing Page Overview
+// For Map in Browsing Page Overview //
 function iterateMapRecords(data) {
     var myMap = L.map("map").setView([-27, 153], 8);
     
