@@ -8,7 +8,7 @@ var DEFAULT_SETTINGS = {
   email: "johnd@gmail.com",
   location: "Brisbane, Queensland (default)",
   preferences: [],
-  notifications: { reminders: true, newEvents: false, digest: false }
+  notifications: { eventReminders: true, bookedReminders: true, savedUpdates: true, newEvents: true }
 };
 
 /* ---------- small helpers ---------- */
@@ -204,13 +204,19 @@ function fillSettingsForm(settings) {
   });
 }
 
+var messageTimer = null;
 function setSettingsMessage(text, isError) {
   var msg = document.getElementById("settings-message");
   if (!msg) return;
   msg.textContent = text;
   msg.classList.toggle("is-error", Boolean(isError));
+  clearTimeout(messageTimer);
+  if (text && !isError) {
+    messageTimer = setTimeout(function () { msg.textContent = ""; }, 2500);
+  }
 }
 
+// reads the whole form and saves it (called automatically whenever something changes)
 function saveSettingsFromForm() {
   var name = document.getElementById("setting-name").value.trim();
   var email = document.getElementById("setting-email").value.trim();
@@ -233,7 +239,32 @@ function saveSettingsFromForm() {
 
   localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
   updateGreeting(settings);
-  setSettingsMessage("Settings saved.", false);
+  setSettingsMessage("Changes saved.", false);
+}
+
+// change password (mock): passwords live in the same localStorage "mika_users" that auth.js uses
+function updatePassword() {
+  var msg = document.getElementById("password-message");
+  var current = document.getElementById("pw-current").value;
+  var next = document.getElementById("pw-new").value;
+  var confirmPw = document.getElementById("pw-confirm").value;
+  var email = document.getElementById("setting-email").value.trim();
+
+  function fail(text) { msg.textContent = text; msg.classList.add("is-error"); }
+
+  if (next.length < 8) return fail("New password must be at least 8 characters.");
+  if (next !== confirmPw) return fail("The new passwords don't match.");
+
+  var users = {};
+  try { users = JSON.parse(localStorage.getItem("mika_users") || "{}"); } catch (e) {}
+  if (users[email] && users[email].password !== current) return fail("Current password is incorrect.");
+
+  users[email] = { password: next };
+  localStorage.setItem("mika_users", JSON.stringify(users));
+
+  ["pw-current", "pw-new", "pw-confirm"].forEach(function (id) { document.getElementById(id).value = ""; });
+  msg.textContent = "Password updated.";
+  msg.classList.remove("is-error");
 }
 
 function setUpSettings() {
@@ -244,32 +275,36 @@ function setUpSettings() {
   fillSettingsForm(settings);
   updateGreeting(settings);
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
+  // no Save button: any change saves straight away (except the password fields)
+  form.addEventListener("submit", function (e) { e.preventDefault(); });
+  form.addEventListener("change", function (e) {
+    if (e.target.closest("#password-panel")) return;
     saveSettingsFromForm();
   });
 
-  // "Clear all filters" untick every event preference
+  // "Clear all filters" unticks every event preference
   var clear = document.getElementById("clear-prefs");
   if (clear) clear.addEventListener("click", function (e) {
     e.preventDefault();
     document.querySelectorAll('input[name="pref"]').forEach(function (b) { b.checked = false; });
+    saveSettingsFromForm();
   });
 
-  // log out (mock login only stores users in localStorage, so just go back to login)
+  // Change password row opens / closes its panel
+  var pwBtn = document.getElementById("change-password-btn");
+  var pwPanel = document.getElementById("password-panel");
+  if (pwBtn && pwPanel) pwBtn.addEventListener("click", function () {
+    pwPanel.hidden = !pwPanel.hidden;
+    pwBtn.setAttribute("aria-expanded", pwPanel.hidden ? "false" : "true");
+    pwBtn.classList.toggle("is-open", !pwPanel.hidden);
+  });
+
+  var pwUpdate = document.getElementById("update-password-btn");
+  if (pwUpdate) pwUpdate.addEventListener("click", updatePassword);
+
+  // log out (the mock login only stores users in localStorage, so just go back to login)
   var logout = document.getElementById("logout-btn");
   if (logout) logout.addEventListener("click", function () { window.location.href = "loginpage.html"; });
-
-  // delete everything this site stored in the browser
-  var del = document.getElementById("delete-data-btn");
-  if (del) del.addEventListener("click", function () {
-    if (!confirm("This clears your saved settings, favourites and mock account from this browser. Continue?")) return;
-    ["mika_settings", "mika_favourites", "mika_users"].forEach(function (k) { localStorage.removeItem(k); });
-    fillSettingsForm(DEFAULT_SETTINGS);
-    updateGreeting(DEFAULT_SETTINGS);
-    renderFavourites();
-    setSettingsMessage("Your saved data has been cleared.", false);
-  });
 }
 
 /* ---------- start-up ---------- */

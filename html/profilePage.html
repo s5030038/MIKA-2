@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -224,13 +225,19 @@
             <div class="tab-heading">
                 <h2>Settings</h2>
             </div>
-            <p class="settings-sub">Manage profile and preferences in Edit Profile</p>
 
+            <div class="settings-intro">
+                <h3>Account settings</h3>
+                <p>Manage profile and preferences in Edit Profile</p>
+                <span id="settings-message" role="status" aria-live="polite"></span>
+            </div>
+
+            <!-- changes save automatically -->
             <form id="settings-form" novalidate>
                 <div class="settings-grid">
 
                     <!-- left column -->
-                    <div class="settings-col">
+                    <div class="settings-col settings-col--left">
                         <div class="settings-card">
                             <h3 class="settings-card__title"><i class="fa-solid fa-user"></i> Personal information</h3>
                             <div class="settings-card__body">
@@ -251,19 +258,51 @@
 
                         <div class="settings-card">
                             <h3 class="settings-card__title"><i class="fa-regular fa-circle-user"></i> Account Settings</h3>
-                            <div class="settings-card__body">
-                                <div class="settings-btn-row">
-                                    <button type="button" class="settings-btn" id="logout-btn">Log out</button>
-                                    <button type="button" class="settings-btn settings-btn--danger" id="delete-data-btn">Clear my saved data</button>
+
+                            <button type="button" class="settings-row" id="change-password-btn" aria-expanded="false" aria-controls="password-panel">
+                                <i class="fa-solid fa-key"></i>
+                                <span>Change password</span>
+                                <i class="fa-solid fa-chevron-right settings-row__chevron"></i>
+                            </button>
+
+                            <div id="password-panel" class="password-panel" hidden>
+                                <div class="settings-field">
+                                    <label for="pw-current">Current password</label>
+                                    <input type="password" id="pw-current" autocomplete="current-password">
                                 </div>
+                                <div class="settings-field">
+                                    <label for="pw-new">New password (8+ characters)</label>
+                                    <input type="password" id="pw-new" autocomplete="new-password">
+                                </div>
+                                <div class="settings-field">
+                                    <label for="pw-confirm">Confirm new password</label>
+                                    <input type="password" id="pw-confirm" autocomplete="new-password">
+                                </div>
+                                <button type="button" class="settings-btn" id="update-password-btn">Update password</button>
+                                <p id="password-message" role="status" aria-live="polite"></p>
                             </div>
+
+                            <button type="button" class="settings-row" id="logout-btn">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <span>Log out</span>
+                                <i class="fa-solid fa-chevron-right settings-row__chevron"></i>
+                            </button>
+
+                            <a href="index.html#about" class="settings-row" id="help-link">
+                                <i class="fa-regular fa-circle-question"></i>
+                                <span>Help centre</span>
+                                <i class="fa-solid fa-chevron-right settings-row__chevron"></i>
+                            </a>
                         </div>
                     </div>
 
                     <!-- right column -->
-                    <div class="settings-col">
+                    <div class="settings-col settings-col--right">
                         <div class="settings-card">
-                            <h3 class="settings-card__title"><i class="fa-regular fa-star"></i> Event preferences</h3>
+                            <h3 class="settings-card__title">
+                                <i class="fa-regular fa-star"></i> Event preferences
+                                <span class="settings-help" title="Tick the kinds of events you'd like to see more of">?</span>
+                            </h3>
                             <div class="settings-card__body">
                                 <label class="settings-check"><input type="checkbox" name="pref" value="Music"> Music</label>
                                 <label class="settings-check"><input type="checkbox" name="pref" value="Arts & Crafts"> Arts &amp; Crafts</label>
@@ -280,22 +319,19 @@
                         <div class="settings-card">
                             <h3 class="settings-card__title"><i class="fa-regular fa-bell"></i> Notifications</h3>
                             <div class="settings-card__body">
-                                <label class="settings-check"><input type="checkbox" name="notify" value="reminders"> Reminders for events I'm attending</label>
-                                <label class="settings-check"><input type="checkbox" name="notify" value="newEvents"> New events matching my preferences</label>
-                                <label class="settings-check"><input type="checkbox" name="notify" value="digest"> Weekly events digest</label>
+                                <label class="settings-toggle"><span>Event reminders</span><input type="checkbox" class="switch" name="notify" value="eventReminders"></label>
+                                <label class="settings-toggle"><span>Booked events reminder</span><input type="checkbox" class="switch" name="notify" value="bookedReminders"></label>
+                                <label class="settings-toggle"><span>Saved event updates</span><input type="checkbox" class="switch" name="notify" value="savedUpdates"></label>
+                                <label class="settings-toggle"><span>New events</span><input type="checkbox" class="switch" name="notify" value="newEvents"></label>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="settings-actions">
-                    <button type="submit" class="settings-save">Save changes</button>
-                    <span id="settings-message" role="status" aria-live="polite"></span>
                 </div>
             </form>
         </section>
     </main>
 
+    <!-- order matters: favourites.js -> profile.js -->
     <script src="../js/favourites.js"></script>
     <script src="../js/profile.js"></script>
 </body>
