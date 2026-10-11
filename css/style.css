@@ -2370,6 +2370,16 @@ summary.filter-group__title::after {
   display: block;
 }
 
+#itinerary {
+  margin-bottom: 20px;
+}
+
+#itinerary img {
+  width: 50%;
+  height: 100%;
+}
+
+
 .mapUp strong{
 	color: #08f;
 	margin-bottom: 1em;
