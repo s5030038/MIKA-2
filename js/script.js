@@ -223,3 +223,148 @@ $(document).ready(function() {
         .then(data => iterateMapRecords(data))
         .catch(error => console.error("Error fetching data:", error));
 });
+
+// --- Ticket Modal Popup Logic AI WILL CHANGE AFTER MON ---
+const modal = document.getElementById('ticket-modal');
+const getTicketsBtn = document.querySelector('.get-tickets');
+const closeBtn = document.getElementById('modal-close-btn');
+
+if (getTicketsBtn && modal) {
+    // Open modal on click
+    getTicketsBtn.addEventListener('click', () => {
+        // Pull current event info from the page to populate the modal
+        document.getElementById('modal-event-title').textContent = document.querySelector('.event-name')?.textContent || "Event Title";
+        document.getElementById('modal-host-name').textContent = document.getElementById('event-host')?.textContent || "Host Name";
+        document.getElementById('modal-venue').textContent = document.getElementById('card-venue')?.textContent || "Venue Location";
+        document.getElementById('modal-date').textContent = document.getElementById('card-date')?.textContent || "Event Date";
+        
+        modal.hidden = false;
+    });
+
+    // Close modal on click of X
+    closeBtn.addEventListener('click', () => {
+        modal.hidden = true;
+    });
+
+    // Close modal when clicking outside the container backdrop
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.hidden = true;
+        }
+    });
+
+    // Interactive quantity and price calculation inside modal
+    let currentQty = 1;
+    let currentUnitPrice = 20;
+
+    const qtySpan = document.getElementById('ticket-qty');
+    const tierTotalEl = document.getElementById('selected-tier-total');
+    const cartItemDesc = document.getElementById('cart-item-desc');
+    const cartItemPrice = document.getElementById('cart-item-price');
+    const cartTotalPrice = document.getElementById('cart-total-price');
+
+    const updateTotals = () => {
+        qtySpan.textContent = currentQty;
+        const total = currentQty * currentUnitPrice;
+        const formattedTotal = `AU$${total.toFixed(2)}`;
+        
+        tierTotalEl.textContent = formattedTotal;
+        cartItemDesc.textContent = `${currentQty}x ${document.getElementById('selected-tier-name').textContent}`;
+        cartItemPrice.textContent = formattedTotal;
+        cartTotalPrice.textContent = formattedTotal;
+    };
+
+    document.getElementById('qty-plus').addEventListener('click', () => {
+        currentQty++;
+        updateTotals();
+    });
+
+    document.getElementById('qty-minus').addEventListener('click', () => {
+        if (currentQty > 1) {
+            currentQty--;
+            updateTotals();
+        }
+    });
+
+    // Handle clicking different ticket tier pills
+    document.querySelectorAll('.ticket-type-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+            document.querySelectorAll('.ticket-type-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            
+            const tierName = pill.getAttribute('data-type');
+            currentUnitPrice = parseFloat(pill.getAttribute('data-price'));
+            document.getElementById('selected-tier-name').textContent = tierName;
+            currentQty = 1; // reset quantity on tier switch
+            updateTotals();
+        });
+    });
+
+    // --- View Switching and Payment Logic ---
+    const ticketSelectionView = document.getElementById('ticket-selection-view');
+    const checkoutView = document.getElementById('checkout-view');
+    const proceedCheckoutBtn = document.getElementById('proceed-checkout-btn');
+    const backToTicketsBtn = document.getElementById('back-to-tickets-btn');
+
+    let isAtCheckout = false;
+
+    if (proceedCheckoutBtn && checkoutView && ticketSelectionView) {
+        proceedCheckoutBtn.addEventListener('click', () => {
+            if (!isAtCheckout) {
+                // Step 1: Switch from Ticket Selection view to Checkout Form view
+                ticketSelectionView.hidden = true;
+                checkoutView.hidden = false;
+                isAtCheckout = true;
+                
+                // Change button text from "Checkout" to "Pay"
+                proceedCheckoutBtn.textContent = "Pay";
+            } else {
+            // Step 2: Clicked "Pay" -> Handle successful payment state
+            proceedCheckoutBtn.textContent = "Paid ✓";
+            proceedCheckoutBtn.style.backgroundColor = "#2E6B3A"; 
+            proceedCheckoutBtn.disabled = true;
+
+            // --- SAVE EVENT TO "MY EVENTS" ---
+            const eventData = {
+                title: document.getElementById('modal-event-title')?.textContent.trim() || "Event Title",
+                venue: document.getElementById('modal-venue')?.textContent.trim() || "Venue Location",
+                date: document.getElementById('modal-date')?.textContent.trim() || "Event Date",
+                image: document.getElementById('event-image')?.src || "../images/market.jpg",
+                category: "Attending", // or whatever category/status label you use
+                status: "Attending"
+            };
+
+            // Get existing user events or initialize an empty array
+            let myEvents = JSON.parse(localStorage.getItem("mika_my_events")) || [];
+            
+            // Check if it's already added to avoid duplicates
+            const alreadyAdded = myEvents.some(ev => ev.title === eventData.title);
+            if (!alreadyAdded) {
+                myEvents.push(eventData);
+                localStorage.setItem("mika_my_events", JSON.stringify(myEvents));
+            }
+            // ---------------------------------
+
+            setTimeout(() => {
+                modal.hidden = true;
+                // Reset everything for next time
+                proceedCheckoutBtn.textContent = "Checkout";
+                proceedCheckoutBtn.style.backgroundColor = "";
+                proceedCheckoutBtn.disabled = false;
+                checkoutView.hidden = true;
+                ticketSelectionView.hidden = false;
+                isAtCheckout = false;
+            }, 1500);
+        }
+        });
+
+        if (backToTicketsBtn) {
+            backToTicketsBtn.addEventListener('click', () => {
+                checkoutView.hidden = true;
+                ticketSelectionView.hidden = false;
+                isAtCheckout = false;
+                proceedCheckoutBtn.textContent = "Checkout";
+        });
+    }
+    }
+}
