@@ -2101,7 +2101,188 @@ summary.filter-group__title::after {
 /*==========================================================
    Booking Page
    ========================================================== */
-/* Make the container below the nav a side-by-side flex row */
+
+/* Banner Carousel Section */
+.banner-carousel {
+    margin-bottom: 2.5rem;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    max-height: 480px;
+    opacity: 80%;
+    overflow: hidden;
+    background: #FFFAF5;
+ }
+
+.carousel-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Carousel Arrow Buttons */
+.carousel-container .arrow-left,
+.carousel-container .arrow-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: background 0.2s ease;
+    z-index: 2;
+}
+
+.carousel-container .arrow-left { left: 20px; }
+.carousel-container .arrow-right { right: 20px; }
+
+.carousel-container .arrow-left img,
+.carousel-container .arrow-right img {
+    width: 42px;
+    height: 42px;
+}
+
+/* Event and Host Section Wrapper */
+.event-and-host {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1.5px solid #E8D8D2;
+}
+
+/* Top Row: Title on the left, Buttons across on the right */
+.event-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 2rem;
+}
+
+.event-info h1.event-name {
+    margin: 0;
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    color: #800020;
+    flex: 1;
+}
+
+.event-info .buttons {
+    display: flex;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+.event-info .buttons button {
+    appearance: none;
+    border: none;
+    border-radius: 999px;
+    padding: 0.65rem 1.4rem;
+    background: #D45060;
+    color: #FFFAF5;
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.event-info .buttons button:hover {
+    background: #800020;
+}
+
+.event-info .buttons button img {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+}
+
+/* Host Info Block (Now sits cleanly underneath on the left) */
+.host-info {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    align-self: flex-start;
+}
+
+.host-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #F9EDE6;
+    flex-shrink: 0;
+}
+
+.host-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.host-details {
+    display: grid;
+    grid-template-columns: auto auto;
+    row-gap: 0.35rem;
+    column-gap: 1rem;
+    align-items: center;
+    font-family: "Work Sans", sans-serif;
+}
+
+.host-name {
+    grid-column: 1 / 2;
+    margin: 0;
+    font-size: 1.1rem;
+    color: #800020;
+    font-weight: 600;
+}
+
+.host-details button {
+    grid-column: 2 / 3;
+    justify-self: start;
+    appearance: none;
+    border: none;
+    border-radius: 999px;
+    padding: 0.35rem 1rem;
+    background: #800020;
+    color: #FFFAF5;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.host-details img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+
+.host-details .location,
+.host-details .date {
+    grid-column: 2;
+    margin: 0;
+    font-size: 0.88rem;
+    color: #7C4040;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+   /* Make the container below the nav a side-by-side flex row */
 .content-sub-nav {
     display: flex;
     justify-content: space-between;
