@@ -1,7 +1,7 @@
 var SETTINGS_KEY = "settings";
 var DEFAULT_SETTINGS = {
-  fullName: "Enter name",
-  email: "Enter email",
+  fullName: "John Doe",
+  email: "jdoe@gmail.com",
   location: "Brisbane, Queensland (default)",
   preferences: [],
   notifications: { eventReminders: true, bookedReminders: true, savedUpdates: true, newEvents: true }
