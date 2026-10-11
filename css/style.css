@@ -2102,6 +2102,7 @@ summary.filter-group__title::after {
    Booking Page
    ========================================================== */
 
+
 /* Banner Carousel Section */
 .banner-carousel {
     margin-bottom: 2.5rem;
@@ -2156,6 +2157,7 @@ summary.filter-group__title::after {
     flex-direction: column;
     gap: 1.5rem;
     margin-bottom: 2.5rem;
+    margin-left: 40px;
     padding-bottom: 2rem;
     border-bottom: 1.5px solid #E8D8D2;
 }
@@ -2172,7 +2174,7 @@ summary.filter-group__title::after {
 .event-info h1.event-name {
     margin: 0;
     font-family: "Playfair Display", serif;
-    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-size:40px;
     font-weight: 700;
     color: #800020;
     flex: 1;
@@ -2180,8 +2182,10 @@ summary.filter-group__title::after {
 
 .event-info .buttons {
     display: flex;
-    gap: 1rem;
+    gap: 30px;
     flex-shrink: 0;
+    margin-right: 60px;
+    
 }
 
 .event-info .buttons button {
@@ -2192,11 +2196,11 @@ summary.filter-group__title::after {
     background: #D45060;
     color: #FFFAF5;
     font-family: "Work Sans", sans-serif;
-    font-size: 0.95rem;
+    font-size: 20px;
     font-weight: 600;
+    gap: 10px;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
     cursor: pointer;
     transition: background 0.2s ease;
 }
@@ -2206,16 +2210,16 @@ summary.filter-group__title::after {
 }
 
 .event-info .buttons button img {
-    width: 16px;
-    height: 16px;
+    width: 30px;
+    height: 30px;
     filter: brightness(0) invert(1);
 }
 
-/* Host Info Block (Now sits cleanly underneath on the left) */
+/* Host Info Block */
 .host-info {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
+    gap: 1.5rem;
     align-self: flex-start;
 }
 
@@ -2235,51 +2239,67 @@ summary.filter-group__title::after {
 }
 
 .host-details {
-    display: grid;
-    grid-template-columns: auto auto;
-    row-gap: 0.35rem;
-    column-gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+/* Top row: Host Name & Follow Button */
+.host-top-row {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    font-family: "Work Sans", sans-serif;
+    width: 100%;
+    gap: 30px;
 }
 
 .host-name {
-    grid-column: 1 / 2;
     margin: 0;
-    font-size: 1.1rem;
-    color: #800020;
-    font-weight: 600;
+    font-size: 1.25rem;
+    color: #5A1827;
+    font-weight: 700;
 }
 
+/* Larger Follow Button */
 .host-details button {
-    grid-column: 2 / 3;
-    justify-self: start;
     appearance: none;
     border: none;
     border-radius: 999px;
-    padding: 0.35rem 1rem;
-    background: #800020;
+    padding: 0.5rem 1.6rem; 
+    background: #5A1827; 
     color: #FFFAF5;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
-.host-details img {
-    width: 16px;
-    height: 16px;
+/* Location and Date Rows with smaller text */
+.host-info-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; 
+    font-size: 0.85rem;
+    color: #5A1827;
+}
+
+.host-info-row img {
+    width: 14px;
+    height: 14px;
     object-fit: contain;
 }
 
 .host-details .location,
 .host-details .date {
-    grid-column: 2;
     margin: 0;
-    font-size: 0.88rem;
-    color: #7C4040;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: #5A1827;
+}
+
+
+.sub-nav {
+  margin-left: 40px;
 }
 
    /* Make the container below the nav a side-by-side flex row */
@@ -2288,6 +2308,7 @@ summary.filter-group__title::after {
     justify-content: space-between;
     align-items: flex-start;
     gap: 40px;
+    margin-left: 40px;
 }
 
 /* Left side takes up the remaining space */
