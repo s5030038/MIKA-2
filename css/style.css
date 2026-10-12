@@ -82,7 +82,7 @@ a {
   width: 48px;
   height: 48px;
   object-fit: contain;
-  transform: translateY(8.5px);
+  transform: translateY(1.5px);
 }
 
 .search {
