@@ -26,14 +26,6 @@
   }
 
   var MY_EVENTS = [
-    { id: "twilight-markets", name: "Brisbane Twilight Markets", category: "Market", venue: "South Bank",
-      start: new Date(2026, 8, 13, 16, 0).getTime(), end: new Date(2026, 8, 13, 21, 0).getTime(), image: "../images/market.jpg" },
-    { id: "pottery-beginners", name: "Pottery for Beginners", category: "Workshop", venue: "West End",
-      start: new Date(2026, 8, 20, 10, 0).getTime(), end: new Date(2026, 8, 20, 12, 0).getTime(), image: "../images/pottery.jpg" },
-    { id: "open-mic-night", name: "Open Mic Night", category: "Music", venue: "Fortitude Valley",
-      start: inDays(0, 18, 0), end: inDays(0, 20, 30), image: "" },
-    { id: "linocut-workshop", name: "Linocut Printmaking Workshop", category: "Workshop", venue: "West End",
-      start: inDays(6, 13, 0), end: inDays(6, 16, 0), image: "" },
     { id: "riverside-film-night", name: "Riverside Film Night", category: "Creative", venue: "South Bank",
       start: inDays(14, 18, 30), end: inDays(14, 21, 0), image: "" }
   ];
