@@ -458,55 +458,7 @@
     renderCalendarPanel(map);
   }
 
-  /* ---------- "Add to my calendar" (.ics file) ---------- */
 
-  // upcoming events you're going to or have saved (ignores the filter buttons)
-  function exportItems() {
-    return buildItems().filter(function (i) {
-      return i.start != null && i.start >= startOfToday() && (i.going || i.saved);
-    }).sort(function (a, b) { return a.start - b.start; });
-  }
-
-  function pad(n) { return String(n).padStart(2, "0"); }
-  function icsDate(ms) {
-    var d = new Date(ms);
-    return d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + "T" + pad(d.getHours()) + pad(d.getMinutes()) + "00";
-  }
-  function icsText(text) {
-    return String(text).replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
-  }
-
-  function downloadIcs() {
-    var items = exportItems();
-    if (!items.length) return;
-
-    var lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//MIKA//My Events//EN", "CALSCALE:GREGORIAN"];
-    var stamp = icsDate(Date.now());
-    items.forEach(function (i) {
-      var end = i.end || i.start + 2 * 60 * 60 * 1000;     // unknown end time: assume 2 hours
-      lines.push(
-        "BEGIN:VEVENT",
-        "UID:" + i.id + "@mika",
-        "DTSTAMP:" + stamp,
-        "DTSTART:" + icsDate(i.start),
-        "DTEND:" + icsDate(end),
-        "SUMMARY:" + icsText(i.name),
-        "LOCATION:" + icsText(i.venue),
-        "END:VEVENT"
-      );
-    });
-    lines.push("END:VCALENDAR");
-
-    var blob = new Blob([lines.join("\r\n")], { type: "text/calendar;charset=utf-8" });
-    var url = URL.createObjectURL(blob);
-    var link = document.createElement("a");
-    link.href = url;
-    link.download = "my-events.ics";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-  }
 
   /* ---------- render ---------- */
 

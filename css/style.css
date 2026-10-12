@@ -2423,7 +2423,7 @@ summary.filter-group__title::after {
   border-radius: 18px;
   background: #FFFFFF;
 }
-.cal-card__head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.8rem; }
+.cal-card__head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.8rem; font-family: "Work Sans", sans-serif; font-size: 0.9rem; color: #7C4040; }
 .cal-card__head h3 {
   margin: 0 auto 0 0;
   font-family: "Playfair Display", serif;
@@ -2437,7 +2437,7 @@ summary.filter-group__title::after {
   border: 1px solid #800020;
   border-radius: 999px;
   background: transparent;
-  font: inherit;
+  font-family: "Work Sans", sans-serif;
   font-size: 0.8rem;
   font-weight: 700;
   color: #800020;
@@ -2546,6 +2546,7 @@ summary.filter-group__title::after {
   padding: 1.2rem;
   border-radius: 18px;
   background: #FFF6F0;
+  font-family: "Work Sans", sans-serif;
 }
 .calendar-panel__label { margin: 0; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: #B05A70; }
 .calendar-panel__date {
@@ -2661,25 +2662,7 @@ summary.filter-group__title::after {
 .cal-row__title { font-size: 0.85rem; font-weight: 700; color: #3A2E2E; }
 .cal-row__sub { font-size: 0.74rem; color: #7C4040; }
 
-/* add to my calendar */
-.cal-add {
-  appearance: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.65rem;
-  border: 1px solid #800020;
-  border-radius: 999px;
-  background: transparent;
-  font: inherit;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #800020;
-  cursor: pointer;
-}
-.cal-add:hover:not(:disabled) { background: #800020; color: #FFFFFF; }
-.cal-add:disabled { opacity: 0.45; cursor: not-allowed; }
+
 
 /* ---------- small screens ---------- */
 @media (max-width: 900px) {
