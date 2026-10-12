@@ -384,13 +384,13 @@
   }
 
   function renderCalendarPanel(map) {
-    var panel = $("cal-panel");
+    var panel = $("calendar-panel");
     if (!panel) return;
     panel.innerHTML = "";
 
     var sel = new Date(state.selected);
-    panel.appendChild(el("p", "cal-panel__label", "SELECTED DAY"));
-    panel.appendChild(el("h3", "cal-panel__date", FULL_DAYS[sel.getDay()] + ", " + sel.getDate() + " " + FULL_MONTHS[sel.getMonth()]));
+    panel.appendChild(el("p", "calendar-panel__label", "SELECTED DAY"));
+    panel.appendChild(el("h3", "calendar-panel__date", FULL_DAYS[sel.getDay()] + ", " + sel.getDate() + " " + FULL_MONTHS[sel.getMonth()]));
     if (isSameDay(state.selected, Date.now())) panel.appendChild(el("span", "cal-today-pill", "Today"));
 
     var dayEvents = map[keyOf(state.selected)] || [];
@@ -411,7 +411,7 @@
     }).sort(function (a, b) { return a.start - b.start; }).slice(0, 3);
 
     if (upcoming.length) {
-      panel.appendChild(el("p", "cal-panel__label", "COMING UP"));
+      panel.appendChild(el("p", "calendar-panel__label", "COMING UP"));
       var list = el("div", "cal-upcoming");
       upcoming.forEach(function (ev) {
         var d = new Date(ev.start);
