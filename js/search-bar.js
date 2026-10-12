@@ -39,10 +39,10 @@ function categoryIconClass(icon, selected) {
 
 // value = what the API stores in "agerange", label = what the visitor sees
 var WHO_OPTIONS = [
+  { value: "Seniors", label: "Seniors" },
   { value: "Adults (30+)", label: "Adults (30+)" },
   { value: "Young adults", label: "Young adults" },
   { value: "Teens", label: "Teenagers" },
-  { value: "Seniors", label: "Seniors" },
   { value: "Kids", label: "Kids" },
   { value: "Preschool kids", label: "Preschool kids" },
   { value: "Infants and toddlers", label: "Infants & toddlers" }
