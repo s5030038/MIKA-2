@@ -23,6 +23,19 @@
   background: #800020;
 }
 
+.search-bar__label {
+  flex-shrink: 0;
+  padding: 0 0.5rem 0 1.25rem;
+  color: #FFFAF5;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.05rem;
+  opacity: 0.75;          /* slightly softer than the clickable words */
+  pointer-events: none;   /* clicks pass straight through */
+  user-select: none;
+}
+
+
+
 .search-bar__item {
   position: relative;
   flex: 1 1 0;
@@ -389,6 +402,11 @@
   .search-bar__submit {
     flex: 1 1 100%;
     margin: 0.25rem 0 0;
+  }
+  
+  .search-bar__label {
+    flex: 1 1 100%;
+    padding: 0.4rem 1rem 0;
   }
 
   /* panels slide up from the bottom of the screen instead of hanging under the bar */
