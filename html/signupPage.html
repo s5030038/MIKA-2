@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIKA² — Sign Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="login-page">
+
+  <main class="screen">
+    <div class="bg"></div>
+
+    <div class="card">
+
+      <section class="view" id="signupEmailView" data-view>
+        <div class="logo">
+          <img src="../images/logo.png" alt="MIKA² logo">
+        </div>
+
+        <h1 class="welcome">JOIN MIKA²!</h1>
+        <h2 class="question">What's your email?</h2>
+
+        <form class="form" id="signupEmailForm" novalidate>
+          <label class="visually-hidden" for="signupEmail">Email</label>
+          <input type="email" id="signupEmail" name="email" placeholder="Email" autocomplete="email" required>
+
+          <p class="form-message" id="signupEmailMessage" role="alert" hidden></p>
+
+          <button type="submit" class="btn">Continue</button>
+        </form>
+
+      </section>
+
+      <section class="view" id="signupPasswordView" data-view hidden>
+        <div class="logo">
+          <img src="../images/logo.png" alt="MIKA² logo">
+        </div>
+
+        <h1 class="view-title">Create password</h1>
+
+        <form class="form" id="signupPasswordForm" novalidate>
+          <label for="newPassword">Enter password</label>
+          <input type="password" id="newPassword" name="newPassword" placeholder="Password" autocomplete="new-password" required>
+
+          <label for="confirmPassword">Re-enter password to confirm</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Password" autocomplete="new-password" required>
+
+          <p class="form-message" id="signupPasswordMessage" role="alert" hidden></p>
+
+          <button type="submit" class="btn">Continue</button>
+        </form>
+
+        <p class="login-switch">
+          <a href="#" data-goto="signupEmailView">Change email</a>
+        </p>
+      </section>
+
+      <section class="view view--center" id="signupSuccessView" data-view hidden>
+        <div class="logo">
+          <img src="../images/logo.png" alt="MIKA² logo">
+        </div>
+
+        <h1 class="view-title">Thank you for creating an account with us!</h1>
+
+        <a href="profilePage.html" class="btn btn--link">Go to my profile!</a>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="../js/script.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+</html>
