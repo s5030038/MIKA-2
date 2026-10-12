@@ -110,6 +110,26 @@ function createInfoRow(iconClass, text) {
   return row;
 }
 
+// "2026-10-13" in Brisbane time, to match the calendar's day keys
+function getBrisbaneDay(startIso) {
+  var d = new Date(startIso);
+  if (!startIso || isNaN(d)) return "";
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Australia/Brisbane",
+    year: "numeric", month: "2-digit", day: "2-digit"
+  }).format(d);
+}
+
+// suburb if the dataset has one, otherwise the part after the last comma of the location
+function getSuburb(record) {
+  var explicit = record["suburb"] || record["venue_suburb"] || record["locality"];
+  if (explicit) return explicit;
+
+  var loc = record["location"] || "";
+  var parts = loc.split(",");
+  return parts.length > 1 ? parts[parts.length - 1].trim() : loc.trim();
+}
+
 function createEventCard(record) {
   var name = record["subject"];
   var venue = record["location"];
@@ -137,6 +157,8 @@ function createEventCard(record) {
   article.dataset.start = record["start_datetime"] || "";
   article.dataset.price = parsePrice(cost);
   article.dataset.ages = ages.join("|");
+  article.dataset.day = getBrisbaneDay(record["start_datetime"]);
+  article.dataset.suburb = getSuburb(record);
   article.dataset.bookings =
     record["bookingsrequired"] === "Yes" ? "required" :
     record["bookingsrequired"] === "No" ? "walkin" : "";
