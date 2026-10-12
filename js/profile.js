@@ -7,7 +7,6 @@ var DEFAULT_SETTINGS = {
   notifications: { eventReminders: true, bookedReminders: true, savedUpdates: true, newEvents: true }
 };
 
-/* ---------- small helpers ---------- */
 
 // create an element with optional class + text (textContent keeps API data safe)
 function el(tag, className, text) {
@@ -23,8 +22,8 @@ function icon(classes) {
   return i;
 }
 
-/* ---------- tabs ---------- */
 
+/* show tab function to display tabs that are selected */
 function showTab(tab) {
   document.querySelectorAll("[data-tab-panel]").forEach(function (panel) {
     panel.hidden = panel.dataset.tabPanel !== tab;
