@@ -29,7 +29,6 @@
             <a href="index.html" class="nav__link">Home</a>
             <a href="browsingPage.html" class="nav__link">Events</a>
             <a href="index.html#about" class="nav__link">About Us</a>
-            
         </nav>
 
         <div class="header-actions">
@@ -111,12 +110,47 @@
                         <label for="sort-dropdown-button">Sort by</label>
                         <div class="dropdown" id="sort-dropdown"></div>
                     </div>
+
+                    <div class="view-toggle" role="group" aria-label="Choose how to view your events">
+                        <button type="button" class="view-toggle__btn is-active" data-view="list" aria-pressed="true">
+                            <i class="fa-solid fa-list" aria-hidden="true"></i> List
+                        </button>
+                        <button type="button" class="view-toggle__btn" data-view="calendar" aria-pressed="false">
+                            <i class="fa-regular fa-calendar" aria-hidden="true"></i> Calendar
+                        </button>
+                    </div>
                 </div>
             </section>
 
             <!-- EVENT CARDS  -->
             <div class="events-grid-profile-page" id="my-events-grid"></div>
             <p class="my-events-empty" id="my-events-empty" hidden></p>
+
+            <!-- CALENDAR VIEW (month grid + selected-day panel, filled in by my-events.js) -->
+            <div class="my-calendar" id="my-calendar" hidden>
+                <section class="cal-card" aria-label="Calendar of my events">
+                    <div class="cal-card__head">
+                        <h3 id="cal-title" aria-live="polite">Month Year</h3>
+                        <button type="button" class="cal-today-btn" id="cal-today">Today</button>
+                        <button type="button" class="cal-nav" id="cal-prev" aria-label="Previous month"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+                        <button type="button" class="cal-nav" id="cal-next" aria-label="Next month"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+                    </div>
+
+                    <div class="cal-weekdays" aria-hidden="true">
+                        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                    </div>
+                    <div class="cal-grid" id="cal-grid"></div>
+
+                    <div class="cal-legend">
+                        <span><i class="cal-dot is-attending"></i>Attending</span>
+                        <span><i class="cal-dot is-saved"></i>Saved</span>
+                        <span><i class="cal-dot is-attended"></i>Attended</span>
+                        <span><i class="cal-dot is-today"></i>Today</span>
+                    </div>
+                </section>
+
+                
+            </div>
 
             <!-- VIEW MORE -->
             <div class="view-more">
