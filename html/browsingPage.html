@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MIKA² - Discover Events</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/browse-search-bar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -26,22 +27,32 @@
             <a href="index.html" class="nav__link">Home</a>
             <a href="browsingPage.html" class="nav__link is-active">Events</a>
             <a href="index.html" class="nav__link">About Us</a>
+            <a href="profilePage.html#favourites" class="icon-btn" aria-label="saved-events">
+                <span aria-hidden="true" style="font-size: 30px;">♡</span>
+            </a>
         </nav>
 
-
         <div class="header-actions">
-            <a href="profilePage.html#favourites" class="icon-btn" aria-label="saved-events">
-                <span aria-hidden="true">♡</span>
-
-            <a href="profilePage.html" class="icon-btn" aria-label="Profile">
+            <div class="dropdown-profile-icon">
+                <a href="profilePage.html" class="icon-btn" aria-label="Profile">
+                <!-- SVG icon for profile - <svg> creates a vector graphic -->
                 <svg class="profile-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
                     <circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="2" />
                     <path d="M5.5 19.5c1.6-3 4-4.5 6.5-4.5s4.9 1.5 6.5 4.5" />
                 </svg>
-            </a>
+                </a>
+                <div class="dropdown-content-profile">
+                    <a href="profilePage.html">
+                        <i class="fa-regular fa-circle-user"></i> Profile</a>
+                    <a href="loginPage.html"> 
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout </a>
+                    <a href="profilePage.html#settings">
+                        <i class="fa-solid fa-gear"></i> Settings</a>
+                </div>
+            </div>
         </div>
     </div>
-  </header>  
+</header> 
 
   <main>
     <section class="bphero">
@@ -50,6 +61,29 @@
         </div>
         <div class="bphero__art">
             <img src="../images/recordplayerart.png" alt="Record Player" width="180" height="120"/>
+        </div>
+    </section>
+
+    <section class="search-bar" id="search-bar" aria-label="Find events">
+        <div class="search-bar__pill">
+            <span class="search-bar__label">Search:</span>
+            <div class="search-bar__item">
+                <button type="button" class="search-bar__segment" data-panel="category" aria-expanded="false" aria-controls="panel-category">Category</button>
+                <div class="search-panel" id="panel-category" hidden></div>
+            </div>
+            <div class="search-bar__item">
+                <button type="button" class="search-bar__segment" data-panel="where" aria-expanded="false" aria-controls="panel-where">Where</button>
+                <div class="search-panel" id="panel-where" hidden></div>
+            </div>
+            <div class="search-bar__item search-bar__item--wide">
+                <button type="button" class="search-bar__segment" data-panel="when" aria-expanded="false" aria-controls="panel-when">When</button>
+                <div class="search-panel search-panel--when" id="panel-when" hidden></div>
+            </div>
+            <div class="search-bar__item">
+                <button type="button" class="search-bar__segment" data-panel="who" aria-expanded="false" aria-controls="panel-who">Who</button>
+                <div class="search-panel" id="panel-who" hidden></div>
+            </div>
+            <button type="button" class="search-bar__clear" id="search-clear" hidden>Clear</button>
         </div>
     </section>
 
@@ -99,88 +133,6 @@
                     </label>
                 </div>
             </details>
-
-            <details class="filter-group" open>
-                <summary class="filter-group__title">CATEGORY</summary>
-                <div class="filter-options" id="category-filters">
-                    <label class="filter-option">
-                        <input type="checkbox" name="category" value="Music" />
-                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
-                        <span>Music</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="category" value="Festivals" />
-                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
-                        <span>Festivals</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="category" value="Creative" />
-                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
-                        <span>Creative</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="category" value="Art" />
-                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
-                        <span>Art</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="category" value="Tours" />
-                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
-                        <span>Tours</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="category" value="Exhibitions" />
-                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
-                        <span>Exhibitions</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="category" value="Workshops" />
-                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
-                        <span>Workshops</span>
-                    </label>
-                </div>
-            </details>
-            
-            <details class="filter-group" open>
-                <summary class="filter-group__title">AGE RANGE</summary>
-                <div class="filter-options">
-                    <label class="filter-option">
-                        <input type="checkbox" name="age" value="Infants and toddlers" />
-                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
-                        <span>Infants &amp; toddlers</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="age" value="Preschool kids" />
-                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
-                        <span>Preschool kids</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="age" value="Kids" />
-                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
-                        <span>Kids</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="age" value="Teens" />
-                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
-                        <span>Teenagers</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="age" value="Young adults" />
-                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
-                        <span>Young adults</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="age" value="Adults (30+)" />
-                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
-                        <span>Adults (30+)</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="age" value="Seniors" />
-                        <span class="filter-option__control filter-option__control--check" aria-hidden="true"></span>
-                        <span>Seniors</span>
-                    </label>
-                </div>
-            </details>
             
             <details class="filter-group" open>
                 <summary class="filter-group__title">BOOKINGS</summary>
@@ -197,11 +149,6 @@
                     </label>
                 </div>
             </details>
-
-            <details class="filter-group" open>
-                <summary class="filter-group__title">VENUE</summary>
-                <div class="filter-options filter-options--scroll" id="venue-filters"></div> 
-            </details>
         </aside>
         
         <!-- Event card section -->
@@ -213,6 +160,8 @@
             <section class="browseevents" id="browseevents" aria-label="Upcoming events">
                 <!-- event card insert via api-events.js -->
             </section>
+
+            <p class="browseevents__empty" id="no-results" hidden>No events match your filters. Try clearing some.</p>
         </div>
     </div>
   </main>
@@ -239,6 +188,7 @@
 
   <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top">↑</button>
   <script src="../js/filters.js"></script>
+  <script src="../js/search-bar.js"></script>
   <script src="../js/api-events-all.js"></script>
   <script src="../js/back-to-top.js"></script>
   <script src="../js/script.js"></script>

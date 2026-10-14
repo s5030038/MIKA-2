@@ -13,10 +13,16 @@ function getPrice(card) {
 
 /*--- filter and sort ---*/
 function applyFiltersAndSort() {
-  var categories = getChecked("category");
-  var ages = getChecked("age");
+    // for search bar
+  var search = window.searchFilters || {};
+  var categories = search.categories || [];
+  var suburbs = search.suburbs || [];
+  var ages = search.ages || [];
+  var start = search.start || "";
+  var end = search.end || "";
+ 
+  // for the sidebar
   var bookings = getChecked("bookings");
-  var venues = getChecked("venue");
  
   var freeOnlyInput = document.getElementById("free-only");
   var freeOnly = freeOnlyInput ? freeOnlyInput.checked : false;
@@ -28,12 +34,14 @@ function applyFiltersAndSort() {
   if (!container) return;
  
   var cards = Array.from(container.querySelectorAll(".browseevent-card"));
+  var visibleCount = 0;
  
   cards.forEach(function (card) {
     var matchesCategory =
       categories.length === 0 || categories.includes(card.dataset.category);
  
-    var matchesFree = !freeOnly || card.dataset.price === "0";
+    var matchesSuburb =
+      suburbs.length === 0 || suburbs.includes(card.dataset.suburb);
  
     // age groups: "Kids, Teens, Seniors" -> match if checked group is there
     // no age range -> doen't match if age filter is active
@@ -42,18 +50,30 @@ function applyFiltersAndSort() {
       ages.length === 0 ||
       ages.some(function (a) { return cardAges.includes(a); });
  
+    // one day chosen = that day; two days chosen = everything between (inclusive).
+    // data-day looks like "2026-09-22", so plain text comparison works.
+    var matchesDate = true;
+    if (start) {
+      var day = card.dataset.day || "";
+      matchesDate = end ? (day >= start && day <= end) : day === start;
+    }
+ 
+    var matchesFree = !freeOnly || card.dataset.price === "0";
+ 
     var matchesBookings =
       bookings.length === 0 || bookings.includes(card.dataset.bookings);
  
-    var matchesVenue =
-      venues.length === 0 || venues.includes(card.dataset.venue);
+    var show = matchesCategory && matchesSuburb && matchesAge &&
+      matchesDate && matchesFree && matchesBookings;
  
-    card.classList.toggle(
-      "is-hidden",
-      !(matchesCategory && matchesFree && matchesAge && matchesBookings && matchesVenue)
-    );
+    card.classList.toggle("is-hidden", !show);
+    if (show) visibleCount++;
   });
- 
+
+  // "no results" message (only once the cards have loaded)
+  var emptyMessage = document.getElementById("no-results");
+  if (emptyMessage) emptyMessage.hidden = visibleCount > 0 || cards.length === 0;
+
   cards.sort(function (a, b) {
     if (sortValue === "price-low" || sortValue === "price-high") {
       var pa = getPrice(a);
@@ -71,43 +91,6 @@ function applyFiltersAndSort() {
     return sortValue === "latest" ? -diff : diff;
   });
   cards.forEach(function (card) { container.appendChild(card); });
-}
- 
-/*-- venue checkbox --*/
- 
-function buildVenueFilters() {
-  var list = document.getElementById("venue-filters");
-  var container = document.getElementById("browseevents");
-  if (!list || !container) return;
- 
-  var venues = Array.from(container.querySelectorAll(".browseevent-card"))
-    .map(function (card) { return card.dataset.venue; })
-    .filter(Boolean);
- 
-  var unique = Array.from(new Set(venues)).sort();
- 
-  list.innerHTML = "";
-  unique.forEach(function (venue) {
-    var label = document.createElement("label");
-    label.className = "filter-option";
- 
-    var input = document.createElement("input");
-    input.type = "checkbox";
-    input.name = "venue";
-    input.value = venue;
- 
-    var control = document.createElement("span");
-    control.className = "filter-option__control filter-option__control--check";
-    control.setAttribute("aria-hidden", "true");
- 
-    var text = document.createElement("span");
-    text.textContent = venue; 
- 
-    label.appendChild(input);
-    label.appendChild(control);
-    label.appendChild(text);
-    list.appendChild(label);
-  });
 }
  
 /*-- sidebar -> open/close + clear feature --*/

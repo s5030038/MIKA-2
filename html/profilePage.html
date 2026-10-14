@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -29,12 +28,12 @@
             <a href="index.html" class="nav__link">Home</a>
             <a href="browsingPage.html" class="nav__link">Events</a>
             <a href="index.html#about" class="nav__link">About Us</a>
+            <a href="profilePage.html#favourites" class="icon-btn" aria-label="saved-events">
+                <span aria-hidden="true" style="font-size: 30px;">♡</span>
+            </a>
         </nav>
 
         <div class="header-actions">
-            <a href="profilePage.html#favourites" class="icon-btn" aria-label="saved-events">
-                <span aria-hidden="true">♡</span>
-            </a>
             <div class="dropdown-profile-icon">
                 <a href="profilePage.html" class="icon-btn is-active" aria-label="Profile">
                 <!-- SVG icon for profile - <svg> creates a vector graphic -->
@@ -44,9 +43,12 @@
                 </svg>
                 </a>
                 <div class="dropdown-content-profile">
-                    <a href="profilePage.html">Profile</a>
-                    <a href="loginPage.html">Logout</a>
-                    <a href="profilePage.html#settings">Settings</a>
+                    <a href="profilePage.html">
+                        <i class="fa-regular fa-circle-user"></i> Profile</a>
+                    <a href="loginPage.html"> 
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout </a>
+                    <a href="profilePage.html#settings">
+                        <i class="fa-solid fa-gear"></i> Settings</a>
                 </div>
             </div>
         </div>
@@ -87,7 +89,7 @@
             </a>
         </nav>
 
-        <!-- ============ TAB 1: MY EVENTS ============ -->
+        <!-- TAB 1: MY EVENTS  -->
         <section class="events-section" data-tab-panel="events">
             <!-- HEADER -->
             <div class="events-header-profile-page">
@@ -171,7 +173,7 @@
             </div>
         </section>
 
-        <!-- ============ TAB 2: FAVOURITES ============ -->
+        <!-- TAB 2: FAVOURITES  -->
         <section class="events-section" data-tab-panel="favourites" hidden>
             <div class="tab-heading">
                 <h2>My Favourites</h2>
@@ -189,7 +191,7 @@
             <p id="favourites-empty" hidden></p>
         </section>
 
-        <!-- ============ TAB 3: SETTINGS ============ -->
+        <!--  TAB 3: SETTINGS  -->
         <section class="events-section" data-tab-panel="settings" hidden>
             <div class="tab-heading">
                 <h2>Settings</h2>
