@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<!-- header -->
+<header class="site-header">
+    <!-- logo & search bar -->
+    <div class="header-start"> 
+        <a href="index.html" class="logo" aria-label="Home">
+            <img src="../images/logo.png" alt="Site logo" />
+        </a>
+        <!-- search bar -->
+        <form class="search" action="#" method="get">
+            <span class="search__icon" aria-hidden="true">⌕</span>
+            <input id="search-input" type="search" name="q" placeholder="Search for Events..." autocomplete="off" />
+        </form>
+    </div>
+    <!-- right side of header (nav links, saved, profile) -->
+    <div class="header-end">
+        <nav class="nav" aria-label="Primary">
+            <a href="index.html" class="nav__link">Home</a>
+            <a href="browsingPage.html" class="nav__link">Events</a>
+            <a href="index.html#about" class="nav__link">About Us</a>
+            <a href="profilePage.html#favourites" class="icon-btn" aria-label="saved-events">
+                <span aria-hidden="true" style="font-size: 30px;">♡</span>
+            </a>
+        </nav>
+
+        <div class="header-actions">
+            <div class="dropdown-profile-icon">
+                <a href="profilePage.html" class="icon-btn is-active" aria-label="Profile">
+                <!-- SVG icon for profile - <svg> creates a vector graphic -->
+                <svg class="profile-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                    <circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="2" />
+                    <path d="M5.5 19.5c1.6-3 4-4.5 6.5-4.5s4.9 1.5 6.5 4.5" />
+                </svg>
+                </a>
+                <div class="dropdown-content-profile">
+                    <a href="profilePage.html">
+                        <i class="fa-regular fa-circle-user"></i> Profile</a>
+                    <a href="loginPage.html"> 
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout </a>
+                    <a href="profilePage.html#settings">
+                        <i class="fa-solid fa-gear"></i> Settings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header> 
+
+<main>
+
+    <!-- intro -->
+    <section class="ab-hero">
+        <div class="ab-wrap">
+            <h1>About us</h1>
+            <p class="ab-hero__lead">
+                MIKA² is a student project. We collect niche Brisbane events in one place for people who feel
+                lonely or bored and want to find something they'd actually enjoy doing.
+            </p>
+            <p class="ab-hero__links">
+                <a href="#group" class="ab-pill">Our group</a>
+                <a href="#ai-declaration" class="ab-pill ab-pill--outline">AI declaration</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- ===== SECTION 1: GROUP INTRODUCTION ===== -->
+    <section class="ab-section" id="group" aria-labelledby="group-title">
+        <div class="ab-wrap">
+            <h2 id="group-title">Our group</h2>
+
+            <div class="ab-intro">
+                <p>
+                    We're a group of university students building MIKA² as a team project. Brisbane has plenty on,
+                    but the small, offbeat events are hard to find, and turning up to one on your own can feel like
+                    a big step.
+                </p>
+                <p>
+                    So we gathered them in one place, made them easy to filter and save, and added a space to
+                    chat with other people going before the day. Our tagline says what we're aiming for:
+                    connect, collab, create.
+                </p>
+            </div>
+
+            <!-- people are added by about.js from the TEAM list at the top of that file -->
+            <ul class="team-list" id="team-list" aria-label="Group members"></ul>
+        </div>
+    </section>
+
+    <!-- ===== SECTION 2: AI DECLARATION ===== -->
+    <section class="ab-section ab-section--tint" id="ai-declaration" aria-labelledby="ai-title">
+        <div class="ab-wrap">
+            <h2 id="ai-title">AI declaration</h2>
+
+            <p class="ab-statement">
+                We used generative AI while building this site, and we want to be clear about where.
+                Below you can see which tool we used, what it did, and what we did ourselves.
+            </p>
+
+            <dl class="ab-facts">
+                <div>
+                    <dt>Tool</dt>
+                    <dd>Claude, made by Anthropic, used through the claude.ai chat</dd>
+                </div>
+                <div>
+                    <dt>Used for</dt>
+                    <dd>Writing and fixing code, and drawing design mock-ups</dd>
+                </div>
+            </dl>
+
+            <div class="ab-ledger-head">
+                <h3>Where we used AI</h3>
+                <button type="button" class="ab-link-btn" id="expand-all">Expand all</button>
+            </div>
+
+            <!-- the items are added by about.js from the AI_USES list at the top of that file -->
+            <div class="ledger" id="ai-ledger"></div>
+
+            <div class="ab-notes">
+                <div>
+                    <h3>What on this site is sample or mock</h3>
+                    <ul>
+                        <li>The discussion board posts and the My Events list are made-up examples. They are not real people or bookings.</li>
+                        <li>The payment form on Edit Profile is a demo. It doesn't take real payment details, and only the last few digits are kept in your own browser.</li>
+                        <li>Log in and sign up are a mock. Accounts only exist in your browser.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Our responsibility</h3>
+                    <p>
+                        We are responsible for everything published on this site. AI can make mistakes, so we test
+                        what it gives us ourselves, and we fixed the places where it got things wrong.
+                    </p>
+                    <h3>Where the events come from</h3>
+                    <p>
+                        Event details come from Brisbane City Council's open data at
+                        <a href="https://data.brisbane.qld.gov.au" target="_blank" rel="noopener">data.brisbane.qld.gov.au</a>.
+                        They can be out of date, so check with the organiser before you go.
+                    </p>
+                </div>
+            </div>
+
+            <p class="ab-updated">Declaration last updated: <span id="declaration-updated">October 2026</span></p>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer" id="about">
+    <div class="site-footer__intro">
+        <a href="index.html" class="site-footer__brand" aria-label="MIKA squared home">
+            <img src="../images/logo.png" alt="">
+            <span>MIKA²</span>
+        </a>
+        <p>Find your next creative moment and form social connections in your local community.</p>
+    </div>
+
+    <nav class="site-footer__links" aria-label="Footer">
+        <h2>Discover</h2>
+        <a href="index.html">Home</a>
+        <a href="browsingPage.html">Explore events</a>
+        <a href="aboutPage.html">About us</a>
+        <a href="profilePage.html">Your profile</a>
+    </nav>
+
+    <div class="site-footer__bottom">
+        <span>© 2026 MIKA²</span>
+        <span>Connect, Collab, Create.</span>
+    </div>
+</footer>
+
+<script src="../js/about.js"></script>
+<script src="../js/profile-dropDown.js"></script>
+</body>
+</html>
