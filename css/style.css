@@ -2986,15 +2986,6 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     z-index: 2;
 }
 
-.carousel-container .arrow-left { left: 20px; }
-.carousel-container .arrow-right { right: 20px; }
-
-.carousel-container .arrow-left img,
-.carousel-container .arrow-right img {
-    width: 42px;
-    height: 42px;
-}
-
 /* Event and Host Section Wrapper */
 .event-and-host {
     display: flex;
