@@ -3291,6 +3291,431 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 	border-radius: 10px;
 }
 
+
+
+
+
+/* ==========================================================
+   TICKET MODAL POPUP STYLES AI WILL CHANGE AFTER MON
+   ========================================================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(58, 46, 46, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-overlay[hidden] {
+    display: none !important;
+}
+
+.modal-container {
+    position: relative;
+    background: #FFFAF5;
+    border-radius: 28px;
+    width: min(95%, 860px);
+    padding: 36px 40px;
+    box-shadow: 0 20px 50px rgba(58, 46, 46, 0.25);
+    color: #800020;
+}
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #800020;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: #D45060;
+}
+
+.modal-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 35px;
+    align-items: start;
+}
+
+.modal-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+.modal-event-title {
+    margin: 0;
+    font-family: "Playfair Display", serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #800020;
+}
+
+.modal-host {
+    margin: 4px 0 16px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #800020;
+}
+
+.modal-details-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13.5px;
+}
+
+.modal-details-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-details-list img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+
+.modal-divider {
+    border: none;
+    border-top: 1px solid #E8D8D2;
+    margin: 16px 0;
+}
+
+/* Ticket Type Pills */
+.ticket-types {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+.ticket-type-pill {
+    appearance: none;
+    border: none;
+    border-radius: 999px;
+    padding: 6px 14px;
+    background: #F9EDE6;
+    color: #800020;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+}
+
+.ticket-type-pill.active {
+    background: #800020;
+    color: #FFFAF5;
+}
+
+.pill-remove {
+    font-size: 14px;
+    line-height: 1;
+
+}
+
+.selection-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.quantity-controls button {
+    appearance: none;
+    background: #800020;
+    color: #FFFAF5;
+    border: none;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    font-size: 16px;
+    font-weight: bold;
+
+    margin: 0;
+    font-family: "Playfair Display", serif;
+    font-size: 18px;
+    color: #800020;
+}
+
+
+
+.quantity-controls button:hover {
+    background: #D45060;
+}
+
+.selection-card-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #800020;
+}
+
+/* Right Column: Cart */
+.modal-right-cart {
+    background: #FFF1E7;
+    border-radius: 18px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cart-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #800020;
+}
+
+.cart-header h3 {
+    margin: 0;
+    font-family: "Playfair Display", serif;
+    font-size: 20px;
+}
+
+.cart-item-row, .cart-total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.cart-total-row {
+    font-weight: 700;
+    font-size: 16px;
+    color: #800020;
+}
+
+.checkout-btn {
+    margin-top: 10px;
+    height: 48px;
+    font-size: 16px;
+    background-color: #C0392B; /* Deep red matching image checkout button */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .modal-content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* ==========================================================
+   CHECKOUT VIEW STYLES
+   ========================================================== */
+.checkout-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 14px;
+}
+
+.back-arrow-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #800020;
+    cursor: pointer;
+    padding: 0;
+}
+
+.checkout-sub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.checkout-sub-header h3 {
+.required-note {
+    font-size: 11px;
+    color: #C0392B;
+}
+
+.checkout-row-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.checkout-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.checkout-field.full-width {
+    grid-column: span 2;
+}
+
+.checkout-field label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #800020;
+}
+
+.checkout-field label span {
+    color: #C0392B;
+}
+
+.checkout-field input {
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid #C05A72;
+    border-radius: 6px;
+    background: #FFFAF5;
+    font-family: inherit;
+    font-size: 13px;
+    color: #800020;
+    outline: none;
+}
+
+.checkout-field input:focus {
+    border-color: #800020;
+    box-shadow: 0 0 0 2px rgba(128, 0, 32, 0.15);
+}
+
+.billing-info-section {
+    margin-top: 14px;
+}
+
+.billing-info-section h4 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    color: #800020;
+}
+
+.terms-text {
+    margin: 0 0 12px 0;
+    font-size: 11.5px;
+    color: #7C4040;
+}
+.terms-text a {
+    color: #800020;
+    text-decoration: underline;
+}
+
+/* Payment option buttons */
+.payment-buttons-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.pay-btn {
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 6px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.apple-pay {
+    background: #000000;
+    color: #FFFFFF;
+}
+
+.google-pay {
+    background: #000000;
+    color: #FFFFFF;
+}
+.pay-row-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.paypal {
+    background: #FFC439;
+    color: #003087;
+}
+
+.payin4 {
+    background: #FFB7C5;
+    color: #800020;
+}
+
+.or-divider {
+    text-align: center;
+    position: relative;
+    margin: 10px 0;
+    font-size: 12px;
+    color: #7C4040;
+}
+
+.or-divider::before, .or-divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 42%;
+    height: 1px;
+    background: #E8D8D2;
+}
+
+}
+
+.or-divider::before { left: 0; }
+.or-divider::after { right: 0; }
+
+.card-option-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border: 1px solid #E8D8D2;
+    border-radius: 8px;
+    background: #FFFAF5;
+    font-size: 13px;
+    color: #800020;
+    margin-bottom: 8px;
+}
+
+.accepted-cards-icons {
+    display: flex;
+    gap: 6px;
+    font-size: 16px;
+    color: #7C4040;
+}
+
+.secure-checkout-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 8px 0 0 0;
+    font-size: 11px;
+    color: #2E6B3A;
+}
+
 /* responsiveness */
 
 @media (max-width: 1000px) {
@@ -3385,4 +3810,70 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
   .creativeevents {
     grid-auto-columns: 85%;
   }
+}
+
+
+
+
+/* profile-dropdown.css
+
+/* the wrapper only needs to be as big as the icon, and it positions the menu */
+.header-actions .dropdown-profile-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+.header-actions .dropdown-profile-icon > .icon-btn { flex: none; }   /* keeps the circle a circle */
+
+/* the menu: hidden until hover / keyboard focus / tap, and it floats under the icon */
+.header-actions .dropdown-content-profile {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: auto;
+  margin-top: 8px;
+  z-index: 100;
+  min-width: 170px;
+  box-sizing: border-box;
+  padding: 6px;
+  background: #FFFAF5;
+  border: 1px solid #F0E2DA;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(128, 0, 32, 0.15);
+}
+
+/* invisible bridge so the menu doesn't close while the mouse crosses the small gap */
+.header-actions .dropdown-content-profile::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+}
+
+.header-actions .dropdown-content-profile a {
+  display: block;
+  padding: 0.6rem 0.9rem;
+  border-radius: 10px;
+  background: transparent;
+  color: #800020;
+  font-family: "Work Sans", Arial, sans-serif;
+  font-size: 0.95rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.header-actions .dropdown-content-profile a:hover,
+.header-actions .dropdown-content-profile a:focus-visible {
+  background: #FFF0E8;
+  outline: none;
+}
+
+/* show it: mouse hover, keyboard focus, or tapped open by profile-dropdown.js */
+.header-actions .dropdown-profile-icon:hover .dropdown-content-profile,
+.header-actions .dropdown-profile-icon:focus-within .dropdown-content-profile,
+.header-actions .dropdown-profile-icon.is-open .dropdown-content-profile {
+  display: block;
 }

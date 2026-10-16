@@ -1,7 +1,4 @@
-// profile-dropdown.js (optional, but recommended)
-// The CSS already opens the menu on mouse hover and keyboard focus.
-// This adds: tap to open on touch screens (phones/tablets have no hover),
-// Escape to close, and tapping elsewhere to close.
+// profile-dropdown.js 
 // Load it at the bottom of each page: <script src="../js/profile-dropdown.js"></script>
 
 (function () {
