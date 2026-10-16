@@ -2692,7 +2692,53 @@ summary.filter-group__title::after {
   .cal-cell__events { flex-direction: row; flex-wrap: wrap; gap: 3px; }
   .cal-ev { width: 8px; height: 8px; padding: 0; border-radius: 50%; font-size: 0; }
   .cal-more { display: none; }
-}/*---------------------------------------------------------------------------------------*/
+}
+
+
+/* ======================================================
+   SMOOTH TAB SWITCHING (My Events / Favourites / Settings)
+   No extra JS needed: when a panel's "hidden" is removed it
+   becomes visible and this animation plays on it.
+   ====================================================== */
+@keyframes tab-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+[data-tab-panel]:not([hidden]),
+.my-calendar:not([hidden]),
+#my-events-grid:not([hidden]) {
+  animation: tab-in 0.35s ease both;     /* also used for the List / Calendar switch */
+}
+
+/* the burgundy underline slides in instead of snapping */
+.profile-nav-item { transition: color 0.25s ease; }
+.profile-nav-item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  border-radius: 999px;
+  background: #800020;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+.profile-nav-item.active::after { transform: scaleX(1); }
+
+/* people who turn animations off in their system settings get instant switching */
+@media (prefers-reduced-motion: reduce) {
+  [data-tab-panel]:not([hidden]),
+  .my-calendar:not([hidden]),
+  #my-events-grid:not([hidden]) { animation: none; }
+  .profile-nav-item::after { transition: none; }
+}
+
+
+
+
+/*---------------------------------------------------------------------------------------*/
 /* editProfile.css*/
 
 [hidden] { display: none !important; }
