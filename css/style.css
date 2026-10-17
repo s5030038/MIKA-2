@@ -3151,7 +3151,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 70px;
+    gap: 300px;
     margin-left: 40px;
 }
 
@@ -3161,6 +3161,8 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
   z-index: 100; 
   padding: 10px 0;
   background-color: #FFFAF5;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 /*sub-nav tabs onclick*/
@@ -3173,7 +3175,6 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 }
 
 .sub-nav .tab-link.active {
-  font-weight: bold;
   border-bottom: 2px solid #800020;
 }
 
@@ -3182,7 +3183,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     flex: 0 0 30%;
     position: sticky;
     top: 20px; 
-    margin-right: 60px; 
+    margin-right: 600px; 
 }
 
 /* Card styling */
