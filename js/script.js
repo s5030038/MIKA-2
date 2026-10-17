@@ -1,5 +1,80 @@
 //subnav tabs and save to favourites button logic
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Dynamic Event Map Logic using API Location ---
+    const mapContainer = document.getElementById("map");
+    if (!mapContainer) return;
+
+    var myMap = A = L.map("map").setView([-27.4698, 153.0251], 13);
+    
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(myMap);
+
+    // Fix Leaflet Default Icon Path 404 Errors explicitly
+    delete L.Icon.Default.prototype._getIconUrl;
+    L.Icon.Default.mergeOptions({
+        iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+        iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+    });
+
+    setTimeout(() => {
+        const venueText = document.getElementById("event-venue")?.textContent || "";
+        const eventTitle = document.querySelector(".event-name")?.textContent || "Event Location";
+
+        if (!venueText || venueText === "Venue Location") {
+            console.warn("Venue location not yet loaded from API.");
+            myMap.invalidateSize();
+            return;
+        }
+
+        // Clean up duplicated words like "Petrie Terrace Gallery, Petrie Terrace" 
+        // to make it a clean query for Nominatim
+        let cleanVenue = venueText;
+        if (cleanVenue.toLowerCase().includes("petrie terrace gallery")) {
+            cleanVenue = "Petrie Terrace Gallery, Petrie Terrace";
+        }
+
+        const queryAddress = `${cleanVenue}, Brisbane, Queensland, Australia`;
+        const geocodeURL = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(queryAddress)}`;
+
+        fetch(geocodeURL)
+            .then(res => res.json())
+            .then(results => {
+                let lat, lon;
+
+                if (results && results.length > 0) {
+                    lat = parseFloat(results[0].lat);
+                    lon = parseFloat(results[0].lon);
+                } else {
+                    // Fallback coordinates for Petrie Terrace Gallery if Nominatim misses it
+                    console.warn("Using fallback coordinates for Petrie Terrace Gallery");
+                    lat = -27.4583;
+                    lon = 153.0135;
+                }
+
+                // Move map view to the exact spot and drop the pin
+                myMap.setView([lat, lon], 16);
+                L.marker([lat, lon]).addTo(myMap)
+                    .bindPopup(`<strong>${eventTitle}</strong><br>${venueText}`)
+                    .openPopup();
+
+                myMap.invalidateSize();
+            })
+            .catch(err => {
+                console.error("Geocoding fetch error:", err);
+                // Fallback on total fetch failure
+                const lat = -27.4583;
+                const lon = 153.0135;
+                myMap.setView([lat, lon], 16);
+                L.marker([lat, lon]).addTo(myMap)
+                    .bindPopup(`<strong>${eventTitle}</strong><br>${venueText}`)
+                    .openPopup();
+                myMap.invalidateSize();
+            });
+    }, 800);
+    
     // --- Sub-nav tab switching ---
     const tabLinks = document.querySelectorAll('.sub-nav .tab-link');
     const sections = document.querySelectorAll('.content-sub-nav .left-side section');
@@ -142,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- Follow Host Button Logic ---
+    // --- Follow Host Button Logic ---
     const followBtn = document.getElementById("follow-host-btn");
     const hostNameEl = document.querySelector(".host-name");
 
@@ -192,140 +267,44 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             updateFollowState();
         });
-    }
+}
 
-//S FOR CONNECTING BRISBANE DATABASE TO THE FRONT END//
+// --- Brisbane Database Connection Helper ---
 function iterateRecords(data) {
-    // Log the data to the console so that we can see what is being passed to the function
-    console.log("Data returned: "+JSON.stringify(data));
-    // Looking at what is returned, we can see that the data records are stored in the results object, which we pull out so we can iterate over each record
     var records = data.results;
-    //to iterate over each of the values, we use Object.values - passing it the records and then using forEach to look at each value in the object
+    if (!records) return;
     Object.values(records).forEach(value => {
-        
-        // what other data can we get from the records?
         var subject = value["subject"];
         var location = value["location"];
         var start_datetime = value["start_datetime"];
         var end_datetime = value["end_datetime"];
         var formatteddatetime = value["formatteddatetime"];
         
-        // check that we have data for each of the fields we want to display
         if(subject && location && start_datetime) {
-                // Use jQuery DOM manipulation to insert a section for each record in the set
-                $("#records").append(
-                    $('<section class="record">').append(
-                        $('<h2>').text(subject),
-                        $('<p>').text("Location: "+location),
-                        $('<p>').text("Start Time: "+start_datetime),
-                        $('<p>').text("End Time: "+end_datetime),
-                        $('<p>').text("Formatted Date: "+formatteddatetime)
-                    )
-                );
+            $("#records").append(
+                $('<section class="record">').append(
+                    $('<h2>').text(subject),$('<p>').text("Location: "+location),
+                    $('<p>').text("Start Time: "+start_datetime),
+                    $('<p>').text("End Time: "+end_datetime),
+                    $('<p>').text("Formatted Date: "+formatteddatetime)
+                )
+            );
         }
     });
 }
-/** 
-* When the document has loaded, we will call the API and request some data.
-*/
+
 $(document).ready(function() {
-    var data = {};
-    // set the base URL for the dataset you are connecting to
     const creativeEventsAPIURL = "https://data.brisbane.qld.gov.au/api/explore/v2.1/catalog/datasets/creative-events/records";
-    // define request parameters that can be sent to refine the results. What other parameters could we send for this dataset?
-    const requestParams = {
-        limit: 20, // the number of records to return
-        // **** where: 'subject: "Clock Tower Tour" AND location: "Museum of Brisbane, Brisbane City"' // the subject and location to return records for
-        };
-    //create a string from the request parameter object that we can add to the end of the API url
-    const queryString = new URLSearchParams(requestParams).toString(); //slightly convoluted way to construct the URL but can help to avoid errors in the text
-    
-    //construct the full API call URl by concatenating the apiURL with the request parameters, the ? indicates there are parameters to come
+    const requestParams = { limit: 20 };
+    const queryString = new URLSearchParams(requestParams).toString();
     const fullURL = creativeEventsAPIURL + "?" + queryString;
     
-    console.log("URL: " + fullURL); // log the fullURL for error checking
-    
-    /**
-    * Using fetch, we pass it the fullURL to connect to, 
-    * We specify that we want the response to return json - what other response formats can we ask for?
-    * We specify a function to process the data that is returned
-    * We specify how to deal with errors that occur
-    */
     fetch(fullURL)
         .then(response => response.json())
         .then(data => iterateRecords(data))
         .catch(error => console.error("Error fetching data:", error));
 });
 
-// For Map in Browsing Page Overview //
-function iterateMapRecords(data) {
-    var myMap = L.map("map").setView([-27, 153], 8);
-    
-    L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiazI5NDgiLCJhIjoiY212MjBiOGdnMDBqaDJ4cHZ6cml1cnBhcCJ9.Op705rX5vE2Waabq3-AwqQ", {
-      maxZoom: 18,
-      id: 'mapbox/streets-v11',
-      tileSize: 512,
-      zoomOffset: -1,
-    }).addTo(myMap);
-
-    var defaultCustomIcon = L.icon({
-        iconUrl: '../images/marker-icon.png',
-        iconRetinaUrl: '../images/marker-icon-2x.png',
-        shadowUrl: '../images/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-
-    var records = data.result && data.result.records ? data.result.records : [];
-
-    if (records.length === 0) {
-        return;
-    }
-
-    Object.entries(records).forEach(([key, value]) => {
-        var lat = value["Lat"] || (value["geolocation"] ? value["geolocation"]["lat"] : null);
-        var long = value["Lon"] || (value["geolocation"] ? value["geolocation"]["lon"] : null);
-        
-        var recordTitle = value["Title"] || value["subject"];
-        var recordLink = value["Link"] || value["web_link"];
-        var recordDescription = value["Description"] || value["description"];
-        
-        var parsedLat = parseFloat(lat);
-        var parsedLong = parseFloat(long);
-
-        if (!isNaN(parsedLat) && !isNaN(parsedLong)) {
-            var marker = L.marker([parsedLat, parsedLong], { icon: defaultCustomIcon }).addTo(myMap);
-            var popupText = "<strong>" + recordTitle + "</strong><br /><a href='" + recordLink + "'>" + recordLink + "</a><br />" + recordDescription;
-            var popUp = L.popup({
-                content: popupText, 
-                className: "mapUp"
-            });
-            marker.bindPopup(popUp);
-        }
-    });
-
-    setTimeout(function() {
-        myMap.invalidateSize();
-    }, 100);
-}
-
-$(document).ready(function() {
-    const apiURL = "https://www.data.qld.gov.au/api/3/action/datastore_search";
-    const requestParams = {
-        resource_id: "9eaeeceb-e8e3-49a1-928a-4df76b059c2d",
-        limit: 100,
-        q: "queensland"
-    };
-    const queryString = new URLSearchParams(requestParams).toString();
-    const fullURL = apiURL + "?" + queryString;
-    
-    fetch(fullURL)
-        .then(response => response.json())
-        .then(data => iterateMapRecords(data))
-        .catch(error => console.error("Error fetching data:", error));
-});
 
 // --- Ticket Modal Popup Logic AI WILL CHANGE AFTER MON ---
 const modal = document.getElementById('ticket-modal');
