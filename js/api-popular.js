@@ -6,10 +6,31 @@ function slugifyPopularEvent(name) {
     .replace(/(^-|-$)/g, "");
 }
 
+function splitPopularEventDateTime(formatted) {
+  var match = formatted.match(/^(.*?\d{4}),\s*(.+)$/);
+  if (!match) return { datePart: formatted, timePart: "" };
+  return { datePart: match[1].trim(), timePart: match[2].trim() };
+}
+
+function createPopularEventInfoRow(iconClass, text) {
+  var row = document.createElement("div");
+  row.className = "event-detail";
+
+  var icon = document.createElement("i");
+  icon.className = iconClass;
+  icon.setAttribute("aria-hidden", "true");
+
+  var value = document.createElement("span");
+  value.textContent = text;
+  row.append(icon, value);
+  return row;
+}
+
 function createPopularEventCard(record, index) {
   var name = record["subject"];
   var venue = record["location"];
   var date = record["formatteddatetime"] || record["start_datetime"];
+  var category = record["primaryeventtype"] || record._popularCategory;
   var fallbackImages = [
     "../images/eventcard1.png",
     "../images/eventcard2.png",
@@ -19,52 +40,86 @@ function createPopularEventCard(record, index) {
 
   if (!name || !venue || !date) return null;
 
-  var link = document.createElement("a");
-  link.className = "event-card";
-  link.href = "browsingPage.html?event=" + encodeURIComponent(slugifyPopularEvent(name));
-  link.setAttribute("aria-label", name + ", " + date + ", " + venue);
+  var card = document.createElement("article");
+  card.className = "browseevent-card";
+  card.setAttribute("aria-label", name + ", " + date + ", " + venue);
+  card.innerHTML =
+    '<a class="browseevent-card__link">' +
+      '<div class="browseevent-card__frame"></div>' +
+      '<span class="category"></span>' +
+      '<h3 class="browseevent-card__title"></h3>' +
+      '<div class="browseevent-card__info"></div>' +
+    '</a>';
 
+  var link = card.querySelector(".browseevent-card__link");
+  link.href = "browsingPage.html?event=" + encodeURIComponent(slugifyPopularEvent(name));
+
+  var categoryLabel = card.querySelector(".category");
+  if (category) {
+    categoryLabel.textContent = category;
+  } else {
+    categoryLabel.remove();
+  }
+
+  card.querySelector(".browseevent-card__title").textContent = name;
+
+  var dateTime = splitPopularEventDateTime(date);
+  var info = card.querySelector(".browseevent-card__info");
+  info.appendChild(createPopularEventInfoRow("fa-regular fa-calendar", dateTime.datePart));
+  if (dateTime.timePart) {
+    info.appendChild(createPopularEventInfoRow("fa-regular fa-clock", dateTime.timePart));
+  }
+  info.appendChild(createPopularEventInfoRow("fa-solid fa-location-dot", venue));
+
+  var frame = card.querySelector(".browseevent-card__frame");
   var image = document.createElement("img");
-  image.src = record["eventimage"] || fallbackImages[index];
   image.alt = "";
+  image.loading = "lazy";
+  image.src = record["eventimage"] || fallbackImages[index % fallbackImages.length];
   image.onerror = function () {
     image.onerror = null;
-    image.src = fallbackImages[index];
+    image.src = fallbackImages[index % fallbackImages.length];
   };
+  frame.appendChild(image);
 
-  var details = document.createElement("div");
-  details.className = "event-card__details";
+  var start = new Date(record["start_datetime"]);
+  if (!isNaN(start.getTime())) {
+    var parts = new Intl.DateTimeFormat("en-AU", {
+      timeZone: "Australia/Brisbane",
+      day: "numeric",
+      month: "short"
+    }).formatToParts(start);
+    var badge = document.createElement("div");
+    badge.className = "event-card_date";
 
-  var title = document.createElement("h3");
-  title.className = "event-card__title";
-  title.textContent = name;
+    var day = document.createElement("strong");
+    day.textContent = parts.find(function (part) { return part.type === "day"; }).value;
+    var month = document.createElement("span");
+    month.textContent = parts.find(function (part) { return part.type === "month"; }).value.toUpperCase();
+    badge.append(day, month);
+    frame.appendChild(badge);
+  }
 
-  var meta = document.createElement("p");
-  meta.className = "event-card__meta";
-  meta.textContent = date + " | " + venue;
-
-  details.append(title, meta);
-  link.append(image, details);
-  return link;
+  return card;
 }
 
 function loadPopularEvents() {
   var container = document.getElementById("popular-events");
   if (!container) return;
 
-  var datasetIds = [
-    "classes-and-workshops-events",
-    "films-events",
-    "fortitude-valley-malls-events"
+  var datasets = [
+    { id: "classes-and-workshops-events", category: "Workshops" },
+    { id: "films-events", category: "Films" },
+    { id: "fortitude-valley-malls-events", category: "Fortitude Valley" }
   ];
   var baseUrl = "https://data.brisbane.qld.gov.au/api/explore/v2.1/catalog/datasets/";
-  var requests = datasetIds.map(function (datasetId) {
-    var url = baseUrl + datasetId + "/records?" +
+  var requests = datasets.map(function (dataset) {
+    var url = baseUrl + dataset.id + "/records?" +
       new URLSearchParams({ limit: 20 }).toString();
 
     return fetch(url)
       .then(function (response) {
-        if (!response.ok) throw new Error(datasetId + " API responded with " + response.status);
+        if (!response.ok) throw new Error(dataset.id + " API responded with " + response.status);
         return response.json();
       })
       .then(function (data) {
@@ -75,6 +130,9 @@ function loadPopularEvents() {
           var aTime = Date.parse(a["start_datetime"]);
           var bTime = Date.parse(b["start_datetime"]);
           return (isNaN(aTime) ? Infinity : aTime) - (isNaN(bTime) ? Infinity : bTime);
+        }).map(function (record) {
+          record._popularCategory = dataset.category;
+          return record;
         });
       });
   });
