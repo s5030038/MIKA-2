@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Your interests | MIKA²</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="../css/onboarding.css">
+  <script src="../js/onboarding.js" defer></script>
+</head>
+
+<body class="onboarding-page">
+  <main class="onb-card" aria-labelledby="onb-title">
+    <header class="onb-header">
+      <img
+        class="onb-logo"
+        src="../images/logo.png"
+        alt="MIKA²"
+      >
+      <span class="onb-step">Final step</span>
+    </header>
+
+    <h1 id="onb-title">Tell us about yourself</h1>
+
+    <p class="onb-intro">
+      Choose what you love. We’ll find events for you.
+    </p>
+
+    <form id="onboardingForm">
+      <fieldset class="onb-group">
+        <legend>What are you interested in?</legend>
+        <p class="onb-help" id="categoryHelp">
+          Select all that apply. Choose at least one.
+        </p>
+
+        <div
+          class="onb-options onb-categories"
+          id="categoryOptions"
+          aria-describedby="categoryHelp"
+        ></div>
+      </fieldset>
+
+      <fieldset class="onb-group">
+        <legend>Who are you finding events for?</legend>
+        <p class="onb-help" id="audienceHelp">
+          Select all that apply. This is optional.
+        </p>
+
+        <div
+          class="onb-options onb-audiences"
+          id="audienceOptions"
+          aria-describedby="audienceHelp"
+        ></div>
+      </fieldset>
+
+      <p id="onboardingMessage" class="onb-message" role="alert"></p>
+
+      <button class="onb-submit" id="onboardingSubmit" type="submit">
+        Discover my events
+      </button>
+
+      <p class="onb-note">
+        Your choices will be saved for future personalised recommendations.
+      </p>
+
+      <p class="onb-demo">Prototype — use demo accounts only.</p>
+    </form>
+
+    <noscript>Please enable JavaScript to choose your preferences.</noscript>
+  </main>
+</body>
+</html>
