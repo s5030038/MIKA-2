@@ -1,3 +1,5 @@
+// js/booking-loader.js
+
 function slugify(name) {
     return name
         .toLowerCase()
@@ -7,78 +9,90 @@ function slugify(name) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const eventKeys = Object.keys(EVENTS);
     const urlParams = new URLSearchParams(window.location.search);
     const requestedID = urlParams.get("event") || urlParams.get("id");
+    const requestedSource = urlParams.get("source"); // e.g., "films-events", "music-events", etc.
 
     let matchedEvent = null;
 
     if (requestedID) {
-        // Check static EVENTS dictionary
-        if (EVENTS[requestedID]) {
-            matchedEvent = EVENTS[requestedID];
-        } else {
-            const foundKey = eventKeys.find(key => slugify(EVENTS[key].name) === requestedID || key === requestedID);
-            if (foundKey) {
-                matchedEvent = EVENTS[foundKey];
+        // Try fetching from the specific dataset source passed in URL first
+        if (requestedSource) {
+            matchedEvent = await fetchEventFromDataset(requestedID, requestedSource);
+        }
+
+        // If not found yet, loop through all available Council datasets as a fallback
+        if (!matchedEvent) {
+            const allDatasets = [
+                "creative-events",
+                "classes-and-workshops-events",
+                "films-events",
+                "fortitude-valley-malls-events",
+                "music-events"
+            ];
+
+            for (const ds of allDatasets) {
+                if (ds === requestedSource) continue; // already checked
+                matchedEvent = await fetchEventFromDataset(requestedID, ds);
+                if (matchedEvent) break;
             }
         }
     }
 
-    // If still not found, check Brisbane City Council API datasets as a fallback
-    if (!matchedEvent && requestedID) {
-        matchedEvent = await fetchEventFromApi(requestedID);
+    if (!matchedEvent) {
+        console.warn("Event not found in any API dataset.");
+        return;
     }
 
-    // Final fallback to first event if nothing matches anywhere
-    const event = matchedEvent || EVENTS[eventKeys[0]];
-    if (!event) return;
-
-    // Update Page DOM
-    document.querySelector(".event-name").textContent = event.name;
-    document.getElementById("event-venue").textContent = event.venue;
-    document.getElementById("event-date").textContent = event.date;
+    // Update Page DOM elements securely
+    document.querySelector(".event-name").textContent = matchedEvent.name;
+    document.getElementById("event-venue").textContent = matchedEvent.venue;
+    document.getElementById("event-date").textContent = matchedEvent.date;
 
     const overviewVenue = document.getElementById("overview-venue");
-    if (overviewVenue) overviewVenue.textContent = event.venue;
+    if (overviewVenue) overviewVenue.textContent = matchedEvent.venue;
 
     const cardVenue = document.getElementById("card-venue");
-    if (cardVenue) cardVenue.textContent = event.venue;
+    if (cardVenue) cardVenue.textContent = matchedEvent.venue;
 
     const cardDate = document.getElementById("card-date");
-    if (cardDate) cardDate.textContent = event.date;
+    if (cardDate) cardDate.textContent = matchedEvent.date;
 
-    const priceText = (event.price == 0 || event.price === "0") ? "Free Entry" : `From AU$${event.price}`;
+    const priceText = (!matchedEvent.price || matchedEvent.price === "0" || /^free/i.test(matchedEvent.price)) 
+        ? "Free Entry" 
+        : (matchedEvent.price.startsWith("$") ? matchedEvent.price : `From AU$${matchedEvent.price}`);
+    
     document.getElementById("event-price").textContent = priceText;
 
     const imgElement = document.getElementById("event-image");
-    if (imgElement && event.image) {
-        imgElement.src = event.image;
-        imgElement.alt = event.name;
+    if (imgElement && matchedEvent.image) {
+        imgElement.src = matchedEvent.image;
+        imgElement.alt = matchedEvent.name;
     }
 });
 
-// API Fallback helper function
-async function fetchEventFromApi(slug) {
-    const datasets = ["creative-events", "music-events"];
-    for (const ds of datasets) {
-        try {
-            const res = await fetch(`https://data.brisbane.qld.gov.au/api/explore/v2.1/catalog/datasets/${ds}/records?limit=50`);
-            if (!res.ok) continue;
-            const data = await res.json();
-            const match = (data.results || []).find(r => r.subject && slugify(r.subject) === slug);
-            if (match) {
-                return {
-                    name: match.subject,
-                    venue: match.location,
-                    date: match.formatteddatetime || match.start_datetime,
-                    price: match.cost || 0,
-                    image: match.eventimage || "../images/eventcard1.png"
-                };
-            }
-        } catch (e) {
-            console.error("API fetch error:", e);
+// Helper function to query a specific Brisbane City Council dataset
+async function fetchEventFromDataset(slug, datasetId) {
+    try {
+        const apiURL = `https://data.brisbane.qld.gov.au/api/explore/v2.1/catalog/datasets/${datasetId}/records?limit=100`;
+        const res = await fetch(apiURL);
+        if (!res.ok) return null;
+        
+        const data = await res.json();
+        const records = data.results || [];
+        
+        const match = records.find(r => r.subject && slugify(r.subject) === slug);
+        if (match) {
+            return {
+                name: match.subject,
+                venue: match.location,
+                date: match.formatteddatetime || match.start_datetime,
+                price: match.cost || "0",
+                image: match.eventimage || "../images/eventcard1.png"
+            };
         }
+    } catch (e) {
+        console.error(`Error fetching dataset ${datasetId}:`, e);
     }
     return null;
 }
