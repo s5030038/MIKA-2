@@ -3161,12 +3161,13 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
   padding: 10px 0;
   background-color: #FFFAF5;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 22px;
 }
 
 /*sub-nav tabs onclick*/
 .content-sub-nav .left-side section {
   display: none;
+  font-size: 20px;
   margin-right: 300px;
   margin-left: 50px;
   margin-top: 20px;
@@ -3223,19 +3224,33 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     gap: 14px;
 }
 
+.booking-details li {
+    font-size: 20px;
+}
+
+.booking-details li img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    margin-right: 12px;
+}
+
 .booking-item {
     display: flex;
-    align-items: center; /* Aligns icon and text in a straight horizontal line */
-    gap: 12px;           /* Space between icon and text */
+    align-items: center; 
+    gap: 12px;  
     font-size: 0.95rem;
     color: #800020;
 }
 
+.booking-item span {
+    font-size: 20px;
+}
+
 .booking-item img {
-    width: 22px;
-    height: 22px;
-    object-fit: contain;
-    flex-shrink: 0;      /* Prevents the icon from squishing */
+    width: 30px;
+    height: 30px;
+    object-fit: contain; 
 }
 
 /* Date/Time special styling */
@@ -3352,7 +3367,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     border: 1.5px solid #801C2E;
     background-color: #ffffff;
     color: #801C2E;
-    font-size: 0.95rem;
+    font-size: 20px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -3407,14 +3422,14 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 .reviewer-name {
     margin: 0;
     color: #801C2E;
-    font-size: 1.05rem;
+    font-size: 20px;
     font-weight: bold;
 }
 
 .review-text {
     margin: 0;
     color: #222;
-    font-size: 0.95rem;
+    font-size: 20px;
     line-height: 1.4;
 }
 
@@ -3459,7 +3474,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     border: none;
     outline: none;
     width: 100%;
-    font-size: 0.95rem;
+    font-size: 20px;
     color: #333;
 }
 
@@ -3473,7 +3488,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     border: none;
     padding: 10px 24px;
     border-radius: 20px;
-    font-size: 0.95rem;
+    font-size: 20px;
     font-weight: 600;
     cursor: pointer;
     transition: opacity 0.2s;
