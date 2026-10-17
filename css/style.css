@@ -424,20 +424,20 @@ body {
 }
 
 /* Links under the button */
-.switch {
+.card .login-switch {
   margin: 22px 0 0;
   color: #800020;
   font-size: 18px;
 }
 
-.switch a {
+.card .login-switch a {
   color: #800020;
   font-weight: 600;
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-underline-offset: 4px;
 }
 
-.switch a:hover {
+.card .login-switch a:hover {
   color: #D45060;
 }
 
@@ -480,7 +480,7 @@ body {
 
   .subtitle,
   .form label,
-  .switch {
+  .card .login-switch {
     font-size: 16px;
   }
 
