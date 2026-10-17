@@ -121,12 +121,55 @@
                 <img src="../images/itinerary-static.png" alt="Itinerary">
             </section>
 
-            <section id="reviews">
-                <h2>Reviews</h2>
+            <section id="reviews" class="review-section">
+                <!-- Filter Pill Buttons -->
+                <div class="review-filters">
+                    <button type="button" class="filter-pill active" data-filter="all">Newest</button>
+                    <button type="button" class="filter-pill" data-filter="popular">Popular</button>
+                    <button type="button" class="filter-pill" data-filter="photos">Photos</button>
+                </div>
+
+                <!-- Review Comments List Container -->
+                <div id="reviews-list" class="reviews-list">
+                    <!-- Default Review 1 -->
+                    <article class="review-card">
+                        <div class="avatar-circle avatar-pink">ML</div>
+                        <div class="review-body">
+                            <h4 class="reviewer-name">Maya L.</h4>
+                            <p class="review-text">Absolutely stunning venue! The staff were so helpful and kind- will come again!</p>
+                            <div class="review-media">
+                                <div class="media-box burgundy"></div>
+                                <div class="media-box burgundy"></div>
+                                <div class="media-box burgundy"></div>
+                                <div class="media-box grey-badge">+3</div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Default Review 2 -->
+                    <article class="review-card">
+                        <div class="avatar-circle avatar-tan">DK</div>
+                        <div class="review-body">
+                            <h4 class="reviewer-name">Dan K.</h4>
+                            <p class="review-text">hated this place. never going back.</p>
+                            <div class="review-media">
+                                <div class="media-box burgundy"></div>
+                                <div class="media-box burgundy"></div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Post Review Input Box -->
+                <div class="add-review-box">
+                    <input type="text" id="review-input" placeholder="Leave a Review!" autocomplete="off" />
+                    <button type="button" id="post-review-btn">Post</button>
+                </div>
             </section>
 
             <section id="board">
-                <h2>Discussion-board (in-progress)</h2>
+                <h3>IN-PROGRESS</h3>
+                <img src="../images/in-the-room.png" alt="in-the-room-sample">
                 <img src="../images/discussion-board-static.png" alt="discussion-board-sample">
             </section>
         </div>

@@ -89,6 +89,57 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- Review Filter Buttons Toggle Logic ---
+    const filterPills = document.querySelectorAll('.review-filters .filter-pill');
+    filterPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+            // Remove 'active' class from all buttons
+            filterPills.forEach(p => p.classList.remove('active'));
+            // Add 'active' class to clicked button
+            pill.classList.add('active');
+        });
+    });
+
+    // --- Post New Review Logic ---
+    const postBtn = document.getElementById('post-review-btn');
+    const reviewInput = document.getElementById('review-input');
+    const reviewsList = document.getElementById('reviews-list');
+
+    if (postBtn && reviewInput && reviewsList) {
+        const createAndPostReview = () => {
+            const text = reviewInput.value.trim();
+            if (!text) return; // Ignore empty comments
+
+            // Create card HTML element dynamically
+            const newReviewCard = document.createElement('article');
+            newReviewCard.className = 'review-card';
+
+            newReviewCard.innerHTML = `
+                <div class="avatar-circle avatar-user">YOU</div>
+                <div class="review-body">
+                    <h4 class="reviewer-name">You</h4>
+                    <p class="review-text">${text}</p>
+                </div>
+            `;
+
+            // Prepend new review at the top of the list
+            reviewsList.prepend(newReviewCard);
+
+            // Clear input box
+            reviewInput.value = '';
+        };
+
+        // Trigger on button click
+        postBtn.addEventListener('click', createAndPostReview);
+
+        // Allow pressing "Enter" key to post
+        reviewInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                createAndPostReview();
+            }
+        });
+    }
 });
 
 // --- Follow Host Button Logic ---

@@ -3168,7 +3168,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 .content-sub-nav .left-side section {
   display: none;
   margin-right: 300px;
-  margin-left: 30px;
+  margin-left: 50px;
   margin-top: 20px;
 }
 
@@ -3316,7 +3316,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 }
 
 #itinerary img {
-  width: 80%;
+  width: 90%;
   height: 100%;
 }
 
@@ -3329,6 +3329,158 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 .mapUp{
 	border: 1px solid #08f;
 	border-radius: 10px;
+}
+
+/* Review CSS */
+/* --- Reviews Section Styles --- */
+.reviews-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px 0;
+}
+
+/* Filter Pills Styling */
+.review-filters {
+    display: flex;
+    gap: 12px;
+}
+
+.filter-pill {
+    padding: 6px 18px;
+    border-radius: 20px;
+    border: 1.5px solid #801C2E;
+    background-color: #ffffff;
+    color: #801C2E;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Selected state: fills background with color */
+.filter-pill.active {
+    background-color: #D55B68; /* Highlight burgundy/rose color */
+    color: #ffffff;
+    border-color: #D55B68;
+}
+
+/* Review Cards List */
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 30px;
+}
+
+.review-card {
+    display: flex;
+    gap: 16px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #D8C3C7;
+}
+
+/* Avatars */
+.avatar-circle {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #801C2E;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+.avatar-pink { background-color: #F8D3D6; }
+.avatar-tan { background-color: #F3DAC8; }
+.avatar-user { background-color: #E2CFEA; }
+
+.review-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.reviewer-name {
+    margin: 0;
+    color: #801C2E;
+    font-size: 1.05rem;
+    font-weight: bold;
+}
+
+.review-text {
+    margin: 0;
+    color: #222;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.review-media {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.media-box {
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+}
+
+.media-box.burgundy {
+    background-color: #801C2E;
+}
+
+.media-box.grey-badge {
+    background-color: #DBDBDB;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* Leave Review Form Box */
+.add-review-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1.5px solid #C48E96;
+    border-radius: 12px;
+    padding: 6px 6px 6px 16px;
+    background-color: #fff;
+}
+
+.add-review-box input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.add-review-box input::placeholder {
+    color: #C48E96;
+}
+
+.add-review-box button {
+    background-color: #801C2E;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.add-review-box button:hover {
+    opacity: 0.9;
 }
 
 
