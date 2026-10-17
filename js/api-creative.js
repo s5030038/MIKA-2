@@ -145,56 +145,13 @@ function createEventCard(record) {
   return article;
 }
 
-function createPopularEventCard(record, index) {
-  var name = record["subject"];
-  var venue = record["location"];
-  var date = record["formatteddatetime"] || record["start_datetime"];
-  var images = [
-    "../images/eventcard1.png",
-    "../images/eventcard2.png",
-    "../images/eventcard3.png",
-    "../images/eventcard4.png"
-  ];
-
-  if (!name || !venue || !date) return null;
-
-  var link = document.createElement("a");
-  link.className = "event-card";
-  link.href = "browsingPage.html?event=" + encodeURIComponent(slugify(name));
-  link.setAttribute("aria-label", name + ", " + date + ", " + venue);
-
-  var image = document.createElement("img");
-  image.src = record["eventimage"] || images[index];
-  image.alt = "";
-  image.onerror = function () {
-    image.onerror = null;
-    image.src = images[index];
-  };
-
-  var details = document.createElement("div");
-  details.className = "event-card__details";
-
-  var title = document.createElement("h3");
-  title.className = "event-card__title";
-  title.textContent = name;
-
-  var meta = document.createElement("p");
-  meta.className = "event-card__meta";
-  meta.textContent = date + " | " + venue;
-
-  details.append(title, meta);
-  link.append(image, details);
-  return link;
-}
-
 function loadApiEvents() {
   const baseURL = "https://data.brisbane.qld.gov.au/api/explore/v2.1/catalog/datasets/creative-events/records";
   const requestParams = { limit: 20 };
   const fullURL = baseURL + "?" + new URLSearchParams(requestParams).toString();
 
   const browseContainer = document.getElementById("browseevents");
-  const popularContainer = document.getElementById("popular-events");
-  if (!browseContainer && !popularContainer) return;
+  if (!browseContainer) return;
 
   fetch(fullURL)
     .then(function (response) {
@@ -226,13 +183,6 @@ function loadApiEvents() {
       }
       }
 
-      if (popularContainer) {
-        var popularRecords = records.slice(0, 4);
-        var popularCards = popularRecords.map(createPopularEventCard);
-        if (popularCards.length === 4 && popularCards.every(Boolean)) {
-          popularContainer.replaceChildren.apply(popularContainer, popularCards);
-        }
-      }
     })
     .catch(function (error) {
       console.error("Error fetching events:", error);
