@@ -3026,7 +3026,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     border: none;
     border-radius: 999px;
     padding: 0.65rem 1.4rem;
-    background: #D45060;
+    background: #800020;
     color: #FFFAF5;
     font-family: "Work Sans", sans-serif;
     font-size: 20px;
@@ -3039,7 +3039,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 }
 
 .event-info .buttons button:hover {
-    background: #800020;
+    background: #D45060;
 }
 
 .event-info .buttons button img {
@@ -3151,7 +3151,6 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 300px;
     margin-left: 40px;
 }
 
@@ -3168,6 +3167,9 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 /*sub-nav tabs onclick*/
 .content-sub-nav .left-side section {
   display: none;
+  margin-right: 300px;
+  margin-left: 30px;
+  margin-top: 20px;
 }
 
 .content-sub-nav .left-side section.active {
@@ -3183,7 +3185,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     flex: 0 0 30%;
     position: sticky;
     top: 20px; 
-    margin-right: 600px; 
+    margin-right: 150px; 
 }
 
 /* Card styling */

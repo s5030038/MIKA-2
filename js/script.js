@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (isSaved) {
                 saveBtn.textContent = "♥ Saved";
-                saveBtn.style.backgroundColor = "#800020";
+                saveBtn.style.backgroundColor = "#D45060";
             } else {
                 saveBtn.textContent = "♡ Save";
                 saveBtn.style.backgroundColor = "";
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 favourites.push(eventData);
                 localStorage.setItem("mika_favourites", JSON.stringify(favourites));
                 saveBtn.textContent = "♥ Saved";
-                saveBtn.style.backgroundColor = "#800020";
+                saveBtn.style.backgroundColor = "#D45060";
             } else {
                 favourites.splice(index, 1);
                 localStorage.setItem("mika_favourites", JSON.stringify(favourites));
@@ -90,6 +90,58 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// --- Follow Host Button Logic ---
+    const followBtn = document.getElementById("follow-host-btn");
+    const hostNameEl = document.querySelector(".host-name");
+
+    if (followBtn) {
+        // Function to get a unique key for the current host
+        const getHostKey = () => {
+            const hostName = hostNameEl?.textContent.trim() || "Host Name";
+            return `mika_followed_${hostName}`;
+        };
+
+        // Check localStorage to set initial state on page load
+        const updateFollowState = () => {
+            const hostKey = getHostKey();
+            const isFollowed = localStorage.getItem(hostKey) === "true";
+
+            if (isFollowed) {
+                followBtn.textContent = "Following";
+                followBtn.style.backgroundColor = "#D45060";
+                followBtn.style.color = "#fff";
+            } else {
+                followBtn.textContent = "Follow";
+                followBtn.style.backgroundColor = "";
+                followBtn.style.color = "";
+            }
+        };
+
+        // Run immediately
+        updateFollowState();
+
+        // If host name changes dynamically via data loader, observe it
+        if (hostNameEl) {
+            const hostObserver = new MutationObserver(() => {
+                updateFollowState();
+            });
+            hostObserver.observe(hostNameEl, { childList: true, characterData: true, subtree: true });
+        }
+
+        // Toggle follow state on click
+        followBtn.addEventListener("click", () => {
+            const hostKey = getHostKey();
+            const isFollowed = localStorage.getItem(hostKey) === "true";
+
+            if (isFollowed) {
+                localStorage.removeItem(hostKey);
+            } else {
+                localStorage.setItem(hostKey, "true");
+            }
+            updateFollowState();
+        });
+    }
 
 //S FOR CONNECTING BRISBANE DATABASE TO THE FRONT END//
 function iterateRecords(data) {
@@ -320,8 +372,8 @@ if (getTicketsBtn && modal) {
                 proceedCheckoutBtn.textContent = "Pay";
             } else {
             // Step 2: Clicked "Pay" -> Handle successful payment state
-            proceedCheckoutBtn.textContent = "Paid ✓";
-            proceedCheckoutBtn.style.backgroundColor = "#2E6B3A"; 
+            proceedCheckoutBtn.textContent = "Paid";
+            proceedCheckoutBtn.style.backgroundColor = "#D45060"; 
             proceedCheckoutBtn.disabled = true;
 
             // --- SAVE EVENT TO "MY EVENTS" ---
