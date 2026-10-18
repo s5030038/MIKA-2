@@ -449,4 +449,72 @@ if (getTicketsBtn && modal) {
         });
     }
     }
+
+    // save logic throughout checkout //
+    const modalFavBtns = document.querySelectorAll('.modal-overlay .fav-btn');
+    
+    if (modalFavBtns.length > 0) {
+        const updateModalFavButtonsState = () => {
+            const eventTitle = document.querySelector('.event-name')?.textContent.trim() || "Event Title";
+            let favourites = JSON.parse(localStorage.getItem("mika_favourites")) || [];
+            const isSaved = favourites.some(fav => fav.title === eventTitle);
+
+            modalFavBtns.forEach(btn => {
+                if (isSaved) {
+                    btn.textContent = "♥";
+                    btn.classList.add("is-active");
+                    btn.style.color = "#D45060";
+                } else {
+                    btn.textContent = "♡";
+                    btn.classList.remove("is-active");
+                    btn.style.color = "";
+                }
+            });
+        };
+
+        // Update state whenever the modal opens or title changes
+        const mainSaveBtn = document.getElementById("save-event-btn");
+        if (getTicketsBtn) {
+            getTicketsBtn.addEventListener('click', updateModalFavButtonsState);
+        }
+
+        modalFavBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const eventData = {
+                    title: document.querySelector('.event-name')?.textContent.trim() || "Event Title",
+                    price: document.getElementById("event-price")?.textContent.trim() || "Free",
+                    venue: document.getElementById("card-venue")?.textContent.trim() || document.getElementById("event-venue")?.textContent.trim() || "Venue Location",
+                    date: document.getElementById("card-date")?.textContent.trim() || document.getElementById("event-date")?.textContent.trim() || "Event Date",
+                    image: document.getElementById("event-image")?.src || "../images/market.jpg",
+                    category: "General"
+                };
+
+                let favourites = JSON.parse(localStorage.getItem("mika_favourites")) || [];
+                const index = favourites.findIndex(fav => fav.title === eventData.title);
+
+                if (index === -1) {
+                    favourites.push(eventData);
+                    localStorage.setItem("mika_favourites", JSON.stringify(favourites));
+                } else {
+                    favourites.splice(index, 1);
+                    localStorage.setItem("mika_favourites", JSON.stringify(favourites));
+                }
+
+                // Update both the modal hearts and the main page save button simultaneously
+                updateModalFavButtonsState();
+                if (mainSaveBtn) {
+                    // Trigger a click or re-run the main button updater if exposed, 
+                    // or directly toggle it:
+                    const isNowSaved = favourites.some(fav => fav.title === eventData.title);
+                    if (isNowSaved) {
+                        mainSaveBtn.textContent = "♥ Saved";
+                        mainSaveBtn.style.backgroundColor = "#D45060";
+                    } else {
+                        mainSaveBtn.textContent = "♡ Save";
+                        mainSaveBtn.style.backgroundColor = "";
+                    }
+                }
+            });
+        });
+    }
 }

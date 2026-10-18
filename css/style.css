@@ -140,7 +140,7 @@ a {
 .nav__link {
   font-family: "Playfair Display";
   font-weight: 600;
-  font-size: 1.05rem;
+  font-size: 20px;
   color: #800020;
   padding: 0.4rem 0.7rem;
   border-radius: 40% 60% 45% 55% / 55% 40% 60% 45%; 
@@ -3176,7 +3176,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 .content-sub-nav .left-side section {
   display: none;
   font-size: 20px;
-  margin-right: 300px;
+  margin-right: 180px;
   margin-left: 50px;
   margin-top: 20px;
 }
@@ -3194,7 +3194,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     flex: 0 0 30%;
     position: sticky;
     top: 20px; 
-    margin-right: 150px; 
+    margin-right: 80px; 
 }
 
 /* Card styling */
@@ -3203,7 +3203,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     padding: 30px; /* existing */
     border-radius: 20px; /* increased to match image */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* deeper shadow matching image */
-    width: 100%;
+    width: 500px;
     color: #800020; /* base color: burgundy */
 }
 
@@ -3569,12 +3569,12 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 
 .modal-header-row .fav-btn {
     font-size: 40px;
-    margin-top: 58%;
+    margin-top: 51%;
 }
 
 .checkout-header-row .fav-btn {
     font-size: 40px;
-    margin-top: 50%;
+    margin-top: 72%;
 }
 
 .modal-event-title {
@@ -3599,19 +3599,19 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     display: flex;
     flex-direction: column;
     gap: 8px;
-    font-size: 13.5px;
+    font-size: 10px;
 }
 
 .modal-details-list li {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .modal-details-list img {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     object-fit: contain;
 }
 
@@ -3636,7 +3636,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     background: #F9EDE6;
     color: #800020;
     font-family: inherit;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     display: inline-flex;
@@ -3661,7 +3661,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     align-items: center;
     justify-content: space-between;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 16px;
     margin-bottom: 6px;
 }
 
@@ -3736,15 +3736,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     background-color: #800020; /* Deep red matching image checkout button */
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .modal-content-grid {
-        grid-template-columns: 1fr;
-    }
-}
-/* ==========================================================
-   CHECKOUT VIEW STYLES
-   ========================================================== */
+/* checkout */
 .checkout-header-row {
     display: flex;
     align-items: center;
@@ -3769,7 +3761,6 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     margin-bottom: 10px;
 }
 
-.checkout-sub-header h3 {
 .required-note {
     font-size: 11px;
     color: #C0392B;
@@ -3934,6 +3925,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     font-size: 11px;
     color: #2E6B3A;
 }
+
 
 /* responsiveness */
 
