@@ -1,16 +1,15 @@
+//script.js
 //subnav tabs and save to favourites button logic
 document.addEventListener('DOMContentLoaded', () => {
     // --- Dynamic Event Map Logic using API Location ---
     const mapContainer = document.getElementById("map");
     if (!mapContainer) return;
-
     var myMap = A = L.map("map").setView([-27.4698, 153.0251], 13);
     
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 18,
         attribution: '&copy; OpenStreetMap contributors'
     }).addTo(myMap);
-
     // Fix Leaflet Default Icon Path 404 Errors explicitly
     delete L.Icon.Default.prototype._getIconUrl;
     L.Icon.Default.mergeOptions({
@@ -18,32 +17,26 @@ document.addEventListener('DOMContentLoaded', () => {
         iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
     });
-
     setTimeout(() => {
         const venueText = document.getElementById("event-venue")?.textContent || "";
         const eventTitle = document.querySelector(".event-name")?.textContent || "Event Location";
-
         if (!venueText || venueText === "Venue Location") {
             console.warn("Venue location not yet loaded from API.");
             myMap.invalidateSize();
             return;
         }
-
         // Clean up duplicated words like "Petrie Terrace Gallery, Petrie Terrace" 
         // to make it a clean query for Nominatim
         let cleanVenue = venueText;
         if (cleanVenue.toLowerCase().includes("petrie terrace gallery")) {
             cleanVenue = "Petrie Terrace Gallery, Petrie Terrace";
         }
-
         const queryAddress = `${cleanVenue}, Brisbane, Queensland, Australia`;
         const geocodeURL = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(queryAddress)}`;
-
         fetch(geocodeURL)
             .then(res => res.json())
             .then(results => {
                 let lat, lon;
-
                 if (results && results.length > 0) {
                     lat = parseFloat(results[0].lat);
                     lon = parseFloat(results[0].lon);
@@ -53,13 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     lat = -27.4583;
                     lon = 153.0135;
                 }
-
                 // Move map view to the exact spot and drop the pin
                 myMap.setView([lat, lon], 16);
                 L.marker([lat, lon]).addTo(myMap)
                     .bindPopup(`<strong>${eventTitle}</strong><br>${venueText}`)
                     .openPopup();
-
                 myMap.invalidateSize();
             })
             .catch(err => {
@@ -78,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Sub-nav tab switching ---
     const tabLinks = document.querySelectorAll('.sub-nav .tab-link');
     const sections = document.querySelectorAll('.content-sub-nav .left-side section');
-
     sections.forEach(section => {
         if (section.id === 'overview') {
             section.classList.add('active');
@@ -89,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
             link.classList.add('active');
         }
     });
-
     tabLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -103,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
     // --- Save to Favourites logic with reliable persistence ---
     const saveBtn = document.getElementById("save-event-btn");
     const eventNameEl = document.querySelector(".event-name");
@@ -117,15 +105,12 @@ document.addEventListener('DOMContentLoaded', () => {
             image: document.getElementById("event-image")?.src || "../images/market.jpg",
             category: "General"
         });
-
         const updateButtonState = () => {
             const eventData = getCurrentEventData();
             // Ignore if it's still showing the default placeholder
             if (eventData.title === "Event Title") return; 
-
             let favourites = JSON.parse(localStorage.getItem("mika_favourites")) || [];
             const isSaved = favourites.some(fav => fav.title === eventData.title);
-
             if (isSaved) {
                 saveBtn.textContent = "♥ Saved";
                 saveBtn.style.backgroundColor = "#D45060";
@@ -134,23 +119,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 saveBtn.style.backgroundColor = "";
             }
         };
-
         // Check immediately and also use a MutationObserver to catch when the loader updates the title text
         updateButtonState();
-
         if (eventNameEl) {
             const observer = new MutationObserver(() => {
                 updateButtonState();
             });
             observer.observe(eventNameEl, { childList: true, characterData: true, subtree: true });
         }
-
         // Handle click to toggle save/unsave
         saveBtn.addEventListener("click", () => {
             const eventData = getCurrentEventData();
             let favourites = JSON.parse(localStorage.getItem("mika_favourites")) || [];
             const index = favourites.findIndex(fav => fav.title === eventData.title);
-
             if (index === -1) {
                 favourites.push(eventData);
                 localStorage.setItem("mika_favourites", JSON.stringify(favourites));
@@ -164,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
     // --- Review Filter Buttons Toggle Logic ---
     const filterPills = document.querySelectorAll('.review-filters .filter-pill');
     filterPills.forEach(pill => {
@@ -175,21 +155,17 @@ document.addEventListener('DOMContentLoaded', () => {
             pill.classList.add('active');
         });
     });
-
     // --- Post New Review Logic ---
     const postBtn = document.getElementById('post-review-btn');
     const reviewInput = document.getElementById('review-input');
     const reviewsList = document.getElementById('reviews-list');
-
     if (postBtn && reviewInput && reviewsList) {
         const createAndPostReview = () => {
             const text = reviewInput.value.trim();
             if (!text) return; // Ignore empty comments
-
             // Create card HTML element dynamically
             const newReviewCard = document.createElement('article');
             newReviewCard.className = 'review-card';
-
             newReviewCard.innerHTML = `
                 <div class="avatar-circle avatar-user">YOU</div>
                 <div class="review-body">
@@ -197,17 +173,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="review-text">${text}</p>
                 </div>
             `;
-
             // Prepend new review at the top of the list
             reviewsList.prepend(newReviewCard);
-
             // Clear input box
             reviewInput.value = '';
         };
-
         // Trigger on button click
         postBtn.addEventListener('click', createAndPostReview);
-
         // Allow pressing "Enter" key to post
         reviewInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
@@ -216,23 +188,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
     // --- Follow Host Button Logic ---
     const followBtn = document.getElementById("follow-host-btn");
     const hostNameEl = document.querySelector(".host-name");
-
     if (followBtn) {
         // Function to get a unique key for the current host
         const getHostKey = () => {
             const hostName = hostNameEl?.textContent.trim() || "Host Name";
             return `mika_followed_${hostName}`;
         };
-
         // Check localStorage to set initial state on page load
         const updateFollowState = () => {
             const hostKey = getHostKey();
             const isFollowed = localStorage.getItem(hostKey) === "true";
-
             if (isFollowed) {
                 followBtn.textContent = "Following";
                 followBtn.style.backgroundColor = "#D45060";
@@ -243,10 +211,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 followBtn.style.color = "";
             }
         };
-
         // Run immediately
         updateFollowState();
-
         // If host name changes dynamically via data loader, observe it
         if (hostNameEl) {
             const hostObserver = new MutationObserver(() => {
@@ -254,12 +220,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             hostObserver.observe(hostNameEl, { childList: true, characterData: true, subtree: true });
         }
-
         // Toggle follow state on click
         followBtn.addEventListener("click", () => {
             const hostKey = getHostKey();
             const isFollowed = localStorage.getItem(hostKey) === "true";
-
             if (isFollowed) {
                 localStorage.removeItem(hostKey);
             } else {
@@ -268,7 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateFollowState();
         });
 }
-
 // --- Brisbane Database Connection Helper ---
 function iterateRecords(data) {
     var records = data.results;
@@ -292,7 +255,6 @@ function iterateRecords(data) {
         }
     });
 }
-
 $(document).ready(function() {
     const creativeEventsAPIURL = "https://data.brisbane.qld.gov.au/api/explore/v2.1/catalog/datasets/creative-events/records";
     const requestParams = { limit: 20 };
@@ -305,12 +267,10 @@ $(document).ready(function() {
         .catch(error => console.error("Error fetching data:", error));
 });
 
-
 // --- Ticket Modal Popup Logic ---
 const modal = document.getElementById('ticket-modal');
 const getTicketsBtn = document.querySelector('.get-tickets');
 const closeBtn = document.getElementById('modal-close-btn');
-
 if (getTicketsBtn && modal) {
     // Open modal on click
     getTicketsBtn.addEventListener('click', () => {
@@ -322,29 +282,24 @@ if (getTicketsBtn && modal) {
         
         modal.hidden = false;
     });
-
     // Close modal on click of X
     closeBtn.addEventListener('click', () => {
         modal.hidden = true;
     });
-
     // Close modal when clicking outside the container backdrop
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.hidden = true;
         }
     });
-
     // Interactive quantity and price calculation inside modal
     let currentQty = 1;
     let currentUnitPrice = 20;
-
     const qtySpan = document.getElementById('ticket-qty');
     const tierTotalEl = document.getElementById('selected-tier-total');
     const cartItemDesc = document.getElementById('cart-item-desc');
     const cartItemPrice = document.getElementById('cart-item-price');
     const cartTotalPrice = document.getElementById('cart-total-price');
-
     const updateTotals = () => {
         qtySpan.textContent = currentQty;
         const total = currentQty * currentUnitPrice;
@@ -355,19 +310,16 @@ if (getTicketsBtn && modal) {
         cartItemPrice.textContent = formattedTotal;
         cartTotalPrice.textContent = formattedTotal;
     };
-
     document.getElementById('qty-plus').addEventListener('click', () => {
         currentQty++;
         updateTotals();
     });
-
     document.getElementById('qty-minus').addEventListener('click', () => {
         if (currentQty > 1) {
             currentQty--;
             updateTotals();
         }
     });
-
     // Handle clicking different ticket tier pills
     document.querySelectorAll('.ticket-type-pill').forEach(pill => {
         pill.addEventListener('click', () => {
@@ -381,15 +333,12 @@ if (getTicketsBtn && modal) {
             updateTotals();
         });
     });
-
     // --- View Switching and Payment Logic ---
     const ticketSelectionView = document.getElementById('ticket-selection-view');
     const checkoutView = document.getElementById('checkout-view');
     const proceedCheckoutBtn = document.getElementById('proceed-checkout-btn');
     const backToTicketsBtn = document.getElementById('back-to-tickets-btn');
-
     let isAtCheckout = false;
-
     if (proceedCheckoutBtn && checkoutView && ticketSelectionView) {
         proceedCheckoutBtn.addEventListener('click', () => {
             if (!isAtCheckout) {
@@ -405,7 +354,6 @@ if (getTicketsBtn && modal) {
             proceedCheckoutBtn.textContent = "Paid";
             proceedCheckoutBtn.style.backgroundColor = "#D45060"; 
             proceedCheckoutBtn.disabled = true;
-
             // --- SAVE EVENT TO "MY EVENTS" ---
             const eventData = {
                 title: document.getElementById('modal-event-title')?.textContent.trim() || "Event Title",
@@ -415,7 +363,6 @@ if (getTicketsBtn && modal) {
                 category: "Attending", // or whatever category/status label you use
                 status: "Attending"
             };
-
             // Get existing user events or initialize an empty array
             let myEvents = JSON.parse(localStorage.getItem("mika_my_events")) || [];
             
@@ -426,7 +373,6 @@ if (getTicketsBtn && modal) {
                 localStorage.setItem("mika_my_events", JSON.stringify(myEvents));
             }
             // ---------------------------------
-
             setTimeout(() => {
                 modal.hidden = true;
                 // Reset everything for next time
@@ -439,7 +385,6 @@ if (getTicketsBtn && modal) {
             }, 1500);
         }
         });
-
         if (backToTicketsBtn) {
             backToTicketsBtn.addEventListener('click', () => {
                 checkoutView.hidden = true;
@@ -449,7 +394,6 @@ if (getTicketsBtn && modal) {
         });
     }
     }
-
     // save logic throughout checkout //
     const modalFavBtns = document.querySelectorAll('.modal-overlay .fav-btn');
     
@@ -458,7 +402,6 @@ if (getTicketsBtn && modal) {
             const eventTitle = document.querySelector('.event-name')?.textContent.trim() || "Event Title";
             let favourites = JSON.parse(localStorage.getItem("mika_favourites")) || [];
             const isSaved = favourites.some(fav => fav.title === eventTitle);
-
             modalFavBtns.forEach(btn => {
                 if (isSaved) {
                     btn.textContent = "♥";
@@ -471,13 +414,11 @@ if (getTicketsBtn && modal) {
                 }
             });
         };
-
         // Update state whenever the modal opens or title changes
         const mainSaveBtn = document.getElementById("save-event-btn");
         if (getTicketsBtn) {
             getTicketsBtn.addEventListener('click', updateModalFavButtonsState);
         }
-
         modalFavBtns.forEach(btn => {
             btn.addEventListener("click", () => {
                 const eventData = {
@@ -488,10 +429,8 @@ if (getTicketsBtn && modal) {
                     image: document.getElementById("event-image")?.src || "../images/market.jpg",
                     category: "General"
                 };
-
                 let favourites = JSON.parse(localStorage.getItem("mika_favourites")) || [];
                 const index = favourites.findIndex(fav => fav.title === eventData.title);
-
                 if (index === -1) {
                     favourites.push(eventData);
                     localStorage.setItem("mika_favourites", JSON.stringify(favourites));
@@ -499,7 +438,6 @@ if (getTicketsBtn && modal) {
                     favourites.splice(index, 1);
                     localStorage.setItem("mika_favourites", JSON.stringify(favourites));
                 }
-
                 // Update both the modal hearts and the main page save button simultaneously
                 updateModalFavButtonsState();
                 if (mainSaveBtn) {

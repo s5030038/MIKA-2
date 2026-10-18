@@ -82,7 +82,7 @@ a {
   width: 48px;
   height: 48px;
   object-fit: contain;
-  transform: translateY(8.5px);
+  transform: translateY(0);
 }
 
 .search {
@@ -2287,6 +2287,9 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
   transition: background 0.2s ease;
 }
 .fav-item__view:hover { background: #540015; }
+
+
+.fav-item__badge { z-index: 1; }   /* keep the date badge on top of the photo */
 
 #favourites-empty {
   padding: 2rem 0;

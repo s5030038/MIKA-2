@@ -160,7 +160,7 @@
         id: f.id, name: f.name, slug: f.slug || slugify(f.name), source: "",
         category: (f.categories && f.categories[0]) || "Event",
         venue: f.venue, start: f.startTime == null ? null : f.startTime, end: null,
-        image: "", going: false, saved: true,
+        image: f.image || "", going: false, saved: true,
         dateLabel: f.date, timeLabel: "", fav: f
       });
     });

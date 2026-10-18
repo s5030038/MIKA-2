@@ -248,7 +248,7 @@ function updateGreeting(settings) {
   var avatarImg = document.querySelector(".avatar-img");
   if (avatarImg && settings.avatar) avatarImg.src = settings.avatar;
   // a new account that has no photo yet gets the default one, not the previous account's
-  var defaultAvatar = "../images/profile_picture.jpg";
+  var defaultAvatar = "../images/profile-picture.png";
   if (avatarImg && !settings.avatar && avatarImg.getAttribute("src") !== defaultAvatar) avatarImg.src = defaultAvatar;
 }
 
