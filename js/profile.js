@@ -62,6 +62,20 @@ function buildFavouriteItem(ev) {
   var image = el("a", "fav-item__image");
   image.href = link;
   image.setAttribute("aria-label", "View " + ev.name);
+  // event photo (falls back to the photo saved with a booking of the same event)
+  var photo = ev.image || "";
+  if (!photo && typeof getBookings === "function") {
+    var match = getBookings().filter(function (b) { return b.slug === ev.slug && b.image; })[0];
+    if (match) photo = match.image;
+  }
+  if (photo) {
+    var img = document.createElement("img");
+    img.src = photo;
+    img.alt = "";
+    img.loading = "lazy";
+    img.addEventListener("error", function () { img.remove(); });  // keep the gradient if it fails
+    image.appendChild(img);
+  }
   if (ev.startTime != null && isFinite(ev.startTime)) {
     var d = new Date(ev.startTime);
     var badge = el("div", "fav-item__badge");

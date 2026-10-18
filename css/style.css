@@ -2198,6 +2198,14 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
   border-radius: 12px;
   background: linear-gradient(135deg, #E8D8D2, #D45060);   /* placeholder: the APIs have no images */
 }
+.fav-item__image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
 .fav-item__badge {
   position: absolute;
   top: 8px;
@@ -2211,6 +2219,7 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
   color: #800020;
   font-family: "Work Sans", sans-serif;
   line-height: 1.1;
+  z-index: 1;
 }
 .fav-item__badge strong { font-size: 1.5rem; }
 .fav-item__badge span { font-size: 0.75rem; }
