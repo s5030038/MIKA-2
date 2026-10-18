@@ -4131,6 +4131,14 @@ html:has(.about-page) { scroll-behavior: smooth; }
 }
 .ab-hero__links { display: flex; flex-wrap: wrap; gap: 0.7rem; margin: 0; }
 
+.ab-hero {
+  padding-bottom: 1rem;
+}
+
+.ab-hero + .ab-section {
+  padding-top: 2rem;
+}
+
 .ab-pill {
   display: inline-block;
   padding: 0.7rem 1.5rem;
