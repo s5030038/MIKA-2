@@ -306,7 +306,7 @@ $(document).ready(function() {
 });
 
 
-// --- Ticket Modal Popup Logic AI WILL CHANGE AFTER MON ---
+// --- Ticket Modal Popup Logic ---
 const modal = document.getElementById('ticket-modal');
 const getTicketsBtn = document.querySelector('.get-tickets');
 const closeBtn = document.getElementById('modal-close-btn');

@@ -198,10 +198,12 @@
      </div>
 </main>
 
-<!-- Ticket Popup Modal AI WILL CHANGE AFTER MON-->
+<!-- Ticket Popup Modal-->
 <div id="ticket-modal" class="modal-overlay" hidden>
     <div class="modal-container">
-        <button type="button" class="modal-close" id="modal-close-btn">&times;</button>
+        <button type="button" class="modal-close" id="modal-close-btn">
+            <img src="../images/exit-btn.png" alt="Close modal">
+        </button>
         
         <div class="modal-content-grid">
             <!-- Left Column: Switches between Selection View and Checkout View -->
@@ -218,10 +220,10 @@
                     <ul class="modal-details-list">
                         <li><img src="../images/location-icon.png" alt="Location"><span id="modal-venue">Venue Location</span></li>
                         <li><img src="../images/date-icon.png" alt="Date"><span id="modal-date">Event Date</span></li>
-                        <li><img src="../images/age-group-icon.png" alt="Ages"><span>Ages 18+, max 4 per group</span></li>
-                        <li><img src="../images/parking-icon.png" alt="Parking"><span>Free Parking</span></li>
-                        <li><img src="../images/doors-icon.png" alt="Doors"><span>Doors at 12:15PM</span></li>
-                        <li><img src="../images/entry-icon.png" alt="Entry"><span>Entry: Ticket + Valid ID</span></li>
+                        <li><img src="../images/age-group-icon.png" alt="Ages"><span>Age Group</span></li>
+                        <li><img src="../images/parking-icon.png" alt="Parking"><span>Parking Availability</span></li>
+                        <li><img src="../images/doors-icon.png" alt="Doors"><span>When Doors open</span></li>
+                        <li><img src="../images/entry-icon.png" alt="Entry"><span>Ways of entry (Ticket, Valid ID)</span></li>
                     </ul>
 
                     <hr class="modal-divider">
@@ -229,7 +231,7 @@
                     <!-- Ticket Type Pills -->
                     <div class="ticket-types">
                         <button type="button" class="ticket-type-pill active" data-type="Accessible Seating" data-price="20">
-                            <i class="fa-solid fa-wheelchair"></i> Accessible <span class="pill-remove">×</span>
+                            <i class="fa-solid fa-wheelchair"></i> Accessible <span class="pill-remove">x</span>
                         </button>
                         <button type="button" class="ticket-type-pill" data-type="VIP" data-price="30">$30 VIP</button>
                         <button type="button" class="ticket-type-pill" data-type="General" data-price="20">$20 General</button>
@@ -253,7 +255,7 @@
                 <div id="checkout-view" hidden>
                     <div class="checkout-header-row">
                         <button type="button" class="back-arrow-btn" id="back-to-tickets-btn">
-                            <--
+                            <img src="../images/back-arrow.png" alt="Back to ticket selection">
                         </button>
                         <h2 class="modal-event-title">Checkout</h2>
                         <button class="fav-btn" aria-label="Save event">♡</button>
@@ -326,7 +328,7 @@
             <!-- Right Column: Cart Summary -->
             <div class="modal-right-cart">
                 <div class="cart-header">
-                    <i class="fa-solid fa-cart-shopping"></i>
+                    <img src="../images/cart.png" alt="Cart Icon">
                     <h3>Your Cart</h3>
                 </div>
                 <div class="cart-items-summary">
@@ -368,7 +370,6 @@
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
 <script src="../js/events-data.js"></script>
 <script src="../js/booking-loader.js"></script>
 <script src="../js/script.js"></script>
