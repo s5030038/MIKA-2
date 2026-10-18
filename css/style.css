@@ -3530,8 +3530,10 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 }
 .modal-close {
     position: absolute;
+    width: 35px;
+    height: 10px;
     top: 20px;
-    right: 24px;
+    right: 10px;
     background: none;
     border: none;
     font-size: 28px;
@@ -3557,17 +3559,28 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     justify-content: space-between;
     gap: 15px;
 }
+
+.modal-header-row .fav-btn {
+    font-size: 40px;
+    margin-top: 58%;
+}
+
+.checkout-header-row .fav-btn {
+    font-size: 40px;
+    margin-top: 50%;
+}
+
 .modal-event-title {
     margin: 0;
     font-family: "Playfair Display", serif;
-    font-size: 28px;
+    font-size: 36px;
     font-weight: 700;
     color: #800020;
 }
 
 .modal-host {
     margin: 4px 0 16px;
-    font-size: 15px;
+    font-size: 23px;
     font-weight: 600;
     color: #800020;
 }
@@ -3586,11 +3599,12 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     display: flex;
     align-items: center;
     gap: 10px;
+    font-size: 18px;
 }
 
 .modal-details-list img {
-    width: 16px;
-    height: 16px;
+    width: 28px;
+    height: 28px;
     object-fit: contain;
 }
 
@@ -3615,7 +3629,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     background: #F9EDE6;
     color: #800020;
     font-family: inherit;
-    font-size: 13px;
+    font-size: 18px;
     font-weight: 600;
     cursor: pointer;
     display: inline-flex;
@@ -3640,7 +3654,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     align-items: center;
     justify-content: space-between;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 18px;
     margin-bottom: 6px;
 }
 
@@ -3652,29 +3666,22 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 
 .quantity-controls button {
     appearance: none;
-    background: #800020;
-    color: #FFFAF5;
+    background: #F9EDE6;
     border: none;
     border-radius: 50%;
-    width: 26px;
-    height: 26px;
+    width: 30px;
+    height: 30px;
     font-size: 16px;
     font-weight: bold;
 
     margin: 0;
     font-family: "Playfair Display", serif;
-    font-size: 18px;
+    font-size: 20px;
     color: #800020;
 }
 
-
-
-.quantity-controls button:hover {
-    background: #D45060;
-}
-
 .selection-card-price {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
     color: #800020;
 }
@@ -3697,15 +3704,15 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 }
 
 .cart-header h3 {
-    margin: 0;
+    margin-bottom: 0 80px;
     font-family: "Playfair Display", serif;
-    font-size: 20px;
+    font-size: 28px;
 }
 
 .cart-item-row, .cart-total-row {
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 500;
 }
 
