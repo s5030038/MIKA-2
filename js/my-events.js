@@ -5,7 +5,8 @@
 //   - working heart buttons, shared with the Favourites tab and the browsing page
 //   - List / Calendar toggle: a month calendar with a selected-day panel, a "Coming up" list
 //     and an "Add to my calendar" (.ics) download
-// Load order: favourites.js -> profile.js -> my-events.js
+// Bookings come from bookings.js (localStorage), so this tab shows what the signed-in user actually booked.
+// Load order: bookings.js -> favourites.js -> profile.js -> my-events.js
 
 (function () {
   var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -14,22 +15,6 @@
   var FULL_DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   var VIEW_KEY = "mika_my_events_view";
 
-  /* ---------- sample "my events" ----------
-     Replace this with real bookings later (e.g. read them from localStorage).
-     The two September events are fixed dates; the others are relative to today,
-     so Upcoming, the "Today" badge and the calendar always have something to show. */
-  function inDays(days, hour, minute) {
-    var d = new Date();
-    d.setDate(d.getDate() + days);
-    d.setHours(hour, minute, 0, 0);
-    return d.getTime();
-  }
-
-  var MY_EVENTS = [
-    { id: "riverside-film-night", name: "Riverside Film Night", category: "Creative", venue: "South Bank",
-      start: inDays(14, 18, 30), end: inDays(14, 21, 0), image: "" }
-  ];
-
   var SORT_OPTIONS = [
     { value: "recent", label: "Date (Recent)" },   // upcoming soonest first, then past events (newest first)
     { value: "latest", label: "Date (Latest)" },   // furthest in the future first
@@ -37,7 +22,7 @@
   ];
 
   var EMPTY_MESSAGES = {
-    all: "You don't have any events yet. Find something you like on the Events page!",
+    all: "You haven't booked any events yet. Find something you like on the Events page!",
     upcoming: "No upcoming events. Browse events and book something new.",
     attended: "You haven't attended any events yet.",
     saved: "No saved events yet. Tap the heart on an event to save it here."
@@ -84,55 +69,105 @@
     return h12 + ":" + String(d.getMinutes()).padStart(2, "0") + " " + suffix;
   }
 
+  function bookingsAvailable() { return typeof getBookings === "function"; }
+
+  // an event is "over" once its end time has passed (no end time -> assume it runs 3 hours)
+  function isOver(item) {
+    if (item.start == null) return false;
+    var end = item.end != null ? item.end : item.start + 3 * 60 * 60 * 1000;
+    return Date.now() > end;
+  }
+
   function favouritesAvailable() { return typeof getFavourites === "function" && typeof toggleFavourite === "function"; }
+
+  /* ---------- event photos from the Brisbane open data API ---------- */
+
+  var API_BASE = "https://data.brisbane.qld.gov.au/api/explore/v2.1/catalog/datasets/";
+  var IMAGE_DATASETS = ["creative-events", "music-events", "classes-and-workshops-events"];
+  var imageTried = {};   // each booking is looked up at most once per page load
+
+  function isPlaceholder(url) { return !url || url.indexOf("/images/eventcard") !== -1; }
+
+  // look the event up by name in each dataset until one has a photo ("" if none does)
+  function fetchEventImage(name, datasets) {
+    if (!datasets.length) return Promise.resolve("");
+    var safe = name.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+    var url = API_BASE + datasets[0] + "/records?limit=1&where=" + encodeURIComponent('subject="' + safe + '"');
+    return fetch(url)
+      .then(function (r) { if (!r.ok) throw new Error("bad response"); return r.json(); })
+      .then(function (data) {
+        var record = (data.results || [])[0];
+        var img = record && record["eventimage"];
+        return typeof img === "string" && img ? img : fetchEventImage(name, datasets.slice(1));
+      })
+      .catch(function () { return fetchEventImage(name, datasets.slice(1)); });
+  }
+
+  // bookings saved without a real photo get it from the API, then the cards redraw
+  function fillMissingImages() {
+    if (typeof getBookings !== "function" || typeof updateBooking !== "function" || typeof fetch !== "function") return;
+    getBookings().forEach(function (b) {
+      if (!isPlaceholder(b.image) || imageTried[b.id]) return;
+      imageTried[b.id] = true;
+      var order = b.source ? [b.source].concat(IMAGE_DATASETS.filter(function (d) { return d !== b.source; })) : IMAGE_DATASETS;
+      fetchEventImage(b.name, order).then(function (url) { if (url) updateBooking(b.id, { image: url }); });
+    });
+  }
 
   /* ---------- data ---------- */
 
-  // My events + any saved events (e.g. hearted on the browsing page), de-duplicated
+  // The signed-in user's bookings + any saved events (e.g. hearted on the browsing page), de-duplicated
   function buildItems() {
     var favs = favouritesAvailable() ? getFavourites() : [];
-    var savedIds = {};
-    favs.forEach(function (f) { savedIds[f.id] = true; });
+    var bookings = bookingsAvailable() ? getBookings() : [];
+    var favBySlug = {};
+    favs.forEach(function (f) { if (f.slug) favBySlug[f.slug] = f; });
 
-    var items = MY_EVENTS.map(function (s) {
-      var id = "my-" + s.id;
-      var dateLabel = formatDate(s.start);
-      var timeLabel = formatTime(s.start) + " \u2013 " + formatTime(s.end);
-      return {
-        id: id, name: s.name, slug: slugify(s.name), category: s.category, venue: s.venue,
-        start: s.start, end: s.end, image: s.image, going: true,
-        dateLabel: dateLabel, timeLabel: timeLabel,
-        // the object that gets stored when the heart is tapped (same shape as the API events)
-        fav: {
-          id: id, name: s.name, slug: slugify(s.name), venue: s.venue,
-          date: dateLabel + ", " + timeLabel, startTime: s.start,
-          categories: [s.category], cost: ""
-        }
+    var items = [];
+    var usedFavIds = {};
+
+    bookings.forEach(function (b) {
+      var slug = b.slug || slugify(b.name);
+      var dateLabel = b.start != null ? formatDate(b.start) : (b.dateLabel || "Date to be confirmed");
+      var timeLabel = "";
+      if (b.start != null && b.start !== startOfDay(b.start)) {
+        timeLabel = formatTime(b.start) + (b.end != null ? " \u2013 " + formatTime(b.end) : "");
+      }
+      // if the same event is also hearted, reuse that favourite so the heart shows as filled
+      var fav = favBySlug[slug] || {
+        id: "booking-" + b.id, name: b.name, slug: slug, venue: b.venue,
+        date: dateLabel + (timeLabel ? ", " + timeLabel : ""), startTime: b.start,
+        categories: [b.category], cost: b.price === "0" ? "Free" : (b.price ? "$" + b.price : "")
       };
+      usedFavIds[fav.id] = true;
+      items.push({
+        id: "booking-" + b.id, name: b.name, slug: slug, source: b.source || "",
+        category: b.category || "Event", venue: b.venue,
+        start: b.start, end: b.end, image: b.image || "", going: true,
+        dateLabel: dateLabel, timeLabel: timeLabel, fav: fav,
+        saved: Boolean(favBySlug[slug])
+      });
     });
 
-    var seen = {};
-    items.forEach(function (i) { seen[i.id] = true; });
-
+    // saved-only events (not booked)
     favs.forEach(function (f) {
-      if (seen[f.id]) return;
+      if (usedFavIds[f.id]) return;
       items.push({
-        id: f.id, name: f.name, slug: f.slug || slugify(f.name),
+        id: f.id, name: f.name, slug: f.slug || slugify(f.name), source: "",
         category: (f.categories && f.categories[0]) || "Event",
         venue: f.venue, start: f.startTime == null ? null : f.startTime, end: null,
-        image: "", going: false,
+        image: "", going: false, saved: true,
         dateLabel: f.date, timeLabel: "", fav: f
       });
     });
 
-    items.forEach(function (i) { i.saved = Boolean(savedIds[i.id]); });
     return items;
   }
 
   var FILTERS = {
     all:      function () { return true; },
-    upcoming: function (i) { return i.start != null && i.start >= startOfToday(); },
-    attended: function (i) { return i.going && i.start != null && i.start < startOfToday(); },
+    upcoming: function (i) { return i.start != null && !isOver(i); },
+    attended: function (i) { return i.going && isOver(i); },
     saved:    function (i) { return i.saved; }
   };
 
@@ -166,11 +201,33 @@
 
   // "attending" / "attended" for events you're going to, "saved" for the rest
   function statusOf(item) {
-    if (item.going) return item.start != null && item.start < startOfToday() ? "attended" : "attending";
+    if (item.going) return isOver(item) ? "attended" : "attending";
     return "saved";
   }
 
   /* ---------- list card ---------- */
+
+  // the pill under each card, worked out from the event's real date/time:
+  //   booked:      Today (happening today) / Attending (still to come) / Attended (finished)
+  //   saved only:  Today / Upcoming / Past event
+  function buildStatusPill(item) {
+    var over = isOver(item);
+    var today = item.start != null && isSameDay(item.start, Date.now()) && !over;
+    var key, label, iconClass = "";
+
+    if (today) { key = "today"; label = "Today"; }
+    else if (item.going) {
+      key = over ? "attended" : "attending";
+      label = over ? "Attended" : "Attending";
+      iconClass = "fa-solid fa-check";
+    } else if (item.start == null) { key = "saved"; label = "Saved"; iconClass = "fa-solid fa-heart"; }
+    else { key = over ? "past" : "upcoming"; label = over ? "Past event" : "Upcoming"; }
+
+    var pill = el("span", "event-status " + key);
+    if (iconClass) { pill.appendChild(icon(iconClass)); pill.appendChild(document.createTextNode(" ")); }
+    pill.appendChild(document.createTextNode(label));
+    return pill;
+  }
 
   function buildCard(item) {
     var card = el("article", "browseevent-card");
@@ -228,14 +285,7 @@
     venueRow.appendChild(el("span", "", item.venue));
     content.appendChild(venueRow);
 
-    if (item.start != null && isSameDay(item.start, Date.now())) {
-      content.appendChild(el("span", "event-status today", "Today"));
-    } else if (item.going) {
-      var status = el("span", "event-status attending");
-      status.appendChild(icon("fa-solid fa-check"));
-      status.appendChild(document.createTextNode(item.start >= startOfToday() ? " Attending" : " Attended"));
-      content.appendChild(status);
-    }
+    content.appendChild(buildStatusPill(item));
 
     card.appendChild(content);
     return card;
@@ -368,7 +418,8 @@
     actions.appendChild(pill);
 
     var view = el("a", "cal-btn", "View Event");
-    view.href = "bookingsPage.html?event=" + encodeURIComponent(ev.slug);
+    view.href = "bookingsPage.html?event=" + encodeURIComponent(ev.slug) +
+      (ev.source ? "&source=" + encodeURIComponent(ev.source) : "");
     actions.appendChild(view);
 
     var heart = el("button", "cal-heart" + (ev.saved ? " is-active" : ""));
@@ -407,7 +458,7 @@
 
     // coming up: the next three upcoming events (not on the selected day)
     var upcoming = lastFiltered.filter(function (i) {
-      return i.start != null && i.start >= startOfToday() && !isSameDay(i.start, state.selected);
+      return i.start != null && !isOver(i) && !isSameDay(i.start, state.selected);
     }).sort(function (a, b) { return a.start - b.start; }).slice(0, 3);
 
     if (upcoming.length) {
@@ -468,6 +519,7 @@
     if (!grid) return;
 
     var items = buildItems();
+    fillMissingImages();
 
     // live counts on the filter buttons (not affected by the search box)
     document.querySelectorAll(".event-filters .filter").forEach(function (btn) {
@@ -653,6 +705,16 @@
 
     // hearts toggled anywhere (this tab, Favourites tab) refresh the counts and the views
     document.addEventListener("favourites-changed", render);
+    document.addEventListener("bookings-changed", render);
+
+    // bookings made in another tab, coming back to this tab, and time passing
+    // (an event flips from Attending to Attended once it ends) all refresh the page
+    window.addEventListener("storage", function (e) {
+      if (!e.key || e.key === "mika_bookings" || e.key === "mika_favourites" || e.key === "mika_current_user") render();
+    });
+    window.addEventListener("pageshow", render);
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) render(); });
+    setInterval(render, 60 * 1000);
 
     render();
   });

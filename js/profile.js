@@ -8,6 +8,24 @@ var DEFAULT_SETTINGS = {
 };
 
 
+// the signed-in account's email (set by bookings.js -> setCurrentUser at login / sign up), or "" for a guest
+function currentEmail() {
+  return typeof getCurrentUser === "function" ? getCurrentUser() : "";
+}
+
+// accounts saved by auth.js (an array; older prototypes used an object keyed by email)
+function readAccounts() {
+  try {
+    var raw = JSON.parse(localStorage.getItem("mika_users") || "[]");
+    if (Array.isArray(raw)) return raw;
+    return Object.keys(raw || {}).map(function (email) { return Object.assign({ email: email }, raw[email]); });
+  } catch (e) { return []; }
+}
+
+function findAccount(email) {
+  return readAccounts().filter(function (u) { return u && u.email === email; })[0] || null;
+}
+
 // create an element with optional class + text (textContent keeps API data safe)
 function el(tag, className, text) {
   var node = document.createElement(tag);
@@ -161,22 +179,48 @@ function renderFavourites() {
 
 /* ---------- settings ---------- */
 
+// defaults for the signed-in account: sign up only asks for an email, so the name starts from it
+function accountDefaults(account) {
+  var base = JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
+  if (!account) return base;
+  base.email = account;
+  base.fullName = (typeof displayNameFromEmail === "function" && displayNameFromEmail(account)) || DEFAULT_SETTINGS.fullName;
+  base.owner = account;
+  // the categories picked during onboarding start as the event preferences
+  var acct = findAccount(account);
+  if (acct && acct.preferences && Array.isArray(acct.preferences.categories)) base.preferences = acct.preferences.categories.slice();
+  return base;
+}
+
 function loadSettings() {
+  var account = currentEmail();
   try {
     var saved = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "null");
+
+    if (saved && account) {
+      // settings that belong to a different account are not shown to this one
+      if (saved.owner && saved.owner !== account) saved = null;
+      // old placeholder settings from before sign up existed
+      else if (!saved.owner && saved.email === DEFAULT_SETTINGS.email && saved.email !== account) saved = null;
+    }
+
     if (saved) {
+      var defaults = accountDefaults(account);
       return {
-        fullName: saved.fullName || DEFAULT_SETTINGS.fullName,
-        email: saved.email || DEFAULT_SETTINGS.email,
+        fullName: saved.fullName || defaults.fullName,
+        email: saved.email || defaults.email,
         location: saved.location || DEFAULT_SETTINGS.location,
-        preferences: Array.isArray(saved.preferences) ? saved.preferences : [],
+        // once the user has changed preferences here, theirs win; before that, use the onboarding choices
+        preferences: saved.preferencesSet && Array.isArray(saved.preferences) ? saved.preferences : defaults.preferences,
+        preferencesSet: Boolean(saved.preferencesSet),
         notifications: Object.assign({}, DEFAULT_SETTINGS.notifications, saved.notifications),
         dob: saved.dob || "",
-        avatar: saved.avatar || ""
+        avatar: saved.avatar || "",
+        owner: account || saved.owner || ""
       };
     }
   } catch (e) { /* fall through to defaults */ }
-  return JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
+  return accountDefaults(account);
 }
 
 // greeting at the top of the page follows the saved name/email
@@ -190,6 +234,9 @@ function updateGreeting(settings) {
   // photo chosen on the Edit Profile page
   var avatarImg = document.querySelector(".avatar-img");
   if (avatarImg && settings.avatar) avatarImg.src = settings.avatar;
+  // a new account that has no photo yet gets the default one, not the previous account's
+  var defaultAvatar = "../images/profile_picture.jpg";
+  if (avatarImg && !settings.avatar && avatarImg.getAttribute("src") !== defaultAvatar) avatarImg.src = defaultAvatar;
 }
 
 function fillSettingsForm(settings) {
@@ -230,6 +277,8 @@ function saveSettingsFromForm() {
   settings.fullName = name;
   settings.email = email;
   settings.location = location || DEFAULT_SETTINGS.location;
+  if (currentEmail()) settings.owner = currentEmail();
+  settings.preferencesSet = true;
   settings.preferences = Array.prototype.map.call(
     document.querySelectorAll('input[name="pref"]:checked'), function (b) { return b.value; });
   settings.notifications = {};
@@ -248,18 +297,19 @@ function updatePassword() {
   var current = document.getElementById("pw-current").value;
   var next = document.getElementById("pw-new").value;
   var confirmPw = document.getElementById("pw-confirm").value;
-  var email = document.getElementById("setting-email").value.trim();
+  var email = currentEmail() || document.getElementById("setting-email").value.trim();
 
   function fail(text) { msg.textContent = text; msg.classList.add("is-error"); }
 
   if (next.length < 8) return fail("New password must be at least 8 characters.");
   if (next !== confirmPw) return fail("The new passwords don't match.");
 
-  var users = {};
-  try { users = JSON.parse(localStorage.getItem("mika_users") || "{}"); } catch (e) {}
-  if (users[email] && users[email].password !== current) return fail("Current password is incorrect.");
+  var users = readAccounts();
+  var account = users.filter(function (u) { return u.email === email; })[0];
+  if (!account) return fail("Log in with your account to change its password.");
+  if (account.password !== current) return fail("Current password is incorrect.");
 
-  users[email] = { password: next };
+  account.password = next;
   localStorage.setItem("mika_users", JSON.stringify(users));
 
   ["pw-current", "pw-new", "pw-confirm"].forEach(function (id) { document.getElementById(id).value = ""; });
@@ -304,7 +354,10 @@ function setUpSettings() {
 
   // log out (the mock login only stores users in localStorage, so just go back to login)
   var logout = document.getElementById("logout-btn");
-  if (logout) logout.addEventListener("click", function () { window.location.href = "loginpage.html"; });
+  if (logout) logout.addEventListener("click", function () {
+    if (typeof clearCurrentUser === "function") clearCurrentUser();
+    window.location.href = "loginpage.html";
+  });
 }
 
 /* ---------- start-up ---------- */
@@ -315,6 +368,13 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       showTab(item.dataset.tab);
       history.replaceState(null, "", "#" + item.dataset.tab);
+    });
+  });
+
+  // the Logout link in the header dropdown also signs the user out
+  document.querySelectorAll('.dropdown-content-profile a[href*="oginPage"], .dropdown-content-profile a[href*="oginpage"]').forEach(function (link) {
+    link.addEventListener("click", function () {
+      if (typeof clearCurrentUser === "function") clearCurrentUser();
     });
   });
 

@@ -136,7 +136,11 @@
         date: date,
         price: parsePrice(cost) || "0",
         image: img ? img.src : "../images/eventcard1.png",
-        category: category
+        category: category,
+        slug: slug,
+        source: DATASET_ID,
+        start: record["start_datetime"] || "",
+        end: record["end_datetime"] || ""
       }));
     });
 

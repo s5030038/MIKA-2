@@ -98,6 +98,24 @@ function createEventCard(record) {
       '<div class="browseevent-card__info"></div>' +
     '</a>';
   
+  // remember which event was clicked so the booking page can save it to "My Events"
+  var link = article.querySelector(".browseevent-card__link");
+  link.addEventListener("click", function () {
+    var shownImg = article.querySelector(".browseevent-card__frame img");
+    localStorage.setItem("mika_current_event", JSON.stringify({
+      name: name,
+      venue: venue,
+      date: date,
+      price: parsePrice(cost) || "0",
+      image: shownImg ? shownImg.src : "../images/eventcard1.png",
+      category: category,
+      slug: slug,
+      source: sourceId,
+      start: record["start_datetime"] || "",
+      end: record["end_datetime"] || ""
+    }));
+  });
+
   //category pill (from Isabel's figma design)
   var pill = article.querySelector(".category");
   if (category) {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>bookings page</title>
+    <title>MIKA² — Bookings page</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/leaflet.css">
     <script src="../js/leaflet.js"></script>
@@ -166,11 +166,46 @@
                 </div>
             </section>
 
-            <section id="board">
-                <h3>IN-PROGRESS</h3>
-                <img src="../images/in-the-room.png" alt="in-the-room-sample">
-                <img src="../images/discussion-board-static.png" alt="discussion-board-sample">
+               <section id="board" class="board" data-event="tiny-desk-concert">
+                <h2>Discussion Board</h2>
+                <p class="board__intro">Ask a question, share a tip, or find someone to go with.</p>
+ 
+                <!-- write a new post -->
+                <form class="board-composer" id="board-composer" novalidate>
+                    <div class="board-avatar" id="composer-avatar" aria-hidden="true">Y</div>
+                    <div class="board-composer__main">
+                        <label class="visually-hidden" for="board-text">Write a post</label>
+                        <textarea id="board-text" rows="3" placeholder="Share a tip, ask a question or find someone to go with..."></textarea>
+ 
+                        <div class="board-composer__row">
+                            <div class="board-tags" role="radiogroup" aria-label="Post topic">
+                                <label><input type="radio" name="board-tag" value="General" checked><span>General</span></label>
+                                <label><input type="radio" name="board-tag" value="Question"><span>Question</span></label>
+                                <label><input type="radio" name="board-tag" value="Going together"><span>Going together</span></label>
+                                <label><input type="radio" name="board-tag" value="Tips"><span>Tips</span></label>
+                            </div>
+                            <span class="board-counter" id="board-counter">0 / 500</span>
+                            <button type="submit" class="board-btn">Post</button>
+                        </div>
+                        <p class="board-error" id="board-error" role="alert"></p>
+                    </div>
+                </form>
+ 
+                <!-- count + sort -->
+                <div class="board-toolbar">
+                    <span id="board-count">0 posts</span>
+                    <div class="board-sort" role="group" aria-label="Sort posts">
+                        <button type="button" data-sort="newest" class="is-active" aria-pressed="true">Newest</button>
+                        <button type="button" data-sort="liked" aria-pressed="false">Most liked</button>
+                        <button type="button" data-sort="replies" aria-pressed="false">Most replies</button>
+                    </div>
+                </div>
+ 
+                <!-- posts are inserted by discussion-board.js -->
+                <div class="board-list" id="board-list" aria-live="polite"></div>
+                <p class="board-empty" id="board-empty" hidden>No posts yet. Be the first to start the conversation!</p>
             </section>
+            
         </div>
 
         <aside class="right-side">
@@ -373,6 +408,9 @@
 <script src="../js/events-data.js"></script>
 <script src="../js/booking-loader.js"></script>
 <script src="../js/script.js"></script>
+<script src="../js/bookings.js"></script>
+<script src="../js/booking-confirm.js"></script>
+<script src="../js/discussion-board.js"></script>
 
 </body>
 
