@@ -37,12 +37,24 @@ function createMusicEventCard(record) {
   article.dataset.date = date;
 
   article.innerHTML =
-    '<a href="bookingsPage.html?event=' + encodeURIComponent(slug) + '" class="browseevent-card__link">' +
+    '<a href="bookingsPage.html?event=' + encodeURIComponent(slug) + '&source=music-events" class="browseevent-card__link">' +
       '<div class="browseevent-card__frame"></div>' +
       '<h3 class="browseevent-card__title"></h3>' +
       '<p class="browseevent-card__meta"></p>' +
       '<p class="browseevent-card__venue"></p>' +
     '</a>';
+
+  var link = article.querySelector(".browseevent-card__link");
+  link.addEventListener("click", function () {
+    localStorage.setItem("mika_current_event", JSON.stringify({
+      name: name,
+      venue: venue,
+      date: date,
+      price: parsePrice(cost) || "0",
+      image: img ? img.src : "../images/eventcard1.png",
+      category: category
+    }));
+  });
 
   // textContent (not innerHTML) so data from the API can't inject HTML
   article.querySelector(".browseevent-card__title").textContent = name;
