@@ -378,6 +378,40 @@ function clearSearchBar() {
   closePanels();
 }
 
+/* ---------- saved preferences from onboarding ---------- */
+ 
+// the logged-in user's saved preferences from onboarding, or null
+function getSavedPreferences() {
+  try {
+    var userId = sessionStorage.getItem("mika_current_user_id");
+    if (!userId) return null;
+    var users = JSON.parse(localStorage.getItem("mika_users") || "[]");
+    var user = users.find(function (u) { return u.id === userId; });
+    return user && user.preferences ? user.preferences : null;
+  } catch (e) {
+    return null;
+  }
+}
+ 
+// fill the bar with the visitor's saved preferences every time the page loads
+function loadSavedPreferences() {
+  var prefs = getSavedPreferences();
+  if (!prefs) return;
+ 
+  var validCategories = CATEGORY_OPTIONS.map(function (o) { return o.value; });
+ 
+  window.searchFilters.categories = (prefs.categories || []).filter(function (c) {
+    return validCategories.indexOf(c) !== -1;
+  });
+ 
+  // match a saved audience to an option by its label or its value
+  // (onboarding saves "Teenagers", but the events use "Teens")
+  window.searchFilters.ages = (prefs.audiences || []).map(function (a) {
+    var match = WHO_OPTIONS.filter(function (o) { return o.label === a || o.value === a; })[0];
+    return match ? match.value : null;
+  }).filter(Boolean);
+}
+
 /* ---------- wiring ---------- */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -463,5 +497,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.key === "Escape") closePanels();
   });
 
+  loadSavedPreferences();
   updateLabels();
 });
