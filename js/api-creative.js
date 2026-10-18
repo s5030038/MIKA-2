@@ -96,6 +96,18 @@ function createEventCard(record) {
       '<div class="browseevent-card__info"></div>' +
     '</a>';
   
+  var link = article.querySelector(".browseevent-card__link");
+  link.addEventListener("click", function () {
+    localStorage.setItem("mika_current_event", JSON.stringify({
+      name: name,
+      venue: venue,
+      date: date,
+      price: parsePrice(cost) || "0",
+      image: img ? img.src : "../images/eventcard1.png",
+      category: category
+    }));
+  });
+
   //category pill (from Isabel's figma design)
   var pill = article.querySelector(".category");
   if (category) {

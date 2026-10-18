@@ -73,6 +73,8 @@ function createEventCard(record) {
   var cost = record["cost"] || "";
   var category = record._category || record["primaryeventtype"] || "";
 
+  var sourceId = record._datasetId || "creative-events";
+
   var article = document.createElement("article");
   article.className = "browseevent-card";
   article.dataset.name = name;
@@ -89,7 +91,7 @@ function createEventCard(record) {
     record["bookingsrequired"] === "No" ? "walkin" : "";
 
   article.innerHTML =
-    '<a href="bookingsPage.html?event=' + encodeURIComponent(slug) + '" class="browseevent-card__link">' +
+    '<a href="bookingsPage.html?event=' + encodeURIComponent(slug) + '&source=' + encodeURIComponent(sourceId) + '" class="browseevent-card__link">' +
       '<div class="browseevent-card__frame"></div>' +
       '<span class="category"></span>' +
       '<h3 class="browseevent-card__title"></h3>' +
@@ -201,6 +203,7 @@ var EVENT_SOURCES = [
 
 function fetchRecords(source) {
   var url = source.url + "?" + new URLSearchParams({ limit: 20 }).toString();
+  var datasetId = source.url.includes("music-events") ? "music-events" : "creative-events"; // identify source
 
   return fetch(url)
     .then(function (response) {
@@ -210,6 +213,7 @@ function fetchRecords(source) {
     .then(function (data) {
       return (data.results || []).map(function (record) {
         record._category = source.forceCategory || record["primaryeventtype"] || "";
+        record._datasetId = datasetId; // Save dataset ID tag
         return record;
       });
     })
