@@ -174,7 +174,7 @@ a {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 1.35rem;
+  font-size: 1.55rem;
   line-height: 1;
 }
 
@@ -4312,6 +4312,48 @@ html:has(.about-page) { scroll-behavior: smooth; }
 .ab-notes a:hover { color: var(--ab-burgundy); }
 
 .ab-updated { margin: 2.2rem 0 0; font-size: 0.88rem; color: var(--ab-rose); }
+
+/* ---------- references dropdown ---------- */
+.ab-dropdown__summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  list-style: none;          /* hides the default marker */
+  cursor: pointer;
+}
+
+.ab-dropdown__summary::-webkit-details-marker {
+  display: none;             /* Safari */
+}
+
+/* the heading keeps its look but loses its bottom margin */
+.about-page .ab-dropdown__summary h2 {
+  margin: 0;
+}
+
+/* arrow: points down when open, right when closed */
+.ab-dropdown__summary::after {
+  content: "";
+  flex: none;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-top: 12px solid var(--ab-burgundy);
+  transition: transform 0.2s ease;
+}
+
+.ab-dropdown[open] .ab-dropdown__summary::after {
+  transform: rotate(180deg);
+}
+
+.ab-dropdown[open] .ab-statement {
+  margin-top: 1.2rem;
+}
+
+.ab-dropdown__summary:focus-visible {
+  outline: 2px solid #D45060;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
 
 /* keyboard focus on links and pills */
 .about-page a:focus-visible, .ab-link-btn:focus-visible { outline: 2px solid #D45060; outline-offset: 3px; border-radius: 4px; }
