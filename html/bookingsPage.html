@@ -166,45 +166,99 @@
                 </div>
             </section>
 
-               <section id="board" class="board" data-event="tiny-desk-concert">
-                <h2>Discussion Board</h2>
-                <p class="board__intro">Ask a question, share a tip, or find someone to go with.</p>
- 
-                <!-- write a new post -->
-                <form class="board-composer" id="board-composer" novalidate>
-                    <div class="board-avatar" id="composer-avatar" aria-hidden="true">Y</div>
-                    <div class="board-composer__main">
-                        <label class="visually-hidden" for="board-text">Write a post</label>
-                        <textarea id="board-text" rows="3" placeholder="Share a tip, ask a question or find someone to go with..."></textarea>
- 
-                        <div class="board-composer__row">
-                            <div class="board-tags" role="radiogroup" aria-label="Post topic">
-                                <label><input type="radio" name="board-tag" value="General" checked><span>General</span></label>
-                                <label><input type="radio" name="board-tag" value="Question"><span>Question</span></label>
-                                <label><input type="radio" name="board-tag" value="Going together"><span>Going together</span></label>
-                                <label><input type="radio" name="board-tag" value="Tips"><span>Tips</span></label>
-                            </div>
-                            <span class="board-counter" id="board-counter">0 / 500</span>
-                            <button type="submit" class="board-btn">Post</button>
-                        </div>
-                        <p class="board-error" id="board-error" role="alert"></p>
+            <!-- chat-room-snippet.html
+                Two pieces of HTML for bookingsPage.html (no JavaScript needed). See the comments on each.
+                Also add, in <head> after style.css:  <link rel="stylesheet" href="../css/chat-room.css">
+                and remove the old discussion-board.css / discussion-board.js links. -->
+
+            <!-- ============ DISCUSSION BOARD (static chat room) ============ -->
+            <!-- Replace your old <section id="board"> ... </section> with this. -->
+            <section id="board" class="chat-room" aria-label="Event chat room">
+                <h2 class="chat-sr">Discussion board</h2>
+
+                <!-- room header -->
+                <div class="chat-head">
+                    <span class="chat-head__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFF1E7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.5A8 8 0 1 1 21 12z"/></svg></span>
+                    <div>
+                        <p class="chat-head__title">Event chat</p>
+                        <p class="chat-head__sub">Tiny Desk Concert &middot; 12 going</p>
                     </div>
-                </form>
- 
-                <!-- count + sort -->
-                <div class="board-toolbar">
-                    <span id="board-count">0 posts</span>
-                    <div class="board-sort" role="group" aria-label="Sort posts">
-                        <button type="button" data-sort="newest" class="is-active" aria-pressed="true">Newest</button>
-                        <button type="button" data-sort="liked" aria-pressed="false">Most liked</button>
-                        <button type="button" data-sort="replies" aria-pressed="false">Most replies</button>
-                    </div>
+                    <span class="chat-online"><span class="chat-online__dot" aria-hidden="true"></span>4 online</span>
                 </div>
- 
-                <!-- posts are inserted by discussion-board.js -->
-                <div class="board-list" id="board-list" aria-live="polite"></div>
-                <p class="board-empty" id="board-empty" hidden>No posts yet. Be the first to start the conversation!</p>
+
+                <!-- pinned by the host -->
+                <div class="chat-pin">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#800020" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M8 3h8l-1 7 3 3H6l3-3z"/></svg>
+                    <p><strong>Pinned by Australia Zoo:</strong> Welcome! Be kind, and keep phone numbers and addresses out of the chat.</p>
+                </div>
+
+                <!-- messages (sample conversation) -->
+                <ol class="chat-messages" tabindex="0" aria-label="Chat messages">
+                    <li class="chat-day">Today</li>
+                    <li class="chat-system">Priya joined the room</li>
+
+                    <li class="chat-msg">
+                        <span class="chat-avatar chat-avatar--rose" aria-hidden="true">ML</span>
+                        <div class="chat-col">
+                            <div class="chat-meta">
+                                <span class="chat-name">Maya L.</span>
+                                <span class="chat-tag">Going solo</span>
+                                <time class="chat-time" datetime="10:42">10:42</time>
+                            </div>
+                            <div class="chat-bubble">First Tiny Desk style show and I'm going on my own! Anyone want to meet near the entrance before doors open?</div>
+                            <span class="chat-reaction"><svg width="12" height="12" viewBox="0 0 24 24" fill="#BC3A49" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.2C1 8.3 3 5 6.3 5c2 0 3.6 1.1 5.700 3.300C14.100 6.100 15.700 5 17.700 5 21 5 23 8.300 21.500 11.800 19.500 16.400 12 21 12 21z"/></svg> 4</span>
+                        </div>
+                    </li>
+
+                    <li class="chat-msg">
+                        <span class="chat-avatar chat-avatar--peach" aria-hidden="true">DK</span>
+                        <div class="chat-col">
+                            <div class="chat-meta">
+                                <span class="chat-name">Dan K.</span>
+                                <time class="chat-time" datetime="10:44">10:44</time>
+                            </div>
+                            <div class="chat-bubble">
+                                <p class="chat-quote">Maya L.: First Tiny Desk style show...</p>
+                                I'm solo too! I'll be there from 12:00 in a green jacket.
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="chat-msg">
+                        <span class="chat-avatar chat-avatar--host" aria-hidden="true">AZ</span>
+                        <div class="chat-col">
+                            <div class="chat-meta">
+                                <span class="chat-name">Australia Zoo</span>
+                                <span class="chat-host">Host</span>
+                                <time class="chat-time" datetime="10:51">10:51</time>
+                            </div>
+                            <div class="chat-bubble">Doors open at 12:15. Please bring valid ID with your ticket.</div>
+                        </div>
+                    </li>
+
+                    <li class="chat-msg chat-msg--me">
+                        <span class="chat-time">You &middot; <time datetime="10:53">10:53</time></span>
+                        <div class="chat-bubble">Count me in! See you both at the entrance.</div>
+                    </li>
+
+                </ol>
+
+                <!-- quick replies -->
+                <div class="chat-chips">
+                    <button type="button" class="chat-chip">Going solo? Say hi</button>
+                    <button type="button" class="chat-chip">Meet at the entrance?</button>
+                    <button type="button" class="chat-chip">Tips for first-timers?</button>
+                </div>
+
+                <!-- message box (design only: nothing is sent) -->
+                <div class="chat-composer">
+                    <label class="chat-sr" for="chat-input">Message the room</label>
+                    <input class="chat-input" id="chat-input" type="text" placeholder="Message the room...">
+                    <button type="button" class="chat-send" aria-label="Send message"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
+                </div>
             </section>
+
+            
 
         </div>
 
@@ -228,6 +282,36 @@
                 <div class="booking-item">
                     <img src="../images/cancel-icon.png" alt="Cancellation"><span>Cancellation Policy</span>
                 </div>     
+            </div>
+            <!-- end of discussion board -->
+            <div class="room-panel">
+                <h3 class="room-panel__title">In the room</h3>
+                <p class="room-panel__sub">12 going &middot; 4 online right now</p>
+
+                <div class="room-avatars" role="img" aria-label="Some of the people in the room">
+                    <span class="chat-avatar chat-avatar--rose" aria-hidden="true">ML</span>
+                    <span class="chat-avatar chat-avatar--peach" aria-hidden="true">DK</span>
+                    <span class="chat-avatar chat-avatar--pink" aria-hidden="true">PS</span>
+                    <span class="chat-avatar chat-avatar--sand" aria-hidden="true">SR</span>
+                    <span class="chat-avatar chat-avatar--plum" aria-hidden="true">JP</span>
+                    <span class="chat-avatar chat-avatar--host" aria-hidden="true">+7</span>
+                </div>
+
+                <div class="room-hello">
+                    <p class="room-hello__title">New here or going solo?</p>
+                    <p class="room-hello__text">Say hello. Most people are happy to meet someone before the show.</p>
+                    <button type="button" class="room-hello__btn">Say hi to the room</button>
+                </div>
+
+                <div class="room-rules">
+                    <p class="room-rules__title">House rules</p>
+                    <ul>
+                        <li>Be kind and respectful to everyone.</li>
+                        <li>Keep phone numbers and addresses out of the chat.</li>
+                        <li>Meet in public, near the venue entrance.</li>
+                        <li>Report anything that feels off.</li>
+                    </ul>
+                </div>
             </div>
         </aside>
      </div>
