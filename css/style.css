@@ -2804,6 +2804,8 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
   padding: 1.2rem;
   border-radius: 18px;
   background: #FFF6F0;
+  
+  
 }
 .cal-panel__label { margin: 0; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: #B05A70; }
 .cal-panel__date {
@@ -2817,11 +2819,11 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
   align-self: flex-start;
   margin-top: -0.3rem;
   padding: 2px 12px;
-  border-radius: 999px;
-  background: #BC3A49;
   font-size: 0.7rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #800020;
+  font-family: "Work Sans", sans-serif;
+  
 }
 
 .cal-event {
@@ -2938,6 +2940,34 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 }
 .cal-add:hover:not(:disabled) { background: #800020; color: #FFFFFF; }
 .cal-add:disabled { opacity: 0.45; cursor: not-allowed; }
+
+
+/* selected day panel */
+.calendar-panel {                 /* was .cal-panel */
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1.2rem;
+  border-radius: 18px;
+  background: #FFF6F0;
+}
+.calendar-panel__label {          /* was .cal-panel__label */
+  margin: 0; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: #B05A70; font-family: "Work Sans", sans-serif;
+}
+.calendar-panel__date {           /* was .cal-panel__date  <- this is your Monday, 19 October */
+  margin: -0.4rem 0 0;
+  font-family: "Playfair Display", serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #800020;
+}
+
+.cal-heart {
+  border: none;
+  background: transparent;
+}
+.cal-heart:hover { background: transparent; }
+.cal-heart.is-active { border-color: transparent; }
 
 /* ---------- small screens ---------- */
 @media (max-width: 900px) {

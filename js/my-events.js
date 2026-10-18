@@ -148,6 +148,7 @@
         id: "booking-" + b.id, name: b.name, slug: slug, source: b.source || "",
         category: b.category || "Event", venue: b.venue,
         start: b.start, end: b.end, image: b.image || "", going: true,
+        price: b.price, rawDate: b.dateLabel,
         dateLabel: dateLabel, timeLabel: timeLabel, fav: fav,
         saved: Boolean(favBySlug[slug])
       });
@@ -161,6 +162,7 @@
         category: (f.categories && f.categories[0]) || "Event",
         venue: f.venue, start: f.startTime == null ? null : f.startTime, end: null,
         image: f.image || "", going: false, saved: true,
+        price: f.cost || "", rawDate: f.date,
         dateLabel: f.date, timeLabel: "", fav: f
       });
     });
@@ -207,6 +209,36 @@
   function statusOf(item) {
     if (item.going) return isOver(item) ? "attended" : "attending";
     return "saved";
+  }
+
+  /* ---------- opening an event ---------- */
+
+  function eventUrl(item) {
+    return "bookingsPage.html?event=" + encodeURIComponent(item.slug) +
+      (item.source ? "&source=" + encodeURIComponent(item.source) : "");
+  }
+
+  // bookingsPage.html fills itself from "mika_current_event" (same as clicking a card on the browse page)
+  function rememberEvent(item) {
+    try {
+      localStorage.setItem("mika_current_event", JSON.stringify({
+        name: item.name,
+        venue: item.venue,
+        date: item.rawDate || (item.dateLabel + (item.timeLabel ? ", " + item.timeLabel : "")),
+        price: item.price == null || item.price === "" ? "0" : String(item.price),
+        image: item.image || "../images/eventcard1.png",
+        category: item.category,
+        slug: item.slug,
+        source: item.source || "",
+        start: item.start == null ? "" : item.start,
+        end: item.end == null ? "" : item.end
+      }));
+    } catch (e) { /* storage blocked: the page falls back to its default event */ }
+  }
+
+  function openEvent(item) {
+    rememberEvent(item);
+    window.location.href = eventUrl(item);
   }
 
   /* ---------- list card ---------- */
@@ -270,7 +302,12 @@
 
     var content = el("div", "event-content");
     content.appendChild(el("span", "category " + slugify(item.category), item.category));
-    content.appendChild(el("h3", "", item.name));
+    var title = el("h3", "");
+    var titleLink = el("a", "event-card-link", item.name);
+    titleLink.href = eventUrl(item);
+    titleLink.addEventListener("click", function () { rememberEvent(item); });
+    title.appendChild(titleLink);
+    content.appendChild(title);
 
     var dateRow = el("div", "event-detail");
     dateRow.appendChild(icon("fa-regular fa-calendar"));
@@ -292,6 +329,13 @@
     content.appendChild(buildStatusPill(item));
 
     card.appendChild(content);
+
+    // click anywhere on the card (except the heart / links, which do their own thing)
+    card.classList.add("is-clickable");
+    card.addEventListener("click", function (e) {
+      if (e.target.closest("button, a")) return;
+      openEvent(item);
+    });
     return card;
   }
 
@@ -422,8 +466,8 @@
     actions.appendChild(pill);
 
     var view = el("a", "cal-btn", "View Event");
-    view.href = "bookingsPage.html?event=" + encodeURIComponent(ev.slug) +
-      (ev.source ? "&source=" + encodeURIComponent(ev.source) : "");
+    view.href = eventUrl(ev);
+    view.addEventListener("click", function () { rememberEvent(ev); });
     actions.appendChild(view);
 
     var heart = el("button", "cal-heart" + (ev.saved ? " is-active" : ""));
