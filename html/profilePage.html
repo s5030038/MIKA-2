@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MIKA² — Profile page</title>
+    <title>Profile Page</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -56,7 +56,7 @@
 </header> 
 
     <main>
-        <!-- Profile Header -  -->
+        <!-- Profile Header -->
         <section class="profile-header">
             <div class="profile-info">
                 <div class="avatar">
@@ -101,8 +101,7 @@
                 </div>
             </div>
 
-            <!-- filters (counts, search, sort and cards from my-events.js) -->
-            <!-- aria-pressed is a toggle functionality - turns normal button into communicating active or inactive-->
+            <!-- FILTERS (counts, search, sort and cards are filled in by my-events.js) -->
             <section class="events-filters-section">
                 <div class="event-filters" role="group" aria-label="Filter my events">
                     <button type="button" class="filter active" data-filter="all" aria-pressed="true">All <span>0</span></button>
@@ -273,15 +272,13 @@
                         <div class="settings-card">
                             <h3 class="settings-card__title">
                                 <i class="fa-regular fa-star"></i> Event preferences
-                                <span class="settings-help" title="Tick the kinds of events you'd like to see more of">?</span>
+                                <span class="settings-help" title="The choices you made when you signed up. Change them any time.">?</span>
                             </h3>
                             <div class="settings-card__body">
-                                <label class="settings-check"><input type="checkbox" name="pref" value="Music"> Music</label>
-                                <label class="settings-check"><input type="checkbox" name="pref" value="Arts & Crafts"> Arts &amp; Crafts</label>
-                                <label class="settings-check"><input type="checkbox" name="pref" value="Workshops"> Workshops</label>
-                                <label class="settings-check"><input type="checkbox" name="pref" value="Family-friendly"> Family-friendly</label>
-                                <label class="settings-check"><input type="checkbox" name="pref" value="Shows"> Shows</label>
-                                <label class="settings-check"><input type="checkbox" name="pref" value="Creative"> Creative</label>
+                                <p class="settings-subtitle">What I'm interested in</p>
+                                <div id="pref-categories"></div>
+                                <p class="settings-subtitle">Who I'm finding events for</p>
+                                <div id="pref-audiences"></div>
                                 <div class="settings-card__footer">
                                     <a href="#" class="settings-link" id="clear-prefs">Clear all filters</a>
                                 </div>

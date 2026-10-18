@@ -18,10 +18,9 @@
 
   function buildBooking() {
     var params = new URLSearchParams(window.location.search);
-    var slug = params.get("event") || "";
     var name = text(".event-name");
     var clicked = clickedEvent();
-    var sameEvent = clicked.name && (clicked.name === name || bookingSlug(clicked.name) === slug);
+    var sameEvent = clicked.name && clicked.name === name;
 
     // prefer the real photo from the API over the local placeholder cards
     var pageImage = document.getElementById("event-image");
@@ -36,7 +35,7 @@
 
     return {
       name: name,
-      slug: slug || bookingSlug(name),
+      slug: bookingSlug(name),   // same rule booking-loader.js uses to find an event again
       source: params.get("source") || (sameEvent ? clicked.source : "") || "",
       venue: text("#event-venue"),
       date: dateText,
@@ -50,15 +49,6 @@
     };
   }
 
-  // First name, last name and email must be filled in before anything is booked
-  function checkoutIsValid() {
-    var fields = document.querySelectorAll("#checkout-view input[required]");
-    for (var i = 0; i < fields.length; i++) {
-      if (!fields[i].checkValidity()) { fields[i].reportValidity(); return false; }
-    }
-    return true;
-  }
-
   document.addEventListener("DOMContentLoaded", function () {
     // pre-fill the checkout email with the signed-in account
     var user = typeof getCurrentUser === "function" ? getCurrentUser() : "";
@@ -66,8 +56,30 @@
     if (email && user && !email.value) email.value = user;
   });
 
-  // Runs in the capture phase, i.e. BEFORE script.js reacts to the same click, so we see the
-  // checkout exactly as the visitor saw it when they pressed the button.
+  var redirecting = false;
+
+  function confirmBooking(trigger) {
+    try {
+      if (typeof addBooking !== "function") { console.error("[booking] bookings.js didn't load - check the <script> path in bookingsPage.html"); return; }
+
+      var booking = buildBooking();
+      if (!booking.name || booking.name === "Event Title") { console.warn("[booking] not saved: the event hasn't loaded on this page"); return; }
+
+      var saved = addBooking(booking);
+      console.log("[booking] saved (" + trigger + ") for", getCurrentUser() || "guest (not signed in)", saved);
+
+      // script.js shows "Paid" for 1.5s and closes the pop-up; go to the profile just after that
+      if (GO_TO_PROFILE_AFTER_BOOKING && !redirecting) {
+        redirecting = true;
+        setTimeout(function () { window.location.href = "profilePage.html#events"; }, 1700);
+      }
+    } catch (err) {
+      console.error("[booking] something went wrong while saving:", err);
+    }
+  }
+
+  // 1) Runs in the capture phase, i.e. BEFORE script.js reacts to the same click, so we see the
+  //    checkout exactly as the visitor saw it when they pressed the button.
   document.addEventListener("click", function (e) {
     var target = e.target.closest ? e.target.closest("#checkout-view .pay-btn, #checkout-view .card-option-box, #proceed-checkout-btn") : null;
     if (!target) return;
@@ -77,14 +89,16 @@
     var onCheckoutStep = checkoutView && !checkoutView.hidden;
     if (target.id === "proceed-checkout-btn" && !onCheckoutStep) return;
 
-    if (typeof addBooking !== "function") { console.error("[booking] bookings.js didn't load - check the <script> path in bookingsPage.html"); return; }
-    if (!checkoutIsValid()) { console.warn("[booking] not saved: a required checkout field is empty"); return; }
-
-    var booking = buildBooking();
-    if (!booking.name || booking.name === "Event Title") { console.warn("[booking] not saved: the event hasn't loaded on this page"); return; }
-
-    var saved = addBooking(booking);
-    console.log("[booking] saved for", getCurrentUser() || "guest", saved);
-    if (GO_TO_PROFILE_AFTER_BOOKING) window.location.href = "profilePage.html#events";
+    confirmBooking("click");
   }, true);
+
+  // 2) Safety net: script.js turns the cart button into "Paid" when a payment goes through,
+  //    so if the click above was missed for any reason, this still saves the booking.
+  document.addEventListener("DOMContentLoaded", function () {
+    var btn = document.getElementById("proceed-checkout-btn");
+    if (!btn || typeof MutationObserver !== "function") return;
+    new MutationObserver(function () {
+      if (btn.textContent.trim() === "Paid") confirmBooking("paid-button");
+    }).observe(btn, { childList: true, characterData: true, subtree: true });
+  });
 })();

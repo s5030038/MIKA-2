@@ -69,7 +69,11 @@
     return h12 + ":" + String(d.getMinutes()).padStart(2, "0") + " " + suffix;
   }
 
-  function bookingsAvailable() { return typeof getBookings === "function"; }
+  function bookingsAvailable() {
+    var ok = typeof getBookings === "function";
+    if (!ok) console.error("bookings.js didn't load - check the <script src=\"../js/bookings.js\"> line in profilePage.html");
+    return ok;
+  }
 
   // an event is "over" once its end time has passed (no end time -> assume it runs 3 hours)
   function isOver(item) {

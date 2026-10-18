@@ -98,7 +98,16 @@ function writeAllBookings(list) {
 // bookings for whoever is signed in (or the guest bucket if nobody is)
 function getBookings() {
   var user = getCurrentUser();
-  return readAllBookings().filter(function (b) { return (b.userEmail || "") === user; });
+  var all = readAllBookings();
+
+  // Bookings made while nobody was signed in (e.g. the session had ended) join the account
+  // as soon as someone is signed in, so they don't vanish from the profile.
+  if (user && all.some(function (b) { return !b.userEmail; })) {
+    all.forEach(function (b) { if (!b.userEmail) b.userEmail = user; });
+    try { localStorage.setItem(BK_BOOKINGS_KEY, JSON.stringify(all)); } catch (e) { /* storage blocked */ }
+  }
+
+  return all.filter(function (b) { return (b.userEmail || "") === user; });
 }
 
 // Save a booking for the signed-in user.
@@ -167,4 +176,42 @@ function bookCurrentEvent() {
   var current = null;
   try { current = JSON.parse(localStorage.getItem("mika_current_event") || "null"); } catch (e) { /* ignore */ }
   return current ? addBooking(current) : null;
+}
+
+/* ---------- event preferences (chosen at onboarding, changeable in Settings) ---------- */
+
+// the same options as onboarding.js, so the onboarding page and the Settings page always match
+var PREFERENCE_CATEGORIES = ["Music", "Festivals", "Creative", "Tours", "Exhibitions", "Workshops"];
+var PREFERENCE_AUDIENCES = ["Seniors", "Adults (30+)", "Young adults", "Teenagers", "Kids", "Preschool kids", "Infants & toddlers"];
+
+function readUserAccounts() {
+  try {
+    var raw = JSON.parse(localStorage.getItem("mika_users") || "[]");
+    return Array.isArray(raw) ? raw : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+// { categories: [...], audiences: [...] } for the signed-in account (empty lists if none)
+function getUserPreferences() {
+  var email = getCurrentUser();
+  var account = readUserAccounts().filter(function (u) { return u && u.email === email; })[0];
+  var prefs = (account && account.preferences) || {};
+  return {
+    categories: Array.isArray(prefs.categories) ? prefs.categories.slice() : [],
+    audiences: Array.isArray(prefs.audiences) ? prefs.audiences.slice() : []
+  };
+}
+
+// saves into the account that onboarding.js wrote to; returns false if nobody is signed in
+function saveUserPreferences(categories, audiences) {
+  var email = getCurrentUser();
+  var users = readUserAccounts();
+  var account = users.filter(function (u) { return u && u.email === email; })[0];
+  if (!account) return false;
+  account.preferences = Object.assign({}, account.preferences, { categories: categories, audiences: audiences });
+  localStorage.setItem("mika_users", JSON.stringify(users));
+  document.dispatchEvent(new CustomEvent("preferences-changed"));
+  return true;
 }

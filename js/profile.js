@@ -210,9 +210,8 @@ function loadSettings() {
         fullName: saved.fullName || defaults.fullName,
         email: saved.email || defaults.email,
         location: saved.location || DEFAULT_SETTINGS.location,
-        // once the user has changed preferences here, theirs win; before that, use the onboarding choices
-        preferences: saved.preferencesSet && Array.isArray(saved.preferences) ? saved.preferences : defaults.preferences,
-        preferencesSet: Boolean(saved.preferencesSet),
+        preferences: Array.isArray(saved.preferences) ? saved.preferences : [],   // only used when nobody is signed in
+        audiences: Array.isArray(saved.audiences) ? saved.audiences : [],
         notifications: Object.assign({}, DEFAULT_SETTINGS.notifications, saved.notifications),
         dob: saved.dob || "",
         avatar: saved.avatar || "",
@@ -244,9 +243,7 @@ function fillSettingsForm(settings) {
   document.getElementById("setting-email").value = settings.email;
   document.getElementById("setting-location").value = settings.location;
 
-  document.querySelectorAll('input[name="pref"]').forEach(function (box) {
-    box.checked = settings.preferences.indexOf(box.value) > -1;
-  });
+  renderPreferenceOptions(loadPreferences(settings));
   document.querySelectorAll('input[name="notify"]').forEach(function (box) {
     box.checked = Boolean(settings.notifications[box.value]);
   });
@@ -264,6 +261,62 @@ function setSettingsMessage(text, isError) {
   }
 }
 
+/* ---------- event preferences (shared with the onboarding page) ---------- */
+
+// The signed-in account's choices from onboarding are the single source of truth.
+// With nobody signed in, fall back to what was kept in the local settings.
+function loadPreferences(settings) {
+  if (currentEmail() && findAccount(currentEmail()) && typeof getUserPreferences === "function") return getUserPreferences();
+  return { categories: settings.preferences || [], audiences: settings.audiences || [] };
+}
+
+// builds one tick-box per onboarding option, ticked from what the user chose
+function renderOptionGroup(containerId, inputName, options, selected) {
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = "";
+  options.forEach(function (value) {
+    var label = el("label", "settings-check");
+    var input = document.createElement("input");
+    input.type = "checkbox";
+    input.name = inputName;
+    input.value = value;
+    input.checked = selected.indexOf(value) > -1;
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(" " + value));
+    container.appendChild(label);
+  });
+}
+
+function renderPreferenceOptions(prefs) {
+  var categories = typeof PREFERENCE_CATEGORIES !== "undefined" ? PREFERENCE_CATEGORIES : [];
+  var audiences = typeof PREFERENCE_AUDIENCES !== "undefined" ? PREFERENCE_AUDIENCES : [];
+  renderOptionGroup("pref-categories", "pref", categories, prefs.categories);
+  renderOptionGroup("pref-audiences", "aud", audiences, prefs.audiences);
+}
+
+function checkedValues(name) {
+  return Array.prototype.map.call(document.querySelectorAll('input[name="' + name + '"]:checked'), function (b) { return b.value; });
+}
+
+// saves the tick-boxes straight back into the account, so onboarding and Settings stay in step
+function savePreferencesFromForm() {
+  var categories = checkedValues("pref");
+  var audiences = checkedValues("aud");
+
+  var saved = false;
+  if (currentEmail() && findAccount(currentEmail()) && typeof saveUserPreferences === "function") {
+    saved = saveUserPreferences(categories, audiences);
+  }
+  if (!saved) {   // nobody signed in: keep them in the local settings instead
+    var settings = loadSettings();
+    settings.preferences = categories;
+    settings.audiences = audiences;
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  }
+  setSettingsMessage("Preferences saved.", false);
+}
+
 // reads the whole form and saves it (called automatically whenever something changes)
 function saveSettingsFromForm() {
   var name = document.getElementById("setting-name").value.trim();
@@ -278,9 +331,6 @@ function saveSettingsFromForm() {
   settings.email = email;
   settings.location = location || DEFAULT_SETTINGS.location;
   if (currentEmail()) settings.owner = currentEmail();
-  settings.preferencesSet = true;
-  settings.preferences = Array.prototype.map.call(
-    document.querySelectorAll('input[name="pref"]:checked'), function (b) { return b.value; });
   settings.notifications = {};
   document.querySelectorAll('input[name="notify"]').forEach(function (box) {
     settings.notifications[box.value] = box.checked;
@@ -329,6 +379,7 @@ function setUpSettings() {
   form.addEventListener("submit", function (e) { e.preventDefault(); });
   form.addEventListener("change", function (e) {
     if (e.target.closest("#password-panel")) return;
+    if (e.target.name === "pref" || e.target.name === "aud") { savePreferencesFromForm(); return; }
     saveSettingsFromForm();
   });
 
@@ -336,8 +387,8 @@ function setUpSettings() {
   var clear = document.getElementById("clear-prefs");
   if (clear) clear.addEventListener("click", function (e) {
     e.preventDefault();
-    document.querySelectorAll('input[name="pref"]').forEach(function (b) { b.checked = false; });
-    saveSettingsFromForm();
+    document.querySelectorAll('input[name="pref"], input[name="aud"]').forEach(function (b) { b.checked = false; });
+    savePreferencesFromForm();
   });
 
   // Change password row opens / closes its panel
