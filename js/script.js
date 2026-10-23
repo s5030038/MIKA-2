@@ -271,132 +271,207 @@ $(document).ready(function() {
 const modal = document.getElementById('ticket-modal');
 const getTicketsBtn = document.querySelector('.get-tickets');
 const closeBtn = document.getElementById('modal-close-btn');
+
 if (getTicketsBtn && modal) {
-    // Open modal on click
-    getTicketsBtn.addEventListener('click', () => {
-        // Pull current event info from the page to populate the modal
-        document.getElementById('modal-event-title').textContent = document.querySelector('.event-name')?.textContent || "Event Title";
-        document.getElementById('modal-host-name').textContent = document.getElementById('event-host')?.textContent || "Host Name";
-        document.getElementById('modal-venue').textContent = document.getElementById('card-venue')?.textContent || "Venue Location";
-        document.getElementById('modal-date').textContent = document.getElementById('card-date')?.textContent || "Event Date";
-        
-        modal.hidden = false;
-    });
-    // Close modal on click of X
-    closeBtn.addEventListener('click', () => {
-        modal.hidden = true;
-    });
-    // Close modal when clicking outside the container backdrop
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.hidden = true;
-        }
-    });
-    // Interactive quantity and price calculation inside modal
     let currentQty = 1;
     let currentUnitPrice = 20;
+    let isFreeEvent = false;
+
     const qtySpan = document.getElementById('ticket-qty');
     const tierTotalEl = document.getElementById('selected-tier-total');
     const cartItemDesc = document.getElementById('cart-item-desc');
     const cartItemPrice = document.getElementById('cart-item-price');
     const cartTotalPrice = document.getElementById('cart-total-price');
+    const ticketTypesContainer = document.querySelector('.ticket-types');
+
     const updateTotals = () => {
-        qtySpan.textContent = currentQty;
+        if (qtySpan) qtySpan.textContent = currentQty;
         const total = currentQty * currentUnitPrice;
-        const formattedTotal = `AU$${total.toFixed(2)}`;
+        const formattedTotal = isFreeEvent || currentUnitPrice === 0 ? "Free" : `AU$${total.toFixed(2)}`;
         
-        tierTotalEl.textContent = formattedTotal;
-        cartItemDesc.textContent = `${currentQty}x ${document.getElementById('selected-tier-name').textContent}`;
-        cartItemPrice.textContent = formattedTotal;
-        cartTotalPrice.textContent = formattedTotal;
+        if (tierTotalEl) tierTotalEl.textContent = formattedTotal;
+        
+        const tierName = document.getElementById('selected-tier-name')?.textContent || "Ticket";
+        if (cartItemDesc) cartItemDesc.textContent = `${currentQty}x ${tierName}`;
+        if (cartItemPrice) cartItemPrice.textContent = formattedTotal;
+        if (cartTotalPrice) cartTotalPrice.textContent = formattedTotal;
     };
-    document.getElementById('qty-plus').addEventListener('click', () => {
-        currentQty++;
+
+    // Open modal on click & initialize dynamic prices/labels
+    getTicketsBtn.addEventListener('click', () => {
+        document.getElementById('modal-event-title').textContent = document.querySelector('.event-name')?.textContent || "Event Title";
+        document.getElementById('modal-host-name').textContent = document.querySelector('.host-name')?.textContent || "Host Name";
+        document.getElementById('modal-venue').textContent = document.getElementById('card-venue')?.textContent || document.getElementById('event-venue')?.textContent || "Venue Location";
+        document.getElementById('modal-date').textContent = document.getElementById('card-date')?.textContent || document.getElementById('event-date')?.textContent || "Event Date";
+        
+        // --- Dynamic Price Parsing ---
+        const rawPriceText = document.getElementById('event-price')?.textContent.trim() || "Free";
+        const numericMatch = rawPriceText.match(/\d+(\.\d+)?/);
+        
+        if (!numericMatch || rawPriceText.toLowerCase().includes("free") || parseFloat(numericMatch[0]) === 0) {
+            isFreeEvent = true;
+            currentUnitPrice = 0;
+        } else {
+            isFreeEvent = false;
+            currentUnitPrice = parseFloat(numericMatch[0]);
+        }
+
+        // --- Dynamically Render Ticket Tier Pills ---
+        if (ticketTypesContainer) {
+            if (isFreeEvent) {
+                ticketTypesContainer.innerHTML = `
+                    <button type="button" class="ticket-type-pill active" data-type="Free Admission" data-price="0">
+                        <i class="fa-solid fa-ticket"></i> Free Admission
+                    </button>
+                `;
+            } else {
+                ticketTypesContainer.innerHTML = `
+                    <button type="button" class="ticket-type-pill active" data-type="General Admission" data-price="${currentUnitPrice}">
+                        General Admission
+                    </button>
+                    <button type="button" class="ticket-type-pill" data-type="Accessible Seating" data-price="${currentUnitPrice}">
+                        <i class="fa-solid fa-wheelchair"></i> Accessible Seating
+                    </button>
+                `;
+            }
+
+            // Re-attach click listeners to new pills
+            document.querySelectorAll('.ticket-type-pill').forEach(pill => {
+                pill.addEventListener('click', () => {
+                    document.querySelectorAll('.ticket-type-pill').forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    
+                    const tierName = pill.getAttribute('data-type');
+                    currentUnitPrice = parseFloat(pill.getAttribute('data-price'));
+                    document.getElementById('selected-tier-name').textContent = tierName;
+                    currentQty = 1; // reset quantity on tier switch
+                    updateTotals();
+                });
+            });
+        }
+
+        // Set default initial selection
+        document.getElementById('selected-tier-name').textContent = isFreeEvent ? "Free Admission" : "General Admission";
+        currentQty = 1;
         updateTotals();
+
+        // Set action button label for View 1
+        const proceedCheckoutBtn = document.getElementById('proceed-checkout-btn');
+        if (proceedCheckoutBtn) {
+            proceedCheckoutBtn.textContent = isFreeEvent ? "Register" : "Checkout";
+        }
+
+        modal.hidden = false;
     });
-    document.getElementById('qty-minus').addEventListener('click', () => {
-        if (currentQty > 1) {
-            currentQty--;
-            updateTotals();
+
+    // Close modal on click of X
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            modal.hidden = true;
+        });
+    }
+
+    // Close modal when clicking backdrop
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.hidden = true;
         }
     });
-    // Handle clicking different ticket tier pills
-    document.querySelectorAll('.ticket-type-pill').forEach(pill => {
-        pill.addEventListener('click', () => {
-            document.querySelectorAll('.ticket-type-pill').forEach(p => p.classList.remove('active'));
-            pill.classList.add('active');
-            
-            const tierName = pill.getAttribute('data-type');
-            currentUnitPrice = parseFloat(pill.getAttribute('data-price'));
-            document.getElementById('selected-tier-name').textContent = tierName;
-            currentQty = 1; // reset quantity on tier switch
+
+    // Quantity Counter Buttons
+    const qtyPlus = document.getElementById('qty-plus');
+    const qtyMinus = document.getElementById('qty-minus');
+    if (qtyPlus) {
+        qtyPlus.addEventListener('click', () => {
+            currentQty++;
             updateTotals();
         });
-    });
-    // --- View Switching and Payment Logic ---
+    }
+    if (qtyMinus) {
+        qtyMinus.addEventListener('click', () => {
+            if (currentQty > 1) {
+                currentQty--;
+                updateTotals();
+            }
+        });
+    }
+
+    // --- View Switching (Checkout vs Register) ---
     const ticketSelectionView = document.getElementById('ticket-selection-view');
     const checkoutView = document.getElementById('checkout-view');
     const proceedCheckoutBtn = document.getElementById('proceed-checkout-btn');
     const backToTicketsBtn = document.getElementById('back-to-tickets-btn');
     let isAtCheckout = false;
+
     if (proceedCheckoutBtn && checkoutView && ticketSelectionView) {
         proceedCheckoutBtn.addEventListener('click', () => {
             if (!isAtCheckout) {
-                // Step 1: Switch from Ticket Selection view to Checkout Form view
+                // Step 1: Switch View
                 ticketSelectionView.hidden = true;
                 checkoutView.hidden = false;
                 isAtCheckout = true;
                 
-                // Change button text from "Checkout" to "Pay"
-                proceedCheckoutBtn.textContent = "Pay";
+                // Update Checkout View Header & Billing section visibility for Free events
+                const checkoutHeaderTitle = checkoutView.querySelector('.modal-event-title');
+                const billingSection = checkoutView.querySelector('.billing-info-section');
+                
+                if (isFreeEvent) {
+                    if (checkoutHeaderTitle) checkoutHeaderTitle.textContent = "Register";
+                    if (billingSection) billingSection.hidden = true; // Hide payment options for free events
+                    proceedCheckoutBtn.textContent = "Book";
+                } else {
+                    if (checkoutHeaderTitle) checkoutHeaderTitle.textContent = "Checkout";
+                    if (billingSection) billingSection.hidden = false;
+                    proceedCheckoutBtn.textContent = "Pay";
+                }
             } else {
-            // Step 2: Clicked "Pay" -> Handle successful payment state
-            proceedCheckoutBtn.textContent = "Paid";
-            proceedCheckoutBtn.style.backgroundColor = "#D45060"; 
-            proceedCheckoutBtn.disabled = true;
-            // --- SAVE EVENT TO "MY EVENTS" ---
-            const eventData = {
-                title: document.getElementById('modal-event-title')?.textContent.trim() || "Event Title",
-                venue: document.getElementById('modal-venue')?.textContent.trim() || "Venue Location",
-                date: document.getElementById('modal-date')?.textContent.trim() || "Event Date",
-                image: document.getElementById('event-image')?.src || "../images/market.jpg",
-                category: "Attending", // or whatever category/status label you use
-                status: "Attending"
-            };
-            // Get existing user events or initialize an empty array
-            let myEvents = JSON.parse(localStorage.getItem("mika_my_events")) || [];
-            
-            // Check if it's already added to avoid duplicates
-            const alreadyAdded = myEvents.some(ev => ev.title === eventData.title);
-            if (!alreadyAdded) {
-                myEvents.push(eventData);
-                localStorage.setItem("mika_my_events", JSON.stringify(myEvents));
+                // Step 2: Confirmation State
+                proceedCheckoutBtn.textContent = isFreeEvent ? "Booked!" : "Paid";
+                proceedCheckoutBtn.style.backgroundColor = "#D45060"; 
+                proceedCheckoutBtn.disabled = true;
+
+                // --- SAVE EVENT TO "MY EVENTS" ---
+                const eventData = {
+                    title: document.getElementById('modal-event-title')?.textContent.trim() || "Event Title",
+                    venue: document.getElementById('modal-venue')?.textContent.trim() || "Venue Location",
+                    date: document.getElementById('modal-date')?.textContent.trim() || "Event Date",
+                    image: document.getElementById('event-image')?.src || "../images/market.jpg",
+                    category: "Attending",
+                    status: "Attending"
+                };
+
+                let myEvents = JSON.parse(localStorage.getItem("mika_my_events")) || [];
+                const alreadyAdded = myEvents.some(ev => ev.title === eventData.title);
+                if (!alreadyAdded) {
+                    myEvents.push(eventData);
+                    localStorage.setItem("mika_my_events", JSON.stringify(myEvents));
+                }
+
+                setTimeout(() => {
+                    modal.hidden = true;
+                    // Reset modal state
+                    proceedCheckoutBtn.textContent = isFreeEvent ? "Register" : "Checkout";
+                    proceedCheckoutBtn.style.backgroundColor = "";
+                    proceedCheckoutBtn.disabled = false;
+                    checkoutView.hidden = true;
+                    ticketSelectionView.hidden = false;
+                    isAtCheckout = false;
+                }, 1500);
             }
-            // ---------------------------------
-            setTimeout(() => {
-                modal.hidden = true;
-                // Reset everything for next time
-                proceedCheckoutBtn.textContent = "Checkout";
-                proceedCheckoutBtn.style.backgroundColor = "";
-                proceedCheckoutBtn.disabled = false;
-                checkoutView.hidden = true;
-                ticketSelectionView.hidden = false;
-                isAtCheckout = false;
-            }, 1500);
-        }
         });
+
         if (backToTicketsBtn) {
             backToTicketsBtn.addEventListener('click', () => {
                 checkoutView.hidden = true;
                 ticketSelectionView.hidden = false;
                 isAtCheckout = false;
-                proceedCheckoutBtn.textContent = "Checkout";
-        });
+                proceedCheckoutBtn.textContent = isFreeEvent ? "Register" : "Checkout";
+            });
+        }
     }
-    }
-    // save logic throughout checkout //
+
+    // Modal Heart / Save Logic
     const modalFavBtns = document.querySelectorAll('.modal-overlay .fav-btn');
-    
     if (modalFavBtns.length > 0) {
         const updateModalFavButtonsState = () => {
             const eventTitle = document.querySelector('.event-name')?.textContent.trim() || "Event Title";
@@ -414,11 +489,9 @@ if (getTicketsBtn && modal) {
                 }
             });
         };
-        // Update state whenever the modal opens or title changes
-        const mainSaveBtn = document.getElementById("save-event-btn");
-        if (getTicketsBtn) {
-            getTicketsBtn.addEventListener('click', updateModalFavButtonsState);
-        }
+
+        getTicketsBtn.addEventListener('click', updateModalFavButtonsState);
+
         modalFavBtns.forEach(btn => {
             btn.addEventListener("click", () => {
                 const eventData = {
@@ -433,16 +506,14 @@ if (getTicketsBtn && modal) {
                 const index = favourites.findIndex(fav => fav.title === eventData.title);
                 if (index === -1) {
                     favourites.push(eventData);
-                    localStorage.setItem("mika_favourites", JSON.stringify(favourites));
                 } else {
                     favourites.splice(index, 1);
-                    localStorage.setItem("mika_favourites", JSON.stringify(favourites));
                 }
-                // Update both the modal hearts and the main page save button simultaneously
+                localStorage.setItem("mika_favourites", JSON.stringify(favourites));
                 updateModalFavButtonsState();
+                
+                const mainSaveBtn = document.getElementById("save-event-btn");
                 if (mainSaveBtn) {
-                    // Trigger a click or re-run the main button updater if exposed, 
-                    // or directly toggle it:
                     const isNowSaved = favourites.some(fav => fav.title === eventData.title);
                     if (isNowSaved) {
                         mainSaveBtn.textContent = "♥ Saved";
@@ -456,3 +527,4 @@ if (getTicketsBtn && modal) {
         });
     }
 }
+
