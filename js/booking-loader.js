@@ -23,23 +23,8 @@ async function initBookingLoader() {
             if (!requestedID || slugify(parsed.name) === requestedID) {
                 matchedEvent = parsed;
             }
-        } catch (e) {
-            console.error("Error parsing cached event:", e);
-        }
-    }
-
-    // 2. LOCAL EVENTS FALLBACK: Check events-data.js if cache didn't match
-    if (!matchedEvent && requestedID && typeof EVENTS !== "undefined") {
-        const localKey = Object.keys(EVENTS).find(key => key === requestedID || slugify(EVENTS[key].name) === requestedID);
-        if (localKey) {
-            const ev = EVENTS[localKey];
-            matchedEvent = {
-                name: ev.name,
-                venue: ev.venue,
-                date: ev.date,
-                price: ev.price ? ev.price.toString() : "0",
-                image: ev.image || "../images/eventcard1.png"
-            };
+        } catch (error) {
+            console.warn("Could not parse cached event:", error);
         }
     }
 
