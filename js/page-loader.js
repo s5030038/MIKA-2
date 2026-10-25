@@ -6,8 +6,10 @@
 //   - you click a link / submit something and the next page is slow to open
 // Quick loads (under SHOW_DELAY ms) never show it, so there's no flicker.
 //
-// Add ONE line inside <head> of every page, before your other scripts (so it can start early):
+// Add these TWO lines inside <head> of every page, before your other scripts:
+//   <link rel="stylesheet" href="../css/page-loader-circle.css">
 //   <script src="../js/page-loader-circle.js"></script>
+// The overlay's styles live in page-loader-circle.css; its HTML is built below.
 // The logo is found automatically at ../images/logo.png (relative to this file's folder).
 //
 // Optional:
@@ -27,38 +29,12 @@
   var scriptSrc = document.currentScript && document.currentScript.src;
   var LOGO_URL = scriptSrc ? new URL("../images/logo.png", scriptSrc).href : "../images/logo.png";
 
-  /* ---------- the overlay ---------- */
-
-  var CSS = [
-    "#mika-loader{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;",
-    "background:rgba(255,250,245,.78);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);",
-    "opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease,visibility 0s linear .3s;}",
-    "#mika-loader.is-visible{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .3s ease;}",
-    "#mika-loader .mika-loader__box{display:flex;flex-direction:column;align-items:center;gap:1.25rem;text-align:center;color:#800020;",
-    "font-family:'Work Sans',system-ui,sans-serif;}",
-    "#mika-loader .mika-loader__mark{position:relative;width:130px;height:130px;display:grid;place-items:center;}",
-    "#mika-loader .mika-loader__mark img{width:84px;height:auto;animation:mikaPulse 1.6s ease-in-out infinite;}",
-    "#mika-loader .mika-loader__ring{position:absolute;inset:0;border-radius:50%;border:3px solid rgba(128,0,32,.12);",
-    "border-top-color:#800020;animation:mikaSpin 1.1s linear infinite;}",
-    "#mika-loader .mika-loader__name{margin:0;font-family:'Playfair Display',Georgia,serif;font-size:1.6rem;font-weight:600;letter-spacing:.04em;}",
-    "#mika-loader .mika-loader__text{margin:0;font-size:.95rem;color:#D45060;}",
-    "#mika-loader .mika-loader__dots span{animation:mikaBlink 1.4s infinite both;}",
-    "#mika-loader .mika-loader__dots span:nth-child(2){animation-delay:.2s;}",
-    "#mika-loader .mika-loader__dots span:nth-child(3){animation-delay:.4s;}",
-    "@keyframes mikaSpin{to{transform:rotate(360deg)}}",
-    "@keyframes mikaPulse{0%,100%{transform:scale(.92);opacity:.85}50%{transform:scale(1.05);opacity:1}}",
-    "@keyframes mikaBlink{0%,80%,100%{opacity:.2}40%{opacity:1}}",
-    "@media (prefers-reduced-motion:reduce){#mika-loader *{animation:none!important}#mika-loader{transition:none!important}}"
-  ].join("");
+  /* ---------- the overlay (markup here, styles in page-loader-circle.css) ---------- */
 
   var overlay = null;
 
   function build() {
     if (overlay) return;
-
-    var style = document.createElement("style");
-    style.textContent = CSS;
-    (document.head || document.documentElement).appendChild(style);
 
     overlay = document.createElement("div");
     overlay.id = "mika-loader";
