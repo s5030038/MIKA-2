@@ -1,7 +1,4 @@
-/* page-loader-circle.css
-   Styles for the loading overlay built by page-loader-circle.js.
-   Link this in <head> BEFORE the script:
-   <link rel="stylesheet" href="../css/page-loader-circle.css"> */
+/* page-loader-circle.css for page-loader.js  */
 
 #mika-loader {
   position: fixed;
