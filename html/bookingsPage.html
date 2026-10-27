@@ -58,15 +58,16 @@
 </header> 
 
 <main class="event-details">
-    <!-- banner-carousel section -->
-    <section class="banner-carousel">
-        <div class="carousel-container">
+    <!-- banner section -->
+    <section class="banner">
+        <div class="banner-container">
             <img id="event-image" src="" alt="main-cover">
         </div>
     </section>
 
-        <!-- event and host-->
+    <!-- host and event details-->
     <section class="event-and-host">
+            <!-- title and save -->
             <div class="event-info">
                 <h1 class="event-name">Event Title</h1>
                 <div class="buttons">
@@ -74,6 +75,7 @@
                 </div>
             </div>
 
+            <!-- host -->
             <div class="host-info">
                 <div class="host-avatar">
                     <img src="../images/host-avatar.png" alt="Host Avatar">
@@ -108,6 +110,8 @@
     <!-- content of different tabs-->
      <div class="content-sub-nav">
         <div class="left-side">
+
+            <!-- overview -->
             <section id="overview">
                 <p class="description">Take deep dive into the Antarctic Ocean where you can meet all wondrous animals like penguins, polar bears and whales. Climb aboard the zoo and ship hybrid as you explore Brisbane’s finest attraction.</p>
                 <h2>Location</h2>
@@ -117,21 +121,23 @@
                 </div>
             </section>
 
+            <!-- itinerary -->
             <section id="itinerary">
                 <img src="../images/itinerary-static.png" alt="Itinerary">
             </section>
 
+            <!-- reviews -->
             <section id="reviews" class="review-section">
-                <!-- Filter Pill Buttons -->
+                <!-- filter pill buttons -->
                 <div class="review-filters">
                     <button type="button" class="filter-pill active" data-filter="all">Newest</button>
                     <button type="button" class="filter-pill" data-filter="popular">Popular</button>
                     <button type="button" class="filter-pill" data-filter="photos">Photos</button>
                 </div>
 
-                <!-- Review Comments List Container -->
+                <!-- review comments -->
                 <div id="reviews-list" class="reviews-list">
-                    <!-- Default Review 1 -->
+                    <!-- review 1: ML -->
                     <article class="review-card">
                         <div class="avatar-circle avatar-pink">ML</div>
                         <div class="review-body">
@@ -146,7 +152,7 @@
                         </div>
                     </article>
 
-                    <!-- Default Review 2 -->
+                    <!-- review 2: DK -->
                     <article class="review-card">
                         <div class="avatar-circle avatar-tan">DK</div>
                         <div class="review-body">
@@ -160,7 +166,7 @@
                     </article>
                 </div>
 
-                <!-- Post Review Input Box -->
+                <!-- post review input section -->
                 <div class="add-review-box">
                     <input type="text" id="review-input" placeholder="Leave a Review!" autocomplete="off" />
                     <button type="button" id="post-review-btn">Post</button>
@@ -263,6 +269,7 @@
 
         </div>
 
+        <!-- sticky event booking card -->
         <aside class="right-side">
             <div class="booking-card">
                 <h3 class="price">
@@ -284,7 +291,8 @@
                     <img src="../images/cancel-icon.png" alt="Cancellation"><span>Cancellation Policy</span>
                 </div>     
             </div>
-            <!-- end of discussion board -->
+
+            <!-- discussion board: enter chat room -->
             <div class="room-panel">
                 <h3 class="room-panel__title">In the room</h3>
                 <p class="room-panel__sub">12 going &middot; 4 online right now</p>
@@ -318,23 +326,24 @@
      </div>
 </main>
 
-<!-- Ticket Popup Modal-->
+<!-- GET TICKETS: popup-->
 <div id="ticket-modal" class="modal-overlay" hidden>
     <div class="modal-container">
         <button type="button" class="modal-close" id="modal-close-btn">
-            <img src="../images/exit-btn.png" alt="Close modal">
+            <img src="../images/exit-btn.png" alt="Exit">
         </button>
         
         <div class="modal-content-grid">
-            <!-- Left Column: Switches between Selection View and Checkout View -->
+            <!-- switches between TICKET view and CHEKOUT View -->
             <div class="modal-left">
-                
-                <!-- VIEW 1: Ticket Selection -->
+
+                <!-- view 1: TICKET -->
                 <div id="ticket-selection-view">
                     <div class="modal-header-row">
                         <h2 class="modal-event-title" id="modal-event-title">Event Title</h2>
                         <button class="fav-btn" id="modal-fav-btn" aria-label="Save event">♡</button>
                     </div>
+
                     <p class="modal-host">Host: <span id="modal-host-name">Host Name</span></p>
                     
                     <ul class="modal-details-list">
@@ -346,12 +355,13 @@
                         <li><img src="../images/entry-icon.png" alt="Entry"><span>Ways of entry (Ticket, Valid ID)</span></li>
                     </ul>
 
+                    <!-- divider line -->
                     <hr class="modal-divider">
 
-                    <!-- Ticket Type Pills -->
+                    <!-- ticket type pills -->
                     <div class="ticket-types"></div>
 
-                    <!-- Active Ticket Tier Counter Card -->
+                    <!-- active ticket counter card -->
                     <div class="ticket-selection-card">
                         <div class="selection-card-header">
                             <span id="selected-tier-name">General Admission</span>
@@ -363,9 +373,10 @@
                         </div>
                         <div class="selection-card-price" id="selected-tier-total">AU$0.00</div>
                     </div>
+
                 </div>
 
-                <!-- VIEW 2: Checkout Form (Hidden by default) -->
+                <!-- view 2: CHECKOUT (hidden by default) -->
                 <div id="checkout-view" hidden>
                     <div class="checkout-header-row">
                         <button type="button" class="back-arrow-btn" id="back-to-tickets-btn">
@@ -407,10 +418,10 @@
                             <h4>Billing Information</h4>
                             <p class="terms-text">By proceeding, you agree to <a href="#">MIKA² Terms of Service</a></p>
 
-                            <!-- Payment Buttons -->
+                            <!-- payment buttons -->
                             <div class="payment-buttons-stack">
-                                <button type="button" class="pay-btn apple-pay"> Pay</button>
-                                <button type="button" class="pay-btn google-pay">Buy with <b>G Pay</b></button>
+                                <button type="button" class="pay-btn apple-pay">Apple Pay</button>
+                                <button type="button" class="pay-btn google-pay">Buy with <b>Google Pay</b></button>
                                 <div class="pay-row-split">
                                     <button type="button" class="pay-btn paypal">PayPal</button>
                                     <button type="button" class="pay-btn payin4">Pay in 4</button>
@@ -439,22 +450,24 @@
 
             </div>
 
-            <!-- Right Column: Cart Summary -->
+            <!-- right-side: card summary -->
             <div class="modal-right-cart">
                 <div class="cart-header">
                     <img src="../images/cart.png" alt="Cart Icon">
                     <h3>Your Cart</h3>
                 </div>
+
+                <!-- cart list -->
                 <div class="cart-items-summary">
                     <div class="cart-item-row">
-                        <span id="cart-item-desc">1x Accessible Seating</span>
-                        <span id="cart-item-price">AU$20.00</span>
+                        <span id="cart-item-desc"></span>
+                        <span id="cart-item-price"></span>
                     </div>
                 </div>
                 <hr class="modal-divider">
                 <div class="cart-total-row">
                     <span>TOTAL</span>
-                    <span id="cart-total-price">AU$20.00</span>
+                    <span id="cart-total-price"></span>
                 </div>
                 <!-- Starts as Checkout -->
                 <button type="button" class="btn checkout-btn" id="proceed-checkout-btn">Checkout</button>
