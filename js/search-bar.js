@@ -182,16 +182,18 @@ function renderOptions(panel, options, selected, emptyText) {
 function buildMonth(year, month, showPrev, showNext, eventDays) {
   var sf = window.searchFilters;
 
+  //container for month
   var block = document.createElement("div");
   block.className = "calendar__month";
 
+  //header container -> previous/next arrows & month name
   var header = document.createElement("div");
   header.className = "calendar__header";
 
   var prev = document.createElement("button");
   prev.type = "button";
   prev.className = "calendar__nav" + (showPrev ? "" : " is-hidden");
-  prev.dataset.nav = "-1";
+  prev.dataset.nav = "-1"; //go back one month
   prev.setAttribute("aria-label", "Previous month");
   prev.textContent = "‹";
 
@@ -210,9 +212,11 @@ function buildMonth(year, month, showPrev, showNext, eventDays) {
   header.appendChild(title);
   header.appendChild(next);
 
+  //grid -> weekday heading, blank spaces, day buttons
   var grid = document.createElement("div");
   grid.className = "calendar__grid";
 
+  //mon to sub headings
   ["M", "T", "W", "T", "F", "S", "S"].forEach(function (letter) {
     var w = document.createElement("span");
     w.className = "calendar__weekday";
@@ -220,7 +224,9 @@ function buildMonth(year, month, showPrev, showNext, eventDays) {
     grid.appendChild(w);
   });
 
-  // weeks start on Monday
+  //calc how many blank cells before day 1
+  //JS starts on sun, calendar starts mon
+  //'+6" and '% 7' convert weekday number to monday-first
   var offset = (new Date(year, month, 1).getDay() + 6) % 7;
   for (var i = 0; i < offset; i++) {
     var blank = document.createElement("span");
@@ -237,11 +243,13 @@ function buildMonth(year, month, showPrev, showNext, eventDays) {
     btn.className = "calendar__day";
     btn.dataset.day = key;
     btn.textContent = d;
-    btn.setAttribute("aria-label", d + " " + MONTH_NAMES[month] + " " + year);
+    btn.setAttribute("aria-label", d + " " + MONTH_NAMES[month] + " " + year); //full accessible date
 
+    //highlight today
     if (key === TODAY_KEY) btn.classList.add("is-today");
-    if (eventDays[key]) btn.classList.add("has-events");
+    if (eventDays[key]) btn.classList.add("has-events"); //mark days that have at least 1 event
 
+    //highlight selected start date, end date, & date in between
     var isStart = key === sf.start;
     var isEnd = !!sf.end && key === sf.end;
     if (isStart) btn.classList.add("is-start");
@@ -257,6 +265,7 @@ function buildMonth(year, month, showPrev, showNext, eventDays) {
   return block;
 }
 
+//creates 'Where' panel
 function renderCalendar(panel) {
   // days that have at least one event get a small dot
   var eventDays = {};
@@ -264,11 +273,13 @@ function renderCalendar(panel) {
     if (card.dataset.day) eventDays[card.dataset.day] = true;
   });
 
+  //remove previous calendar before loading new one
   panel.innerHTML = "";
 
   var wrap = document.createElement("div");
   wrap.className = "calendar";
 
+  //top row -> date label & clear date button
   var top = document.createElement("div");
   top.className = "calendar__top";
 
@@ -284,12 +295,15 @@ function renderCalendar(panel) {
   top.appendChild(tag);
   top.appendChild(clear);
 
+  //work out second calendar month
   var nextMonth = calendarView.month + 1;
   var nextYear = calendarView.year;
   if (nextMonth > 11) { nextMonth = 0; nextYear++; }
 
+  //first month = Dec -> move to jan of next year
   var months = document.createElement("div");
   months.className = "calendar__months";
+  //show current month and next month side by side
   months.appendChild(buildMonth(calendarView.year, calendarView.month, true, false, eventDays));
   months.appendChild(buildMonth(nextYear, nextMonth, false, true, eventDays));
 
@@ -298,6 +312,7 @@ function renderCalendar(panel) {
   panel.appendChild(wrap);
 }
 
+//handles calendar date selection
 // first click = start, second click = end, a third click starts again
 function pickDay(key) {
   var sf = window.searchFilters;
