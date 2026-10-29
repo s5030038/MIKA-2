@@ -166,7 +166,7 @@ function createEventCard(record) {
     record["bookingsrequired"] === "Yes" ? "required" :
     record["bookingsrequired"] === "No" ? "walkin" : "";
 
-  // "source" tells the booking page which dataset to look the event up in
+  // "source" tells the booking page which dataset to look the event up in -> event card html
   article.innerHTML =
     '<a href="bookingsPage.html?event=' + encodeURIComponent(slug) +
         '&source=' + encodeURIComponent(dataset.id) + '" class="browseevent-card__link">' +
