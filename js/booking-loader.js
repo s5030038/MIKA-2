@@ -1,25 +1,35 @@
-// js/booking-loader.js
-
+// ============================================================================
+//  SLUGIFY HELPER FUNCTION
+// ============================================================================
+// Converts regular event titles into clean URL-friendly slugs (e.g., "Art Workshop 101!" becomes "art-workshop-101")
 function slugify(name) {
     return name
-        .toLowerCase()
-        .trim()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
+        .toLowerCase()                     // Convert all letters to lowercase
+        .trim()                            // Remove extra spaces from start and end
+        .replace(/[^a-z0-9]+/g, "-")       // Replace special characters and spaces with hyphens (-)
+        .replace(/(^-|-$)/g, "");          // Remove any leftover hyphens at the very beginning or end
 }
 
+
+// ============================================================================
+//  MAIN BOOKING LOADER FUNCTION
+// ============================================================================
 async function initBookingLoader() {
+    
+    // Look at the web address URL parameters (e.g., ?event=art-workshop or ?id=123) to see which event was requested
     const urlParams = new URLSearchParams(window.location.search);
     const requestedID = urlParams.get("event") || urlParams.get("id");
 
     let matchedEvent = null;
 
-    // 1. INSTANT CACHE: Read the exact event clicked from localStorage (100% reliable for all exhibitions, festivals, and API cards)
+    // STEP 1: INSTANT CACHE LOOKUP 
+    // Read the last-clicked event stored in the browser's memory (localStorage)
     const cachedEvent = localStorage.getItem("mika_current_event");
     if (cachedEvent) {
         try {
-            const parsed = JSON.parse(cachedEvent);
-            // Verify it matches the requested slug or load it directly if slug matches or no ID specified
+            const parsed = JSON.parse(cachedEvent); // Convert text back into a usable JavaScript object
+            
+            // If no ID was requested, or if the cached event's name matches the requested URL slug, use it!
             if (!requestedID || slugify(parsed.name) === requestedID) {
                 matchedEvent = parsed;
             }
@@ -28,7 +38,8 @@ async function initBookingLoader() {
         }
     }
 
-    // 3. SAFE DEFAULT FALLBACK
+    // STEP 2: SAFE DEFAULT FALLBACK 
+    // If no cached event was found, fall back to a default sample event so the page doesn't look blank
     if (!matchedEvent) {
         matchedEvent = {
             name: "Petrie Terrace Gallery Exhibition",
@@ -39,15 +50,17 @@ async function initBookingLoader() {
         };
     }
 
-    // Safely update DOM elements
+    // =========================================================================
+    //  POPULATE THE WEBPAGE DOM ELEMENTS WITH EVENT DATA
+    // =========================================================================
+    
+    // Update main event title text on the page
     const eventNameEl = document.querySelector(".event-name");
     if (eventNameEl) eventNameEl.textContent = matchedEvent.name;
 
+    // Update venue text wherever venue elements exist on the page
     const eventVenueEl = document.getElementById("event-venue");
     if (eventVenueEl) eventVenueEl.textContent = matchedEvent.venue;
-
-    const eventDateEl = document.getElementById("event-date");
-    if (eventDateEl) eventDateEl.textContent = matchedEvent.date;
 
     const overviewVenue = document.getElementById("overview-venue");
     if (overviewVenue) overviewVenue.textContent = matchedEvent.venue;
@@ -55,9 +68,14 @@ async function initBookingLoader() {
     const cardVenue = document.getElementById("card-venue");
     if (cardVenue) cardVenue.textContent = matchedEvent.venue;
 
+    // Update date text wherever date elements exist on the page
+    const eventDateEl = document.getElementById("event-date");
+    if (eventDateEl) eventDateEl.textContent = matchedEvent.date;
+
     const cardDate = document.getElementById("card-date");
     if (cardDate) cardDate.textContent = matchedEvent.date;
 
+    // Format and display the price tag (handles free events, raw numbers, and already-formatted currency)
     const priceEl = document.getElementById("event-price");
     if (priceEl) {
         const priceText = (!matchedEvent.price || matchedEvent.price === "0" || /^free/i.test(matchedEvent.price)) 
@@ -66,6 +84,7 @@ async function initBookingLoader() {
         priceEl.textContent = priceText;
     }
 
+    // Update the event image source and alt text
     const imgElement = document.getElementById("event-image");
     if (imgElement && matchedEvent.image) {
         imgElement.src = matchedEvent.image;
@@ -73,7 +92,11 @@ async function initBookingLoader() {
     }
 }
 
-// Ensure it runs safely once DOM is ready
+
+// ============================================================================
+//  EXECUTION TRIGGER
+// ============================================================================
+// Checks if the document is still loading; if so, waits for 'DOMContentLoaded'. Otherwise, runs immediately.
 if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initBookingLoader);
 } else {
