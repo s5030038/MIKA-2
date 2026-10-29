@@ -1,3 +1,4 @@
+//ai was used to complete this file
 function getChecked(name) {
   return Array.from(
     document.querySelectorAll('#filters input[name="' + name + '"]:checked')

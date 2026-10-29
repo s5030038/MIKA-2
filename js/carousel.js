@@ -1,3 +1,4 @@
+//ai was used to complete this file
 document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".popular-section").forEach(function (section) {
     var track = section.querySelector(".creativeevents");

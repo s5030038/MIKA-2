@@ -73,14 +73,14 @@ function getCategory(record) {
 /*- for icons -*/
 function getDateBadge(startIso) {
   if (!startIso) return null;
-  var d = new Date(startIso);
+  var d = new Date(startIso); //converts api date string into js date object
   if (isNaN(d)) return null;
 
   var parts = new Intl.DateTimeFormat("en-AU", {
     timeZone: "Australia/Brisbane",
     day: "numeric",
     month: "short"
-  }).formatToParts(d);
+  }).formatToParts(d); //formatted so day and month are separate
 
   return {
     day: parts.find(function (p) { return p.type === "day"; }).value,
@@ -99,12 +99,13 @@ function createInfoRow(iconClass, text) {
   var row = document.createElement("div");
   row.className = "event-detail";
 
+  //creates icon element
   var icon = document.createElement("i");
   icon.className = iconClass;
-  icon.setAttribute("aria-hidden", "true");
+  icon.setAttribute("aria-hidden", "true"); //decorative -> hides from screen readers
 
   var span = document.createElement("span");
-  span.textContent = text; // API text stays plain text
+  span.textContent = text; // API text stays plain text -> prevents it being treated as html
 
   row.appendChild(icon);
   row.appendChild(span);
@@ -121,16 +122,17 @@ function getBrisbaneDay(startIso) {
   }).format(d);
 }
 
-// suburb if the dataset has one, otherwise the part after the last comma of the location
+// suburb if the dataset has one otherwise the part after the last comma of the location
 function getSuburb(record) {
   var explicit = record["suburb"] || record["venue_suburb"] || record["locality"];
-  if (explicit) return explicit;
+  if (explicit) return explicit; //suburb exists -> return it
 
   var loc = record["location"] || "";
   var parts = loc.split(",");
-  return parts.length > 1 ? parts[parts.length - 1].trim() : loc.trim();
+  return parts.length > 1 ? parts[parts.length - 1].trim() : loc.trim(); //more than one part? return it -> usually suburb
 }
 
+//building event card
 function createEventCard(record) {
   var name = record["subject"];
   var venue = record["location"];
@@ -164,7 +166,7 @@ function createEventCard(record) {
     record["bookingsrequired"] === "Yes" ? "required" :
     record["bookingsrequired"] === "No" ? "walkin" : "";
 
-  // "source" tells the booking page which dataset to look the event up in
+  // "source" tells the booking page which dataset to look the event up in -> event card html
   article.innerHTML =
     '<a href="bookingsPage.html?event=' + encodeURIComponent(slug) +
         '&source=' + encodeURIComponent(dataset.id) + '" class="browseevent-card__link">' +
