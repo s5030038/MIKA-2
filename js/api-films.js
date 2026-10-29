@@ -1,12 +1,7 @@
 // api-films-events.js
 // Loads events from the Brisbane City Council "films-events" dataset (Films).
-// Based on the shared api-events.js template, for this ONE dataset.
 // Everything is wrapped in a function, so this file can sit on the same page as the other
-// api-*-events.js files without their function names clashing.
-//
-// Where the cards go (whichever containers exist on the page):
-//   #browseevents      -> the browsing page grid (cards are appended to it)
-//   #films-events   -> an optional section just for this dataset (e.g. a carousel on the home page)
+// api-*-events.js files without their function names clashing. - uses the IIFE style
 
 (function () {
   var DATASET_ID = "films-events";
@@ -140,7 +135,6 @@
       }));
     });
 
-    //category pill (from Isabel's figma design)
     var pill = article.querySelector(".category");
     if (category) {
       pill.textContent = category;
