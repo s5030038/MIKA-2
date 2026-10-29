@@ -1,5 +1,6 @@
+//ai was used to complete this file
 /**
- * Search bar for browsingPage.html: Category / Where / When / Who.
+ * filter bar for browsingPage.html: Category / Where / When / Who.
  *
  * The visitor's choices are stored in window.searchFilters.
  * filters.js reads that object every time it filters the event cards.
@@ -28,8 +29,7 @@ var CATEGORY_OPTIONS = [
 
 // Free Font Awesome has solid versions of these icons, but no outlined
 // ones (except lightbulb). With Font Awesome Pro you can set this to true so
-// each icon is outlined until its category is chosen, and swap "tents" for
-// "ferris-wheel" above.
+// each icon is outlined until its category is chosen
 var OUTLINE_WHEN_UNSELECTED = false;
 
 function categoryIconClass(icon, selected) {
@@ -128,31 +128,35 @@ function notifySearchChange() {
 function suburbOptions() {
   var seen = {};
   document.querySelectorAll(".browseevent-card").forEach(function (card) {
-    if (card.dataset.suburb) seen[card.dataset.suburb] = true;
+    if (card.dataset.suburb) seen[card.dataset.suburb] = true; //card has suburb -> records it in 'seen'
   });
-  return Object.keys(seen).sort().map(function (s) { return { value: s, label: s }; });
+  return Object.keys(seen).sort().map(function (s) { return { value: s, label: s }; }); //turns into alphabetically sorted objects
 }
 
+//clears panel -> fills it with options buttons
 function renderOptions(panel, options, selected, emptyText) {
   panel.innerHTML = "";
 
+  //creates container for options
   var list = document.createElement("div");
   list.className = "search-panel__list";
 
+  //no options -> message: "events still loading..."
   if (options.length === 0) {
     var empty = document.createElement("p");
     empty.className = "search-panel__empty";
     empty.textContent = emptyText;
     list.appendChild(empty);
   }
-
+ 
+  //creates button for options -> stores value in 'data-value'
   options.forEach(function (opt) {
     var btn = document.createElement("button");
     btn.type = "button";
     btn.className = "search-option";
     btn.dataset.value = opt.value;
     var isOn = selected.indexOf(opt.value) !== -1;
-    btn.setAttribute("aria-pressed", String(isOn));
+    btn.setAttribute("aria-pressed", String(isOn)); //for accessibility -> screen readers
 
     if (opt.icon) {
       var icon = document.createElement("i");
