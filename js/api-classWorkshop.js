@@ -1,12 +1,10 @@
 // api-classes-events.js
 // Loads events from the Brisbane City Council "classes-and-workshops-events" dataset (Classes & Workshops).
-// Based on the shared api-events.js template, for this ONE dataset.
-// Everything is wrapped in a function, so this file can sit on the same page as the other
-// api-*-events.js files without their function names clashing.
-//
-// Where the cards go (whichever containers exist on the page):
-//   #browseevents      -> the browsing page grid (cards are appended to it)
-//   #classes-events   -> an optional section just for this dataset (e.g. a carousel on the home page)
+// Generative AI: Claude Sonnet 5.5 was used to help connect API data to the MIKA² event card design,
+// and ...
+// styled cards are shown within browseevents and classes-events section. 
+// #browseevents = the main browse page (supports filtering/sorting and single-event lookup via ?event= and &source= in the URL)
+// #classes-events = a dedicated section showing the soonest events only
 
 (function () {
   var DATASET_ID = "classes-and-workshops-events";
