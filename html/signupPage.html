@@ -11,66 +11,99 @@
 </head>
 <body class="login-page">
 
+
+  <!-- MAIN CONTAINER: full-screen wrapper for the sign-up page -->
   <main class="screen">
     <div class="bg"></div>
 
+
+    <!-- CARD: the central box that holds the sign-up content -->
     <div class="card">
 
+
+      <!-- VIEW 1: EMAIL STEP (visible by default) -->
       <section class="view" id="signupEmailView" data-view>
         <div class="logo">
           <img src="../images/logo.png" alt="MIKA² logo">
         </div>
 
+
         <h1 class="welcome">JOIN MIKA²!</h1>
         <h2 class="question">What's your email?</h2>
 
+
+        <!-- novalidate turns off the browser's default validation so JS can show custom messages -->
         <form class="form" id="signupEmailForm" novalidate>
+          <!-- Label is hidden visually but still read by screen readers -->
           <label class="visually-hidden" for="signupEmail">Email</label>
           <input type="email" id="signupEmail" name="email" placeholder="Email" autocomplete="email" required>
 
+
+          <!-- Hidden message area for email errors; shown by JS -->
           <p class="form-message" id="signupEmailMessage" role="alert" hidden></p>
+
 
           <button type="submit" class="btn">Continue</button>
         </form>
 
+
       </section>
 
+
+      <!-- VIEW 2: PASSWORD STEP (hidden until a valid email is entered) -->
       <section class="view" id="signupPasswordView" data-view hidden>
         <div class="logo">
           <img src="../images/logo.png" alt="MIKA² logo">
         </div>
 
+
         <h1 class="view-title">Create password</h1>
+
 
         <form class="form" id="signupPasswordForm" novalidate>
           <label for="newPassword">Enter password</label>
+          <!-- autocomplete="new-password" stops browsers autofilling a saved password -->
           <input type="password" id="newPassword" name="newPassword" placeholder="Password" autocomplete="new-password" required>
 
+
+          <!-- JS should check that this matches the first password -->
           <label for="confirmPassword">Re-enter password to confirm</label>
           <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Password" autocomplete="new-password" required>
 
+
+          <!-- Hidden message area for password errors (e.g. passwords don't match) -->
           <p class="form-message" id="signupPasswordMessage" role="alert" hidden></p>
+
 
           <button type="submit" class="btn">Continue</button>
         </form>
 
+
+        <!-- data-goto tells the JS which view to switch back to -->
         <p class="login-switch">
           <a href="#" data-goto="signupEmailView">Change email</a>
         </p>
       </section>
 
+
+      <!-- VIEW 3: SIGN-UP SUCCESS (hidden until the account is created) -->
       <section class="view view--center" id="signupSuccessView" data-view hidden>
         <div class="logo">
           <img src="../images/logo.png" alt="MIKA² logo">
         </div>
 
+
         <h1 class="view-title">Thank you for creating an account with us!</h1>
 
+
+        <!-- Link styled as a button that goes to the profile page -->
         <a href="profilePage.html" class="btn btn--link">Go to my profile!</a>
       </section>
 
+
     </div>
   </main>
+
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="../js/script.js"></script>
