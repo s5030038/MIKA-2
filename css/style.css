@@ -1515,12 +1515,12 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
   .board-tag { margin-left: 0; }
 }
 
-/*******profile page*****/
 
+/* * ============================
+   PROFILE PAGE
+   ============================ */
 
-/* ==========================================================
-   PROFILE HEADER
-   ========================================================== */
+/* Profile header (name, profile icon, edit profile) */
 
 .profile-header {
     width: min(93%, 1400px);
@@ -1557,11 +1557,8 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 
     width: 125px;
     height: 125px;
-
     border-radius: 50%;
-
     overflow: hidden;
-
     background: #F9EDE6;
 }
 
@@ -1569,9 +1566,7 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 .avatar-img {
     width: 100%;
     height: 100%;
-
     object-fit: cover;
-
     border-radius: 50%;
 }
 
@@ -1891,28 +1886,21 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 }
 
 
-/*   DATE BADGE  */
+/*   DATE BADGE  (on event cards) */
    
 .event-card_date {
     position: absolute;
-
     top: 0.7rem;
     left: 0.7rem;
-
     width: 46px;
     height: 50px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     border-radius: 12px;
-
     background: #FFFAF5;
-
     color: #800020;
-
     box-shadow: 0 2px 8px rgba(58, 46, 46, 0.08);
 }
 
@@ -1921,14 +1909,12 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
     font-family: "Playfair Display", serif;
     font-size: 1.15rem;
     font-weight: 700;
-
     line-height: 1;
 }
 
 
 .event-card_date span {
     margin-top: 0.15rem;
-
     font-family: "Work Sans", sans-serif;
     font-size: 0.62rem;
     font-weight: 600;
@@ -1939,24 +1925,15 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 
 .event_card-heart-button {
     appearance: none;
-
     position: absolute;
-
     top: 1rem;
     right: 1rem;
-
     border: none;
-
     padding: 0;
-
     background: transparent;
-
     color: #FFFAF5;
-
     font-size: 1.5rem;
-
     cursor: pointer;
-
     filter:
         drop-shadow(0 1px 2px rgba(58, 46, 46, 0.45));
 }
@@ -1967,28 +1944,20 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 }
 
 
-/* COTENT UNDER IMAGE */
-
+/* CONTENT UNDER IMAGE */
 .event-content {
     padding: 0.65rem 1rem 0;
 }
 
 
 /* Category */
-
 .category {
     display: inline-block;
-
     margin-bottom: 0.4rem;
-
     padding: 0.25rem 0.65rem;
-
     border-radius: 999px;
-
     background: #F9EDE6;
-
     color: #D45060;
-
     font-family: "Work Sans", sans-serif;
     font-size: 0.76rem;
     font-weight: 500;
@@ -2014,12 +1983,9 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 
 .event-detail {
     margin: 0.42rem 0;
-
     display: flex;
     align-items: center;
-
     gap: 0.65rem;
-
     font-family: "Work Sans", sans-serif;
     font-size: 0.88rem;
     font-weight: 500;
@@ -2039,23 +2005,17 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 }
 
 
-/* STATUS PILL */
+/* STATUS PILL (attending, attended, upcoming) */
 
 .event-status {
     margin-top: 0.7rem;
-
     min-width: 145px;
-
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     gap: 0.5rem;
-
     padding: 0.55rem 1rem;
-
     border-radius: 999px;
-
     font-family: "Work Sans", sans-serif;
     font-size: 0.82rem;
     font-weight: 600;
@@ -2122,15 +2082,7 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 }
 
 
-/*---------------------------------------------------------------------------------------*/
-/* profile.css
-   Extra styles for the Favourites + Settings tabs on profilePage.html.
-   Link it AFTER style.css. Uses the same palette/fonts as style.css:
-   #800020 burgundy, #F9EDE6 peach, #FFFAF5 cream, #7C4040 brown, #E8D8D2 border */
-
-[data-tab-panel][hidden] { display: none !important; }
-
-.profile-nav-item { text-decoration: none; }
+/* profile.css*/
 
 /* ---------- section headings (shared) ---------- */
 .tab-heading {
@@ -2539,11 +2491,9 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 }
 
 
-/* ======================================================
-   MY EVENTS tab: dropdown, hearts, placeholders
-   ====================================================== */
+/* MY EVENTS tab: dropdown, hearts, placeholders*/
 
-/* custom "Sort by" dropdown (replaces the native <select>) */
+/* "Sort by" dropdown */
 .dropdown { position: relative; display: inline-block; min-width: 210px; }
 
 .dropdown__button {
@@ -2633,9 +2583,7 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 .my-events-empty[hidden] { display: none; }
 
 
-/* ======================================================
-   MY EVENTS: List / Calendar toggle + calendar view
-   ====================================================== */
+/* MY EVENTS: List / Calendar toggle + calendar view */
 
 /* toggle */
 .view-toggle {
@@ -2943,7 +2891,7 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 
 
 /* selected day panel */
-.calendar-panel {                 /* was .cal-panel */
+.calendar-panel {                
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -2951,10 +2899,10 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
   border-radius: 18px;
   background: #FFF6F0;
 }
-.calendar-panel__label {          /* was .cal-panel__label */
+.calendar-panel__label {        
   margin: 0; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: #B05A70; font-family: "Work Sans", sans-serif;
 }
-.calendar-panel__date {           /* was .cal-panel__date  <- this is your Monday, 19 October */
+.calendar-panel__date {          
   margin: -0.4rem 0 0;
   font-family: "Playfair Display", serif;
   font-size: 1.4rem;
@@ -2983,11 +2931,9 @@ button:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 }
 
 
-/* ======================================================
-   SMOOTH TAB SWITCHING (My Events / Favourites / Settings)
+/*  SMOOTH TAB SWITCHING (My Events / Favourites / Settings)
    No extra JS needed: when a panel's "hidden" is removed it
-   becomes visible and this animation plays on it.
-   ====================================================== */
+   becomes visible and this animation plays on it. */
 @keyframes tab-in {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: none; }
@@ -4270,9 +4216,8 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 
 
 
-/* profile-dropdown.css
+/* profile-dropdown.css*/
 
-/* the wrapper only needs to be as big as the icon, and it positions the menu */
 .header-actions .dropdown-profile-icon {
   position: relative;
   display: inline-flex;
@@ -4334,10 +4279,7 @@ a:focus-visible { outline: 2px solid #D45060; outline-offset: 2px; }
 }
 
 
-/* about.css
-   Styles for aboutPage.html. Link it AFTER style.css (and profile-dropdown.css).
-   Same palette as the rest of the site:
-   #800020 burgundy, #BC3A49 red, #FFF1E7 peach, #FFFAF5 cream, #F0E2DA border, #B05A70 rose, #3A2E2E text */
+/* about.css -  Styles for aboutPage.html.*/
 
 .about-page {
   --ab-burgundy: #800020;
