@@ -2,49 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Makes the page responsive by matching the width to the device screen -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Text shown on the browser tab -->
   <title>MIKA² — Login</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
+  <!-- MAIN CONTAINER: full-screen wrapper for the login page -->
   <main class="screen">
     <div class="bg"></div>
 
+    <!-- CARD: the central box that holds the login content -->
     <div class="card">
+
+      <!-- VIEW 1: LOGIN FORM (visible by default) -->
       <section class="view" id="loginView" data-view>
         <div class="logo">
           <img src="../images/logo.png" alt="MIKA² logo">
         </div>
 
+        <!-- Heading and subtitle -->
         <h1 class="welcome">WELCOME BACK!</h1>
         <p class="subtitle">Log in to your MIKA² account</p>
 
+        <!-- Login form: submission is handled by the JS (auth.js) -->
         <form class="form" id="loginForm">
+          <!-- Email field: type="email" gives built-in format validation -->
           <label for="loginEmail">Enter email*</label>
           <input type="email" id="loginEmail" name="email" placeholder="Email" required>
 
+          <!-- Password field with a show/hide toggle -->
           <label for="loginPassword">Enter password*</label>
           <div class="password-field">
             <input type="password" id="loginPassword" name="password" placeholder="Password" required>
+            <!-- type="button" stops this from submitting the form; JS switches the input between password and text -->
             <button type="button" class="toggle-password" aria-label="Show password">
+              <!-- Eye icon drawn as inline SVG; currentColor inherits the button's text colour -->
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Eye outline -->
                 <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path>
+                <!-- Pupil -->
                 <circle cx="12" cy="12" r="3"></circle>
               </svg>
             </button>
           </div>
 
+          <!-- Hidden message area for login errors; role="alert" makes screen readers announce it when JS shows it -->
           <p class="form-message" id="loginMessage" role="alert" hidden></p>
 
           <button type="submit" class="btn">Continue</button>
         </form>
 
-       <p class="login-switch">
-           Join MIKA² now? <a href="signupPage.html">SIGN UP</a>
+        <!-- Link to the sign-up page for new users -->
+        <p class="login-switch">
+          Join MIKA² now? <a href="signupPage.html">SIGN UP</a>
         </p>
       </section>
 
+      <!-- VIEW 2: LOGIN SUCCESS (hidden until login succeeds) -->
       <section class="view view--center" id="loginSuccessView" data-view hidden>
         <div class="logo">
           <img src="../images/logo.png" alt="MIKA² logo">
@@ -52,9 +69,9 @@
 
         <h1 class="view-title">Welcome back !</h1>
 
+        <!-- Link styled as a button that goes to the user's profile page -->
         <a href="profilePage.html" class="btn btn--link">Go to my profile!</a>
       </section>
-
 
     </div>
   </main>
