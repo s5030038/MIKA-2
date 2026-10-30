@@ -1,7 +1,6 @@
 // api-classes-events.js
 // Loads events from the Brisbane City Council "classes-and-workshops-events" dataset (Classes & Workshops).
-// Generative AI: Claude Sonnet 5.5 was used to help connect API data to the MIKA² event card design,
-// and ...
+// Generative AI: Claude Sonnet 5.5 was used to help connect API data to the MIKA² event card design
 // styled cards are shown within browseevents and classes-events section. 
 // #browseevents = the main browse page (supports filtering/sorting and single-event lookup via ?event= and &source= in the URL)
 // #classes-events = a dedicated section showing the soonest events only

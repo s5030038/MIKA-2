@@ -3,7 +3,7 @@
 // To change the page, edit the two lists in the "EDIT THIS" section. You don't need to touch the HTML.
 
 /* ===================================================================
-   EDIT THIS: your group
+   Your group
    =================================================================== */
 var TEAM = [
   { name: "Team member 1", role: "Role, e.g. design lead",  bio: "One or two sentences about what you worked on and why you care about it.", photo: "" },
@@ -14,7 +14,7 @@ var TEAM = [
 ];
 
 /* ===================================================================
-   EDIT THIS: where AI was used (shown as the ledger in the AI declaration)
+   where AI was used (shown as the ledger in the AI declaration)
    Be specific and honest. Change anything that doesn't match what actually happened.
    =================================================================== */
 var DECLARATION_UPDATED = "October 2026";
@@ -52,9 +52,6 @@ var AI_USES = [
   }
 ];
 
-/* ===================================================================
-   Code below builds the page. You shouldn't need to change it.
-   =================================================================== */
 
 var AVATAR_COLOURS = ["#E3B4BF", "#F2C9B8", "#D9A0AC", "#EBCFC4", "#C98A9A"];
 
@@ -67,7 +64,7 @@ function el(tag, className, text) {
   return node;
 }
 
-// "Team member 1" -> "TM" (letters only, first and last word)
+
 function initials(name) {
   var words = name.replace(/[^A-Za-z\s]/g, "").trim().split(/\s+/).filter(Boolean);
   if (!words.length) return "?";

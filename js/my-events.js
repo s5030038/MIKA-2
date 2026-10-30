@@ -750,7 +750,7 @@
     if (prev) prev.addEventListener("click", function () { moveMonth(-1); });
     if (next) next.addEventListener("click", function () { moveMonth(1); });
     if (today) today.addEventListener("click", function () { setSelected(Date.now()); });
-
+    
     // hearts toggled anywhere (this tab, Favourites tab) refresh the counts and the views
     document.addEventListener("favourites-changed", render);
     document.addEventListener("bookings-changed", render);

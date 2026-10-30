@@ -2,10 +2,16 @@
 // editProfilePage.html: personal details, profile photo and saved payment methods.
 // Reads/writes the same "mika_settings" localStorage key as profilePage (profile.js),
 // so the greeting, email and photo on the profile page update after saving.
-//
-// SECURITY NOTE: this is a front-end mock. Real payment details must never be stored in
+//AI declaration: Claude Sonnet 5.5 utilized to assist in writing this code. The AI was used to help with code structure, validation logic, and comments. 
+// All final code was reviewed and modified by a human developer to ensure correctness and security.
+// SECURITY NOTE*** this is a front-end mock. Real payment details must never be stored in
 // the browser. Here only the last digits of the BSB / account number are kept, and the
 // CSV is checked and then thrown away.
+
+// editProfilePage.html: personal details, profile photo and saved payment methods.
+// Reads/writes the same "mika_settings" localStorage key as profilePage (profile.js),
+
+
 
 (function () {
   var SETTINGS_KEY = "mika_settings";
@@ -48,7 +54,7 @@
   function icon(classes) { var i = document.createElement("i"); i.className = classes; return i; }
 
   /* ---------- storage ---------- */
-
+  // AI-assisted: Object.assign({}, DEFAULTS, s) copies DEFAULTS into a new object, then copies the saved
   function loadSettings() {
     try {
       var s = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "null");
@@ -70,6 +76,8 @@
     $("ep-name").value = settings.fullName || "";
     $("ep-email").value = settings.email || "";
     $("ep-dob").value = settings.dob || "";
+      // AI-assisted: toISOString() gives "2026-10-30T03:15:00.000Z"; slice(0, 10) keeps just "2026-10-30",
+    // the format a date input's max attribute needs.
     $("ep-dob").max = new Date().toISOString().slice(0, 10);   // no future birthdays
 
     // location dropdown (adds the saved value if it isn't one of the presets)
@@ -93,7 +101,9 @@
   }
 
   /* ---------- validation helpers ---------- */
-
+ 
+  // AI-assisted: each field has a matching error element with the id "<field>-error". aria-invalid
+  // marks the field as wrong for screen readers, and CSS also uses it to draw a red border.
   function setError(id, message) {
     var box = $(id + "-error");
     var input = $(id);

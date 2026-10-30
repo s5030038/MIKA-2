@@ -1,4 +1,4 @@
-// change event name into URL safe identifier
+
 // Uses the older global-function style: all functions and variables are global, so they can clash
 // with the same names in other api-*-events.js files loaded on the same page.
 function slugify(name) {

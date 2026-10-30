@@ -1,4 +1,4 @@
-var SETTINGS_KEY = "settings";
+var SETTINGS_KEY = "mika_settings";
 var DEFAULT_SETTINGS = {
   fullName: "John Doe",
   email: "jdoe@gmail.com",
